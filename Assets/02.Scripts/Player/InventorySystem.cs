@@ -7,6 +7,7 @@ public class InventorySystem : MonoBehaviour
 {
     [SerializeField] public List<GameObject> inventory = new List<GameObject>();
     private InputManager inputManager;
+    private PlayerAnimation anim;
     private int curInventoryContainerNum = 0;
     [SerializeField] private float selectScale = 0.7f;
     [SerializeField] private float normalScale = 0.55f;
@@ -20,6 +21,7 @@ public class InventorySystem : MonoBehaviour
     {
         uiManager = UIManager.instance;
         inputManager = InputManager.instance;
+        anim = GetComponent<PlayerAnimation>();
         waitScrollingDelay = new WaitForSeconds(scrollingDelay);
     }
     private bool canScroll = true;
@@ -30,29 +32,51 @@ public class InventorySystem : MonoBehaviour
             Vector2 scrollValue = inputManager.InventorySwitching();
             if (scrollValue.y != 0)
             {
-                StartCoroutine(ScrollDelay(scrollValue.y));
+                coroutine = StartCoroutine(ScrollDelay((int)scrollValue.normalized.y));
             }
         }
     }
-    private IEnumerator ScrollDelay(float scrollValue)
+    private IEnumerator ScrollDelay(int scrollValue)
     {
         canScroll = false;
         Switching(scrollValue);
         yield return waitScrollingDelay;
         canScroll = true;
     }
-    private void Switching(float scrollValue)
+    private void Switching(int scrollValue)
     {
-        if (scrollValue > 0)
+        if (inventory[curInventoryContainerNum] != null)
         {
-            curInventoryContainerNum++;
+            inventory[curInventoryContainerNum].SetActive(false);
         }
-        else if (scrollValue < 0)
-        {
-            curInventoryContainerNum--;
-        }
+        
+        curInventoryContainerNum += scrollValue;
         curInventoryContainerNum = (curInventoryContainerNum+4) % 4;
+        if (inventory[curInventoryContainerNum] != null)
+        {
+            inventory[curInventoryContainerNum].SetActive(true);
+        }
+        ChangePose(inventory[curInventoryContainerNum]);
         UIManager.instance.ResizeInventoryUI(curInventoryContainerNum);
+    }
+
+    private void ChangePose(GameObject obj)
+    {
+        if (obj == null)
+        {
+            anim.IsOneHand(false);
+            anim.IsTwoHand(false);
+        }
+        else if(obj.GetComponent<InteractableObject>().type.ToString() == "ITEM_ONEHAND")
+        {
+            anim.IsTwoHand(false);
+            anim.IsOneHand(true);
+        }
+        else if (obj.GetComponent<InteractableObject>().type.ToString() == "ITEM_TWOHAND")
+        {
+            anim.IsOneHand(false);
+            anim.IsTwoHand(true);
+        }
     }
 
     public void PutIndexInventory(GameObject obj, Sprite icon)
@@ -61,10 +85,26 @@ public class InventorySystem : MonoBehaviour
         {
             print("inven");
         }
-        else
+        else 
         {
+            // 인덱스 검사
+            if (inventory[curInventoryContainerNum] != null)
+            {
+                inventory[curInventoryContainerNum].SetActive(false);
+                ChangePose(obj);
+                for (int i = 0; i < 4; i++)
+                {
+                    if (inventory[i] == null)
+                    {
+                        curInventoryContainerNum = i;
+                        break;
+                    }
+                }
+            }
             inventory[curInventoryContainerNum] = obj.gameObject;
+            inventory[curInventoryContainerNum].SetActive(true);
             UIManager.instance.PutInInventoryUI(curInventoryContainerNum, icon);
+            UIManager.instance.ResizeInventoryUI(curInventoryContainerNum);
         }
     }
 

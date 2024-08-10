@@ -12,6 +12,7 @@ public class InputManager : MonoSingleton<InputManager>
     private bool inputEnabled = true;
     public bool isRotateAble = true;
     public bool raycastAble = true;
+    public bool isAttackAble = false;
     public InputAction mouseAction;
     private void Awake()
     {
