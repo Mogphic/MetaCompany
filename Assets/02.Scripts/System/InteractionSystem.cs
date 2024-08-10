@@ -163,7 +163,7 @@ public class InteractionSystem : MonoBehaviour
                 break;
             case ObjectType.SHIP_CHARGER:
             case ObjectType.ITEM_ONEHAND:
-                // TODO: 휠 돌리면 애니메이션 내려가면서 아이템도 안나오게
+                inputManager.isAttackAble = true;
                 rb = hitObject.GetComponent<Rigidbody>();
                 rb.isKinematic = true;
                 uiManager.UpdateInteractionUI(0, 0, false);
