@@ -61,7 +61,11 @@ public class PlayerController : MonoBehaviour
                 PlayerWalk(movement);
             }
             PlayerRun();
-            PlayerAttack();
+            /*if ()
+            {
+                PlayerAttack();
+            }*/
+            
             PlayerCrouching();
 
             // 점프 처리
