@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class LookAtUpDown : MonoBehaviour
 {
     public float minY = 1.0f;
-    public float maxY = 1.66f;
+    public float maxY = 2.3f;
     public float minX = -0.4f;
     public float maxX = 2.0f;
     public float sensitivity = 0.01f;
@@ -48,7 +48,7 @@ public class LookAtUpDown : MonoBehaviour
             }
             cnt = 1;
             minY = 0.25f;
-            maxY = 1.7f;
+            maxY = 2.3f;
 
         }
         originTransition = InputManager.instance.inputCrouch;
