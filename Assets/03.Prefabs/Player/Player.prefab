@@ -1548,6 +1548,11 @@ MonoBehaviour:
   selectScale: 0.7
   normalScale: 0.55
   scrollingDelay: 0.3
+  canAttack: 1
+  playerToolObj:
+  - {fileID: 5715804130538067613, guid: cda4b796b2ed8ac479cf32022f8d3be3, type: 3}
+  - {fileID: 8999442482459292208, guid: 1b5e9a07c7bc6b14babf7c9cf73170f9, type: 3}
+  grabObj: {fileID: 2709349250111543570}
 --- !u!114 &7028361085670721921
 MonoBehaviour:
   m_ObjectHideFlags: 0
