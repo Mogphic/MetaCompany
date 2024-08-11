@@ -47,7 +47,7 @@ public class LookAtUpDown : MonoBehaviour
                 newY = 0.25f + (newY * 1.45f);
             }
             cnt = 1;
-            minY = 0.25f;
+            minY = 0.75f;
             maxY = 2.3f;
 
         }
