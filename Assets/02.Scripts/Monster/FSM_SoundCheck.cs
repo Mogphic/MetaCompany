@@ -60,9 +60,9 @@ public class FSM_SoundCheck : MonoBehaviour
     // 공격 중인지 아닌지
     bool isAttacking;
 
-    public float walkSpeed = 0.2f;
-    public float chaseSpeed = 1f;
-    public float attackSpeed = 1.5f;
+    float walkSpeed = 1.5f;
+    float chaseSpeed = 3f;
+    float attackSpeed = 5f;
 
     // 딱 감지되었을 때 player 처음 위치
     private Vector3 initialTargetPosition;
@@ -166,6 +166,7 @@ public class FSM_SoundCheck : MonoBehaviour
                 animator.SetBool("Attack_", false);
                 isChasing = false;
                 isAttacking = false;
+                agent.isStopped = false;
                 break;
 
             case EEnemyState.Rotate_:
@@ -218,16 +219,17 @@ public class FSM_SoundCheck : MonoBehaviour
     {
         Vector3 randomPosition = new Vector3
         (
-            Random.Range(navMeshBounds.max.x * -0.5f, navMeshBounds.max.x * 0.5f),
-            Random.Range(navMeshBounds.max.y * -0.5f, navMeshBounds.max.y * 0.5f),
-            Random.Range(navMeshBounds.max.z * -0.5f, navMeshBounds.max.z * 0.5f)
+            Random.Range(-16.55f, 16.2f),
+            0,
+            Random.Range(-13.0f, 31.33f)
+
         );
 
         return randomPosition;
     }
 
     // 회전에 걸리는 시간 (초)
-    private float rotationDuration = 7f;
+    private float rotationDuration = 2f;
     // 회전 시작 시간을 저장하는 변수
     private float rotationStartTime;
 
@@ -241,7 +243,7 @@ public class FSM_SoundCheck : MonoBehaviour
 
         // 플레이어와 AI 간의 방향 벡터 계산 (y 축 차이를 무시함)
         dir = player_p - transform.position;
-        dir.y = 0.08f;
+        // dir.y = 0.08f;
 
         // 위에서 계산한 방향 벡터를 기반으로 회전할 목표 방향을 생성
         lookRotation = Quaternion.LookRotation(dir);
@@ -271,7 +273,7 @@ public class FSM_SoundCheck : MonoBehaviour
             rotationStartTime = 0;
 
             // 플레이어와의 거리를 기반으로 다음 상태 결정
-            if ((radius / 2) <= dir.magnitude)
+            if (( radius / 3 ) <= dir.magnitude)
             {
                 // 플레이어가 충분히 멀리 있으면 추격 상태로 전환
                 ChangState(EEnemyState.Chase_);
@@ -293,7 +295,7 @@ public class FSM_SoundCheck : MonoBehaviour
         agent.SetDestination(player_p);
 
         // AI가 플레이어에게 충분히 가까워졌는지 확인
-        if ((radius / 1.5) > agent.remainingDistance)
+        if ((radius / 3) >= agent.remainingDistance)
         {
             // 플레이어가 AI의 공격 범위 내에 있으면 공격 상태로 전환
             ChangState(EEnemyState.Attack);
@@ -318,9 +320,13 @@ public class FSM_SoundCheck : MonoBehaviour
         // 위의 조건들에 해당하지 않으면 계속 추적 상태를 유지
     }
 
-    private float attackDuration = 1f;
+
+    // 공격 동작의 지속 시간을 설정하는 변수 (초 단위)
+    private float attackDuration = 3.0f;
     private float attackStartTime;
-    private float postAttackWaitDuration = 0.5f;
+
+    // 공격 후 대기하는 시간을 설정하는 변수 (초 단위)
+    private float postAttackWaitDuration = 3.0f;
     private float postAttackWaitStartTime;
 
     void Attack()

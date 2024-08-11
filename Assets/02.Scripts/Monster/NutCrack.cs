@@ -36,14 +36,19 @@ public class NutCrack : MonoBehaviour
     // player 찾기
     GameObject player;
 
+    // 추가: 기본 속도를 저장할 변수
+    private float defaultSpeed;
+
     void Start()
     {
-
         // 현재 게임 오브젝트에서 Animator 컴포넌트를 찾는다.
         animator = GetComponentInChildren<Animator>();
 
         // 현재 게임 오브젝트에서 NavMeshAgent 컴포넌트를 찾는다.
         agent = GetComponent<NavMeshAgent>();
+
+        // 추가: 기본 속도 저장
+        defaultSpeed = agent.speed;
 
         // Player라는 오브젝트 찾기
         player = GameObject.Find("Player");
@@ -64,14 +69,6 @@ public class NutCrack : MonoBehaviour
             agent.SetDestination(hit.position);
         }
 
-        /*
-        else
-        {
-            agent.enabled = false; // SamplePosition 실패 시 NavMeshAgent 비활성화
-            //Debug.LogError("NavMesh에 에이전트를 배치할 수 없습니다.");
-        }
-        */
-
         Collider collider = GetComponent<Collider>();
         if (collider != null)
         {
@@ -81,13 +78,12 @@ public class NutCrack : MonoBehaviour
 
     void Update()
     {
-
         switch (currentState)
         {
             case EEnemyState.Patroll:
                 Patroll();
                 break;
-            
+
             case EEnemyState.Chase:
                 Chase();
                 break;
@@ -98,8 +94,6 @@ public class NutCrack : MonoBehaviour
         }
     }
 
-    // 장애물 감지 및 상태 변경 함수
-
     void ChangState(EEnemyState state)
     {
         currentState = state;
@@ -108,6 +102,7 @@ public class NutCrack : MonoBehaviour
         {
             case EEnemyState.Patroll:
                 agent.enabled = true;
+                agent.speed = defaultSpeed; // 속도를 기본값으로 재설정
 
                 animator.SetBool("Patroll", true);
                 animator.SetBool("Attack", false);
@@ -116,7 +111,6 @@ public class NutCrack : MonoBehaviour
 
                 NavMeshHit hit;
 
-                // 이전 방향과 90도 이상 다른 방향으로 목적지 설정
                 Vector3 previousDirection = transform.forward;
                 Vector3 newDirection;
                 do
@@ -125,7 +119,7 @@ public class NutCrack : MonoBehaviour
                     newDirection = (randomPoint - transform.position).normalized;
                 } while (Vector3.Angle(previousDirection, newDirection) < 90.0f);
 
-                Vector3 finalDestination = transform.position + newDirection * 10.0f; // 이동할 거리를 곱해서 목적지 설정
+                Vector3 finalDestination = transform.position + newDirection * 10.0f;
 
                 if (NavMesh.SamplePosition(finalDestination, out hit, navMeshBounds.size.magnitude, 1))
                 {
@@ -135,15 +129,16 @@ public class NutCrack : MonoBehaviour
 
             case EEnemyState.Rotate:
                 agent.enabled = false;
-                // agent.isStopped = true;
+                agent.speed = defaultSpeed; // 속도를 기본값으로 재설정
                 animator.SetBool("Rotate", true);
                 animator.SetBool("Patroll", false);
 
-                StartCoroutine(Rotate()); // 이걸 해야 코루틴을 실행 할 수 있다.
+                StartCoroutine(Rotate());
                 break;
 
             case EEnemyState.Chase:
                 agent.enabled = true;
+                agent.speed = defaultSpeed * 2; // 속도를 2배로 설정
 
                 animator.SetBool("Chase", true);
                 animator.SetBool("loading", false);
@@ -154,6 +149,7 @@ public class NutCrack : MonoBehaviour
                 break;
 
             case EEnemyState.ShootAttack:
+                agent.speed = defaultSpeed; // 속도를 기본값으로 재설정
                 animator.SetBool("Attack", true);
                 animator.SetBool("loading", false);
                 animator.SetBool("Rotate", false);
@@ -162,15 +158,14 @@ public class NutCrack : MonoBehaviour
                 StartCoroutine(ShootAttack());
                 break;
 
-
             case EEnemyState.Loading:
+                agent.speed = defaultSpeed; // 속도를 기본값으로 재설정
                 animator.SetBool("loading", true);
                 animator.SetBool("Attack", false);
-
-                // Loading();
                 break;
         }
     }
+
 
 
     Vector3 RandomPositionSetting()
@@ -229,7 +224,7 @@ public class NutCrack : MonoBehaviour
             if (Physics.Raycast(ray, out hitinfo, 0.5f, playerLayerMask))
             {
                 // 플레이어를 감지한 후, 플레이어가 장애물 뒤에 있는지 확인
-                if (!Physics.Raycast(transform.position + Vector3.up * 0.5f, (hitinfo.point - transform.position).normalized, out RaycastHit obstacleHit, hitinfo.distance, obstacleLayerMask))
+                if (!Physics.Raycast(transform.position + Vector3.up, (hitinfo.point - transform.position).normalized, out RaycastHit obstacleHit, hitinfo.distance, obstacleLayerMask))
                 {
                     Debug.Log("Player 감지 및 장애물 없음");
 
@@ -249,11 +244,11 @@ public class NutCrack : MonoBehaviour
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5.0f);
 
-                ray = new Ray(transform.position + Vector3.up * 0.5f, transform.forward);
+                ray = new Ray(transform.position + Vector3.up, transform.forward);
                 if (Physics.Raycast(ray, out hitinfo, float.MaxValue, playerLayerMask))
                 {
                     // 플레이어를 감지한 후, 장애물 확인
-                    if (!Physics.Raycast(transform.position + Vector3.up * 0.5f, (hitinfo.point - transform.position).normalized, out RaycastHit obstacleHit, hitinfo.distance, obstacleLayerMask))
+                    if (!Physics.Raycast(transform.position + Vector3.up, (hitinfo.point - transform.position).normalized, out RaycastHit obstacleHit, hitinfo.distance, obstacleLayerMask))
                     {
                         Debug.Log("Player 감지 및 장애물 없음");
 

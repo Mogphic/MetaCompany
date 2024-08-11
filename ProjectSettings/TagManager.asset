@@ -38,7 +38,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Enemy
   - Obstacle
   m_SortingLayers:
   - name: Default
