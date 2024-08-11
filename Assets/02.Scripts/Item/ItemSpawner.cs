@@ -27,7 +27,7 @@ public class ItemSpawner : MonoBehaviour
 
     private void SpawnPlayerItem(int index)
     {
-        Instantiate(playerItems[index], transform.position, Quaternion.identity);
+        Instantiate(playerItems[index], transform.position, transform.rotation);
     }
 
     private void SpawnItem(int index)
@@ -38,6 +38,6 @@ public class ItemSpawner : MonoBehaviour
             randIndex = Random.Range(0, itemList.Length);
         }
 
-        Instantiate(itemList[randIndex], transform.position, Quaternion.identity);
+        Instantiate(itemList[randIndex], transform.position, transform.rotation);
     }
 }

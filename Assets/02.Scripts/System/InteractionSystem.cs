@@ -93,6 +93,7 @@ public class InteractionSystem : MonoBehaviour
         if (hitDetected)
         {
             hitObject = hit.collider.GetComponent<InteractableObject>();
+            
             if (hitObject != null && hitObject.CompareTag("Interactable"))
             {
                 uiManager.UpdateInteractionUI(hitObject.info, 1, false);
@@ -113,6 +114,10 @@ public class InteractionSystem : MonoBehaviour
                     if (inputDisableCoroutine != null)
                         StopCoroutine(inputDisableCoroutine);
                     inputManager.raycastAble = false;
+                }
+                else
+                {
+                    print(hitObject.name);
                 }
                 return;
             }
@@ -177,7 +182,7 @@ public class InteractionSystem : MonoBehaviour
                 hitObject.transform.position = grabObj.transform.position;
                 hitObject.transform.rotation = grabObj.transform.rotation;
                 hitObject.transform.SetParent(grabObj.transform);
-                hitObject.GetComponentInChildren<BoxCollider>().enabled = false;
+                hitObject.GetComponent<BoxCollider>().enabled = false;
                 anim.IsOneHand(true);
 
                 break;
@@ -187,14 +192,14 @@ public class InteractionSystem : MonoBehaviour
                 rb.isKinematic = true;
                 uiManager.UpdateInteractionUI(0, 0, false);
                 // E 누르면 인벤토리 Image 저장
-                inven.PutIndexInventory(hitObject.GetComponentInParent<GameObject>().gameObject, hitObject.icon);
+                inven.PutIndexInventory(hitObject.gameObject, hitObject.icon);
                 // 손의 좌표에 순간이동
                 hitObject.transform.position = grabObj.transform.position;
                 hitObject.transform.rotation = grabObj.transform.rotation;
 
                 hitObject.transform.SetParent(grabObj.transform);
                 //공격시에 타이밍에 맞춰 true
-                hitObject.GetComponentInChildren<BoxCollider>().enabled = false;
+                hitObject.GetComponent<BoxCollider>().enabled = false;
                 anim.IsTwoHand(true);
                 //TODO : 내려놓으면 애니메이션 해제
                 //공격시 콜라이더 on
