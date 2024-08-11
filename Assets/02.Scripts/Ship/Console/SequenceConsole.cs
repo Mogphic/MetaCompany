@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SequenceConsole : MonoBehaviour
 {
-
     public static SequenceConsole instance;
 
     private void Awake()
