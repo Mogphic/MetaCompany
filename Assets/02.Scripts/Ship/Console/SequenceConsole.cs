@@ -1,81 +1,137 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Rendering.CameraUI;
 using UnityEngine.UI;
 
-
 [System.Serializable]
-public class Sequence 
+public class Sequence
 {
     public string name;
     public GameObject prefab;
 }
+
 public class SequenceConsole : MonoBehaviour
 {
     public static SequenceConsole instance;
 
+    [Header("Data")]
+    public SequenceListSO sequenceList; // 시퀀스 리스트를 관리하는 ScriptableObject
 
-    public GameObject spacerGameObject;
-    
-    public Sequence startSequence;
-    public List<Sequence> commandList;
+    [Header("프리팹")]
+    public GameObject inputPrefab; // 입력(InputField) 프리팹
 
-    public GameObject nowGameObject;
-    public GameObject nowOutputGameObject;
-    public InputField nowOutput;
+    [Header("타겟")]
+    public Transform monitor; // 보여질 대상
+    public GameObject Spacer; // 공간 띄울 대상
+    public InputField inputField; // 집중된 InputField
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
         else
         {
-            Destroy(instance);
-            return;
+            Destroy(gameObject);
         }
-
-        commandList = new List<Sequence>();
-        
     }
 
-    public void OnEnable()
+    private void OnEnable()
     {
-        
+        LoadAndDisplayStartScreen();
     }
-    public void OnDestroy()
+
+    private void OnDisable()
     {
-
+        RemoveInputFieldFocus();
+        StopAllCoroutines();
     }
 
-    /// <summary>
-    /// 커멘드 화면에 보이기
-    /// </summary>
+    private void RemoveInputFieldFocus()
+    {
+        if (inputField != null)
+        {
+            inputField.onEndEdit.RemoveListener(OnInputFieldEndEdit);
+        }
+    }
+
     private void LoadAndDisplayStartScreen()
     {
-
-    }
-    /// <summary>
-    /// 모니터 초기화
-    /// </summary>
-    /// <param name="message">초기화 할 내용</param>
-    public void PrintToConsole(string message, bool isClear = true)
-    {
-        
-
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        if (sequenceList != null)
+        {
+            var startCommand = sequenceList.sequences.Find(cmd => cmd.name == "Start");
+            if (startCommand != null)
+            {
+                PrintToConsole(startCommand);
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void PrintToConsole(Sequence sequence)
     {
-        
+        foreach (Transform child in monitor)
+        {
+            if (child.gameObject != Spacer)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        Instantiate(sequence.prefab, monitor);
+        GameObject inputInstance = Instantiate(inputPrefab, monitor);
+        inputField = inputInstance.GetComponent<InputField>();
+        inputField.transform.SetAsLastSibling();
+        Canvas.ForceUpdateCanvases();
+
+        inputField.Select();
+        inputField.ActivateInputField();
+        SetupInputFieldFocus();
+    }
+
+    private void SetupInputFieldFocus()
+    {
+        if (inputField != null)
+        {
+            inputField.onEndEdit.AddListener(OnInputFieldEndEdit);
+            inputField.ActivateInputField();
+        }
+    }
+
+    private void OnInputFieldEndEdit(string value)
+    {
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            Enter(value);
+        }
+
+        StartCoroutine(RefocusInputField());
+    }
+
+    private IEnumerator RefocusInputField()
+    {
+        yield return null;
+        inputField.ActivateInputField();
+    }
+
+    public void Enter(string message)
+    {
+        if (!string.IsNullOrEmpty(message))
+        {
+            ProcessCommand(message);
+        }
+    }
+
+    private void ProcessCommand(string message)
+    {
+        Sequence sequence = sequenceList.sequences.Find(s => s.name.Contains(message));
+        if (sequence != null)
+        {
+            PrintToConsole(sequence);
+        }
+        else
+        {
+            Debug.LogWarning($"Command '{message}' not found.");
+        }
     }
 }
