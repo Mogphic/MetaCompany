@@ -1398,7 +1398,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5822874008268874523
 Transform:
   m_ObjectHideFlags: 0
@@ -1457,6 +1457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f150311982a6ce14590b440e38ab3188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curHp: 0
   maxHp: 100
 --- !u!114 &3526372621460962377
 MonoBehaviour:
@@ -2386,7 +2387,7 @@ Transform:
   m_GameObject: {fileID: 6139924372081249934}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 1.618, z: 0.273}
+  m_LocalPosition: {x: -0, y: 1.618, z: 0.234}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

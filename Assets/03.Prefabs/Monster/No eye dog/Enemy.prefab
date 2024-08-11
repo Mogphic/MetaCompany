@@ -1229,7 +1229,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 282154251623324436}
@@ -1248,7 +1248,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 464545202836808425}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 721b6f996c10f1544b0e0adc0f4d010a, type: 3}
   m_Controller: {fileID: 9100000, guid: 928fe4d0c4b127e478d511c5e3ca6200, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -24530,12 +24530,13 @@ GameObject:
   m_Component:
   - component: {fileID: 7148912664752415156}
   - component: {fileID: 5508013174664674678}
-  - component: {fileID: 7294650538335552854}
   - component: {fileID: 6702224711841511302}
   - component: {fileID: 2979342437604397217}
+  - component: {fileID: 8040607495103164972}
+  - component: {fileID: 1015675610362771542}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24566,7 +24567,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.2
-  m_Speed: 0.2
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -24578,24 +24579,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7294650538335552854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8156775028599213425}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5fd060ec6acb994799cbc0cdc9143fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: 0
-  play_health: {fileID: 0}
-  remaindistnace2: 0
-  walkSpeed: 3.5
-  chaseSpeed: 5
-  attackSpeed: 4
 --- !u!135 &6702224711841511302
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -24615,8 +24598,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.58
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 3.06
+  m_Center: {x: 0, y: 1.55, z: 0}
 --- !u!54 &2979342437604397217
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -24639,11 +24622,41 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8040607495103164972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8156775028599213425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48387bcf3952bdc4daab3f5cfcc52797, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
+  remaindistnace2: 0
+  walkSpeed: 0.2
+  chaseSpeed: 1
+  attackSpeed: 1.5
+--- !u!114 &1015675610362771542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8156775028599213425}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d5ed535d06e4a84bba571f09c7fbfa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
 --- !u!1 &8174048218582645010
 GameObject:
   m_ObjectHideFlags: 0
