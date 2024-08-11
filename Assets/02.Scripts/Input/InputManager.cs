@@ -8,6 +8,7 @@ using static UnityEngine.InputSystem.DefaultInputActions;
 public class InputManager : MonoSingleton<InputManager>
 {
     private MainInputActions playerControls;
+    public bool inputTurnOn = false;
     public bool inputCrouch = false;
     private bool inputEnabled = true;
     public bool isRotateAble = true;
@@ -162,6 +163,21 @@ public class InputManager : MonoSingleton<InputManager>
     public bool PlayerAttackImacted()
     {
         return playerControls.PlayerActions.Attack.WasReleasedThisFrame();
+    }
+    #endregion
+
+    #region Input_TurnOn
+    public bool ToggleTurnOnOff()
+    {
+        if (inputTurnOn == false && playerControls.PlayerActions.Attack.WasReleasedThisFrame())
+        {
+            inputTurnOn = true;
+        }
+        else if (inputTurnOn == true && playerControls.PlayerActions.Attack.WasReleasedThisFrame())
+        {
+            inputTurnOn = false;
+        }
+        return inputTurnOn;
     }
     #endregion
 }
