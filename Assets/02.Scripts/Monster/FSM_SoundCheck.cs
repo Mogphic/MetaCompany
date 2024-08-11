@@ -40,7 +40,7 @@ public class FSM_SoundCheck : MonoBehaviour
     Quaternion lookRotation;
 
     // 플레이어의 최대 체력
-    PlayerMove play_health;
+    HpSystem play_health;
 
     // 콜라이더 컴포넌트
     SphereCollider scollider;
@@ -89,7 +89,7 @@ public class FSM_SoundCheck : MonoBehaviour
         player = GameObject.Find("Player");
 
         // 플레이어의 체력 관련 메서드 가져오기
-        play_health = player.GetComponent<PlayerMove>(); // 아 이렇게 갖고 왔구나...
+        play_health = player.GetComponent<HpSystem>(); // 아 이렇게 갖고 왔구나...
 
 
         playerTransform = player.GetComponent<Transform>();
@@ -325,14 +325,31 @@ public class FSM_SoundCheck : MonoBehaviour
 
     void Attack()
     {
+        // 공격 시작 시간 초기화
         if (attackStartTime == 0)
         {
             attackStartTime = Time.time;
             agent.SetDestination(initialTargetPosition);
         }
 
+        // AI가 플레이어와 충분히 가까워졌는지 확인
         if (agent.remainingDistance < 0.5f)
         {
+            // 플레이어 체력을 감소시키는 로직 추가
+            if (play_health != null && play_health.curHp > 0)
+            {
+                play_health.UpdateHp(10f);  // 공격할 때마다 플레이어 체력을 10만큼 감소시킴
+
+                // 플레이어 체력이 0 이하가 되면 처리할 로직
+                if (play_health.curHp <= 0)
+                {
+                    play_health.Die();  // Die 메서드를 호출하여 플레이어의 사망 로직을 처리
+                                        // 필요한 경우 AI도 상태를 변경하거나 멈추게 할 수 있음
+                    ChangState(EEnemyState.WalkClam);  // 예시: 다시 돌아다니게 함
+                }
+            }
+
+            // 공격 후 대기 로직
             if (postAttackWaitStartTime == 0)
             {
                 postAttackWaitStartTime = Time.time;
@@ -364,6 +381,7 @@ public class FSM_SoundCheck : MonoBehaviour
             agent.SetDestination(initialTargetPosition);
         }
     }
+
 
     // Sound_Check의 로직을 메서드로 분리
     void CheckPlayerSound()
