@@ -38,6 +38,7 @@ public class NutCrack : MonoBehaviour
 
     void Start()
     {
+
         // 현재 게임 오브젝트에서 Animator 컴포넌트를 찾는다.
         animator = GetComponentInChildren<Animator>();
 
@@ -63,11 +64,13 @@ public class NutCrack : MonoBehaviour
             agent.SetDestination(hit.position);
         }
 
+        /*
         else
         {
             agent.enabled = false; // SamplePosition 실패 시 NavMeshAgent 비활성화
-            // Debug.LogError("NavMesh에 에이전트를 배치할 수 없습니다.");
+            //Debug.LogError("NavMesh에 에이전트를 배치할 수 없습니다.");
         }
+        */
 
         Collider collider = GetComponent<Collider>();
         if (collider != null)
@@ -105,6 +108,7 @@ public class NutCrack : MonoBehaviour
         {
             case EEnemyState.Patroll:
                 agent.enabled = true;
+
                 animator.SetBool("Patroll", true);
                 animator.SetBool("Attack", false);
                 animator.SetBool("Rotate", false);
@@ -131,6 +135,7 @@ public class NutCrack : MonoBehaviour
 
             case EEnemyState.Rotate:
                 agent.enabled = false;
+                // agent.isStopped = true;
                 animator.SetBool("Rotate", true);
                 animator.SetBool("Patroll", false);
 
@@ -139,6 +144,7 @@ public class NutCrack : MonoBehaviour
 
             case EEnemyState.Chase:
                 agent.enabled = true;
+
                 animator.SetBool("Chase", true);
                 animator.SetBool("loading", false);
                 animator.SetBool("Attack", false);
@@ -172,7 +178,7 @@ public class NutCrack : MonoBehaviour
         Vector3 randomPosition = new Vector3
         (
             Random.Range(-5.53f, 18.46f),  // x 범위
-            0.04f,                        // y 고정
+            0.06f,                        // y 고정
             Random.Range(33.05f, 48.63f)  // z 범위
         );
         return randomPosition;
@@ -181,7 +187,7 @@ public class NutCrack : MonoBehaviour
     void Patroll()
     {
         // 목적지에 도착했는지 확인
-        if (agent.remainingDistance <= 0.5f)
+        if (agent.remainingDistance <= 0.1f)
         {
             ChangState(EEnemyState.Rotate);
             return; // 상태를 변경했으므로 함수 종료
@@ -211,7 +217,8 @@ public class NutCrack : MonoBehaviour
 
     IEnumerator Rotate()
     {
-        LayerMask obstacleLayerMask = LayerMask.GetMask("Default"); // 벽이나 장애물에 사용되는 레이어
+
+        LayerMask obstacleLayerMask = LayerMask.GetMask("Obstacle"); // 벽이나 장애물에 사용되는 레이어
         LayerMask playerLayerMask = LayerMask.GetMask("Player");
         Ray ray = new Ray(transform.position + Vector3.up * 0.5f, transform.forward);
 
@@ -222,7 +229,7 @@ public class NutCrack : MonoBehaviour
             if (Physics.Raycast(ray, out hitinfo, 0.5f, playerLayerMask))
             {
                 // 플레이어를 감지한 후, 플레이어가 장애물 뒤에 있는지 확인
-                if (!Physics.Raycast(transform.position + Vector3.up, (hitinfo.point - transform.position).normalized, out RaycastHit obstacleHit, hitinfo.distance, obstacleLayerMask))
+                if (!Physics.Raycast(transform.position + Vector3.up * 0.5f, (hitinfo.point - transform.position).normalized, out RaycastHit obstacleHit, hitinfo.distance, obstacleLayerMask))
                 {
                     Debug.Log("Player 감지 및 장애물 없음");
 
@@ -242,7 +249,7 @@ public class NutCrack : MonoBehaviour
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5.0f);
 
-                ray = new Ray(transform.position + Vector3.up, transform.forward);
+                ray = new Ray(transform.position + Vector3.up * 0.5f, transform.forward);
                 if (Physics.Raycast(ray, out hitinfo, float.MaxValue, playerLayerMask))
                 {
                     // 플레이어를 감지한 후, 장애물 확인
@@ -318,7 +325,7 @@ public class NutCrack : MonoBehaviour
 
 
     public GameObject shootParticle; // 발사 파티클 프리팹
-    float shootDamege = 10.0f; // 발사 데미지
+    float shootDamege = 50.0f; // 발사 데미지
     float shootInterval = 2.0f; // 발사 간격
     public int shotsPerAttac = 2; // 한 번에 발사할 횟수
 
@@ -346,7 +353,7 @@ public class NutCrack : MonoBehaviour
             yield break;
         }
 
-        player.GetComponent<PlayerMove>().TakeDamage(shootDamege);
+        player.GetComponent<HpSystem>().UpdateHp(shootDamege);
         shotsPerAttac--;
 
         yield return new WaitForSeconds(1.2f); // "1.2초 동안 잠시 멈춘 후에 다음 동작을 수행해라
@@ -358,18 +365,15 @@ public class NutCrack : MonoBehaviour
         // 거리에 따른 애니메이션 재생
 
         
-        if (distanceToPlayer <= 1.0f)
+        if (distanceToPlayer <= 2.0f)
         {
-            // 플레이어가 가까우면 뒤로 걸어가는 애니메이션 재생
-            // ChangState(EEnemyState.); // 상태를 back으로 변경
-            // yield break;// return StartCoroutine(back()); // back 코루틴이 끝날 때까지 기다린다.
             ChangState(EEnemyState.ShootAttack);
+            yield break;
         }
         else
         {
-            // 플레이어가 멀면 앞으로 걸어가는 애니메이션 재생
-            ChangState(EEnemyState.Chase); // 상태를 go으로 변경
-            yield break;// StartCoroutine(go()); // go 코루틴이 끝날 때까지 기다린다.
+            ChangState(EEnemyState.Chase); 
+            yield break;
         }
         
     }
@@ -386,8 +390,9 @@ public class NutCrack : MonoBehaviour
             float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
             // 거리에 따른 상태 전환
-            if (distanceToPlayer <= 1.0f)
+            if (distanceToPlayer <= 2.0f)
             {
+                print(distanceToPlayer);
                 // 플레이어가 가까우면 ShootAttack 상태로 전환
                 ChangState(EEnemyState.ShootAttack);
             }
