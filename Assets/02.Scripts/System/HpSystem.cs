@@ -24,4 +24,11 @@ public class HpSystem : MonoBehaviour
             curHp = 0;
         }
     }
+
+    public void Die()
+    {
+        //죽는 연출 생성
+        //플레이어는 래그돌 >> 알파는 destroy
+        //적 알파는 >> destroy
+    }
 }
