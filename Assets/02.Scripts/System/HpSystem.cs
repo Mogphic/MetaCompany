@@ -22,6 +22,7 @@ public class HpSystem : MonoBehaviour
         else if (curHp <= 0)
         {
             curHp = 0;
+            Die();
         }
     }
 

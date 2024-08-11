@@ -521,7 +521,7 @@ GameObject:
   - component: {fileID: 50053626}
   - component: {fileID: 50053628}
   - component: {fileID: 50053627}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MansionWallLamp (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -885,7 +885,7 @@ GameObject:
   - component: {fileID: 107352279}
   - component: {fileID: 107352281}
   - component: {fileID: 107352280}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MansionWallLamp (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1630,7 +1630,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 234584795}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: A_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2176,7 +2176,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 347143177}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube_2_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4646,7 +4646,7 @@ GameObject:
   - component: {fileID: 548414944}
   - component: {fileID: 548414946}
   - component: {fileID: 548414945}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MansionWallLamp (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4911,7 +4911,7 @@ GameObject:
   - component: {fileID: 570256904}
   - component: {fileID: 570256903}
   - component: {fileID: 570256905}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WoodChair__4_ (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5148,7 +5148,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 592164056}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube__2__1_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6080,7 +6080,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 687636599}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: B_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7085,7 +7085,7 @@ GameObject:
   - component: {fileID: 842958073}
   - component: {fileID: 842958072}
   - component: {fileID: 842958074}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WoodChair__4_ (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7323,7 +7323,7 @@ GameObject:
   - component: {fileID: 885252711}
   - component: {fileID: 885252713}
   - component: {fileID: 885252712}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PoweredLightTypeB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8056,7 +8056,7 @@ GameObject:
   - component: {fileID: 953623417}
   - component: {fileID: 953623416}
   - component: {fileID: 953623418}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Couch_1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9246,7 +9246,7 @@ GameObject:
   - component: {fileID: 1085879556}
   - component: {fileID: 1085879558}
   - component: {fileID: 1085879557}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MansionWallLamp (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10212,7 +10212,7 @@ GameObject:
   - component: {fileID: 1178912186}
   - component: {fileID: 1178912185}
   - component: {fileID: 1178912187}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fireplace__1_ (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10815,7 +10815,7 @@ GameObject:
   - component: {fileID: 1285671770}
   - component: {fileID: 1285671772}
   - component: {fileID: 1285671771}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MansionWallLamp (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12835,6 +12835,36 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 796050dc040d73648a9e33d9eb95aef8, type: 2}
+    - target: {fileID: -8526781069759668079, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -7726994093667829887, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6399836691989845886, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6327868289201982268, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -5761288876101968600, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -5519671453484787035, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: -5303835788576603112, guid: cb399b048a908a748a08cab4c14d5d96,
         type: 3}
       propertyPath: m_Shadows.m_Type
@@ -12855,6 +12885,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 20.092
       objectReference: {fileID: 0}
+    - target: {fileID: -5077178906192410277, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -4636389358608942649, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: -3767534284694524576, guid: cb399b048a908a748a08cab4c14d5d96,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12864,6 +12904,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 26.63
+      objectReference: {fileID: 0}
+    - target: {fileID: -3720786453856422716, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -3379413884428709010, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -3293569647256040264, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -2432397807506959605, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -1584509891920382579, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -1101251554713269432, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -870980930610905439, guid: cb399b048a908a748a08cab4c14d5d96,
         type: 3}
@@ -12880,16 +12950,41 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 19.272
       objectReference: {fileID: 0}
+    - target: {fileID: 548899742884142893, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: cb399b048a908a748a08cab4c14d5d96,
         type: 3}
       propertyPath: m_Name
       value: prob_small
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1574284687593130778, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1850249038645901160, guid: cb399b048a908a748a08cab4c14d5d96,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 796050dc040d73648a9e33d9eb95aef8, type: 2}
+    - target: {fileID: 1875974816869690308, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2675194401755035046, guid: cb399b048a908a748a08cab4c14d5d96,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12900,11 +12995,51 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1.6
       objectReference: {fileID: 0}
+    - target: {fileID: 2687975666446700285, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2746587342779573882, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972309720897374167, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3725319073681598216, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234628987544539684, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4482080471230163924, guid: cb399b048a908a748a08cab4c14d5d96,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 796050dc040d73648a9e33d9eb95aef8, type: 2}
+    - target: {fileID: 5034961825291692422, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5064028725827441122, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5808610282411347787, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5861237088552393348, guid: cb399b048a908a748a08cab4c14d5d96,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -13015,6 +13150,26 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 796050dc040d73648a9e33d9eb95aef8, type: 2}
+    - target: {fileID: 8003729615931861226, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061942693540768171, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339437249319777116, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989685640717316458, guid: cb399b048a908a748a08cab4c14d5d96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -14224,7 +14379,7 @@ GameObject:
   - component: {fileID: 1678155859}
   - component: {fileID: 1678155861}
   - component: {fileID: 1678155860}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MansionWallLamp (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15786,7 +15941,7 @@ GameObject:
   - component: {fileID: 1839108560}
   - component: {fileID: 1839108562}
   - component: {fileID: 1839108561}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PoweredLightTypeB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16076,7 +16231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1870161535}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube__3__1_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16892,7 +17047,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1974482895}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube__1__1_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17173,7 +17328,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2034439237}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OffMeshLink__1__1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
