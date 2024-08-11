@@ -30,5 +30,6 @@ public class HpSystem : MonoBehaviour
         //죽는 연출 생성
         //플레이어는 래그돌 >> 알파는 destroy
         //적 알파는 >> destroy
+        print(gameObject.name + " : Die!");
     }
 }
