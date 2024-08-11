@@ -18,6 +18,10 @@ public class InventorySystem : MonoBehaviour
     private UIManager uiManager;
     
     public bool canAttack = true;
+    private bool canScroll = true;
+
+    public GameObject[] playerToolObj;
+    public GameObject grabObj;
 
     private void Start()
     {
@@ -25,8 +29,9 @@ public class InventorySystem : MonoBehaviour
         inputManager = InputManager.instance;
         anim = GetComponent<PlayerAnimation>();
         waitScrollingDelay = new WaitForSeconds(scrollingDelay);
+        PutToolInventory();
     }
-    private bool canScroll = true;
+    
     private void Update()
     {
         if (canScroll && inputManager.IsScrollingEnter())
@@ -44,6 +49,28 @@ public class InventorySystem : MonoBehaviour
         Switching(scrollValue);
         yield return waitScrollingDelay;
         canScroll = true;
+    }
+    private void PutToolInventory()
+    {
+        for (int i = 0; i < playerToolObj.Length; i++)
+        {
+            GameObject toolObj = Instantiate(playerToolObj[i], grabObj.transform.position, Quaternion.identity);
+            PutIndexInventory(toolObj, toolObj.GetComponent<InteractableObject>().icon);
+            toolObj.GetComponent<Rigidbody>().isKinematic = true;
+            toolObj.transform.position = grabObj.transform.position;
+            toolObj.transform.rotation = grabObj.transform.rotation;
+            toolObj.transform.SetParent(grabObj.transform);
+
+            toolObj.GetComponent<BoxCollider>().enabled = false;
+            if (toolObj.GetComponent<InteractableObject>().type.ToString() == "ITEM_ONEHAND")
+            {
+                anim.IsOneHand(true);
+            }
+            if (toolObj.GetComponent<InteractableObject>().type.ToString() == "ITEM_TWOHAND")
+            {
+                anim.IsTwoHand(true);
+            }
+        }
     }
 
     public bool CheckShovel(int index)
