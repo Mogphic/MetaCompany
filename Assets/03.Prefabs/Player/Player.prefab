@@ -1460,7 +1460,7 @@ MonoBehaviour:
   jumpForce: 6
   gravity: -9.81
   rotationSpeed: 7
-  playerModel: {fileID: 0}
+  grabObj: {fileID: 2709349250111543570}
   isLandingOnce: 0
   isCrouch: 0
 --- !u!114 &1533159101572256754
@@ -1553,6 +1553,7 @@ MonoBehaviour:
   targetDir: {fileID: 687965109128665020}
   consoleObj: {fileID: 0}
   grabObj: {fileID: 2709349250111543570}
+  hitObjectType: 
 --- !u!114 &8504789718915744043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2145,8 +2146,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5650504771994026788}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.49199253, y: -0.5078813, z: -0.5078813, w: -0.49199253}
-  m_LocalPosition: {x: 0, y: 0, z: 0.183}
+  m_LocalRotation: {x: 0.49199247, y: -0.5078813, z: -0.5078813, w: -0.49199253}
+  m_LocalPosition: {x: 0, y: 0, z: 0.18299997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2370,12 +2371,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6139924372081249934}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.5000001, y: 0.4999999, z: 0.5000001, w: 0.4999999}
-  m_LocalPosition: {x: -0.213, y: 0.157, z: 0}
+  m_LocalRotation: {x: 0.063856125, y: -0, z: 0.0000000037252903, w: 0.99795914}
+  m_LocalPosition: {x: -0, y: 1.6841873, z: 0.118405625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1750372613090754963}
+  m_Father: {fileID: 1822532868132309804}
   m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
 --- !u!1 &6866611888254388285
 GameObject:
@@ -3075,15 +3076,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 60550649509d6d7419be053b9d922b84,
         type: 3}
       insertIndex: 2
+      addedObject: {fileID: 7430179672115952750}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 60550649509d6d7419be053b9d922b84,
+        type: 3}
+      insertIndex: 3
       addedObject: {fileID: 687965109128665020}
     - targetCorrespondingSourceObject: {fileID: -8549690836703394644, guid: 60550649509d6d7419be053b9d922b84,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3587246298569014731}
-    - targetCorrespondingSourceObject: {fileID: -8751967285836141228, guid: 60550649509d6d7419be053b9d922b84,
-        type: 3}
-      insertIndex: 0
-      addedObject: {fileID: 7430179672115952750}
     - targetCorrespondingSourceObject: {fileID: 5816189743937407162, guid: 60550649509d6d7419be053b9d922b84,
         type: 3}
       insertIndex: -1

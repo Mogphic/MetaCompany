@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private PlayerSoundSystem sound;
     private InteractionSystem interaction;
 
-    public GameObject playerModel;
+    public GameObject grabObj;
     private void Start()
     {
         groundCheck = GetComponent<GroundCheck>();
@@ -65,7 +65,11 @@ public class PlayerController : MonoBehaviour
             PlayerRun();
             if (interaction.hitObjectType == "Two")
             {
-                PlayerAttack();
+                print(grabObj.transform.GetChild(0).name);
+                if (grabObj.transform.GetChild(0).name == "Shovel")
+                {
+                    PlayerAttack();
+                }
             }
             
             PlayerCrouching();
@@ -299,7 +303,7 @@ public class PlayerController : MonoBehaviour
         {
             anim.IsAttckReady();
         }
-        else if (inputManager.PlayerAttackImacted())
+        if (inputManager.PlayerAttackImacted())
         {
             anim.isAttackImpact();
         }
