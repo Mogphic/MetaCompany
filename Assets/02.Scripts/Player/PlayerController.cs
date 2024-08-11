@@ -65,10 +65,12 @@ public class PlayerController : MonoBehaviour
             PlayerRun();
             if (interaction.hitObjectType == "Two")
             {
-                print(grabObj.transform.GetChild(0).name);
-                if (grabObj.transform.GetChild(0).name == "Shovel")
+                if (grabObj.transform.GetChild(0) != null)
                 {
-                    PlayerAttack();
+                    if (grabObj.transform.GetChild(0).name == "Shovel")
+                    {
+                        PlayerAttack();
+                    }
                 }
             }
             
