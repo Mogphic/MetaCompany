@@ -115,10 +115,6 @@ public class InteractionSystem : MonoBehaviour
                         StopCoroutine(inputDisableCoroutine);
                     inputManager.raycastAble = false;
                 }
-                else
-                {
-                    print(hitObject.name);
-                }
                 return;
             }
         }
