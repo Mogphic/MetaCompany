@@ -35,7 +35,7 @@ public class ItemSpawner : MonoBehaviour
         int randIndex = index;
         if (isRandom == true)
         {
-            randIndex = Random.Range(0, itemList.Length + 1);
+            randIndex = Random.Range(0, itemList.Length);
         }
 
         Instantiate(itemList[randIndex], transform.position, Quaternion.identity);
