@@ -30,6 +30,7 @@ public class InteractionSystem : MonoBehaviour
     private Rigidbody rb;
     private PlayerAnimation anim;
     private InventorySystem inven;
+    public string hitObjectType;
 
     private void Awake()
     {
@@ -143,6 +144,7 @@ public class InteractionSystem : MonoBehaviour
         switch (hitObject.type)
         {
             case ObjectType.SHIP_LEVER:
+                hitObjectType = "Lever";
                 // TODO: 회전, 위치 보간이동 > 회전은 계속, 위치는 일정 다가가면 고정
                 // 플레이어 상하회전은 고개를 직접 회전
                 // 일단 E 누르자마자 씬이동
@@ -153,6 +155,7 @@ public class InteractionSystem : MonoBehaviour
                 virtualCamera.LookAt = originalLookAtTarget;
                 break;
             case ObjectType.SHIP_CONSOLE:
+                hitObjectType = "Console";
                 inputDisableCoroutine = StartCoroutine(DisableInputTemporarily());
                 uiManager.UpdateInteractionUI(1, 0, false);
                 consoleObj.SetActive(true);
@@ -163,6 +166,7 @@ public class InteractionSystem : MonoBehaviour
                 break;
             case ObjectType.SHIP_CHARGER:
             case ObjectType.ITEM_ONEHAND:
+                hitObjectType = "One";
                 inputManager.isAttackAble = true;
                 rb = hitObject.GetComponent<Rigidbody>();
                 rb.isKinematic = true;
@@ -173,23 +177,24 @@ public class InteractionSystem : MonoBehaviour
                 hitObject.transform.position = grabObj.transform.position;
                 hitObject.transform.rotation = grabObj.transform.rotation;
                 hitObject.transform.SetParent(grabObj.transform);
-                hitObject.GetComponent<BoxCollider>().enabled = false;
+                hitObject.GetComponentInChildren<BoxCollider>().enabled = false;
                 anim.IsOneHand(true);
 
                 break;
             case ObjectType.ITEM_TWOHAND:
+                hitObjectType = "Two";
                 rb = hitObject.GetComponent<Rigidbody>();
                 rb.isKinematic = true;
                 uiManager.UpdateInteractionUI(0, 0, false);
                 // E 누르면 인벤토리 Image 저장
-                inven.PutIndexInventory(hitObject.gameObject, hitObject.icon);
+                inven.PutIndexInventory(hitObject.GetComponentInParent<GameObject>().gameObject, hitObject.icon);
                 // 손의 좌표에 순간이동
                 hitObject.transform.position = grabObj.transform.position;
                 hitObject.transform.rotation = grabObj.transform.rotation;
 
                 hitObject.transform.SetParent(grabObj.transform);
                 //공격시에 타이밍에 맞춰 true
-                hitObject.GetComponent<BoxCollider>().enabled = false;
+                hitObject.GetComponentInChildren<BoxCollider>().enabled = false;
                 anim.IsTwoHand(true);
                 //TODO : 내려놓으면 애니메이션 해제
                 //공격시 콜라이더 on
