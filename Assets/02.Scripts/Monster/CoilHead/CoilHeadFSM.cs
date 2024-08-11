@@ -28,6 +28,7 @@ public class CoilHeadFSM : MonoBehaviour
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        player = player ?? GameObject.FindWithTag("Player").transform;
         StartCoroutine(FSMRoutine());
     }
 
