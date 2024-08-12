@@ -127,7 +127,7 @@ public class FSM_SoundCheck : MonoBehaviour
 
     void Update()
     {
-        Debug.Log($"Current State: {currentState}, Health: {health}");
+        // Debug.Log($"Current State: {currentState}, Health: {health}");
 
         // Sound_Check 로직
         CheckPlayerSound();
@@ -205,7 +205,7 @@ public class FSM_SoundCheck : MonoBehaviour
 
             case EEnemyState.Die_Dog:
                 animator.SetTrigger("Die 0");
-                // agent.enabled = false;
+                agent.enabled = false;
                 StartCoroutine(DestroyAfterDelay());
                 break;
         }
@@ -241,7 +241,7 @@ public class FSM_SoundCheck : MonoBehaviour
     }
 
     // 회전에 걸리는 시간 (초)
-    private float rotationDuration = 2f;
+    private float rotationDuration = 0.8f;
     // 회전 시작 시간을 저장하는 변수
     private float rotationStartTime;
 
@@ -307,13 +307,13 @@ public class FSM_SoundCheck : MonoBehaviour
         agent.SetDestination(player_p);
 
         // AI가 플레이어에게 충분히 가까워졌는지 확인
-        if ((radius / 3) >= agent.remainingDistance)
+        if ((radius / 0.5) >= agent.remainingDistance)
         {
             // 플레이어가 AI의 공격 범위 내에 있으면 공격 상태로 전환
             ChangState(EEnemyState.Attack);
         }
         // AI가 목적지(플레이어의 마지막 알려진 위치)에 도달했는지 확인
-        else if (agent.remainingDistance < 0.1f)
+        else if (agent.remainingDistance < 0.01f)
         {
             // 플레이어가 현재 인식 범위에 있는지 확인
             if (!isPlayerDetected)
@@ -338,7 +338,7 @@ public class FSM_SoundCheck : MonoBehaviour
     private float attackStartTime;
 
     // 공격 후 대기하는 시간을 설정하는 변수 (초 단위)
-    private float postAttackWaitDuration = 3.0f;
+    private float postAttackWaitDuration = 1.3f;
     private float postAttackWaitStartTime;
 
     void Attack()
