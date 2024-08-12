@@ -107,7 +107,6 @@ public class PlayerAnimation : MonoBehaviour
             animator.SetBool("isAtkImpacted", false);
             animator.SetBool("isAtkReady", true);
         }
-        
     }
     public void isAttackImpact()
     {
