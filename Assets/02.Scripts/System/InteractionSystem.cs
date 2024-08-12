@@ -205,13 +205,21 @@ public class InteractionSystem : MonoBehaviour
                 SceneLoadManager.Instance.LoadSceneByName(nextname);
                 break;
             case ObjectType.MAP_DOOR:
-                if (doorAnim.isOpenDoor == false)
+                if (MissionManager.instance.missions[0].isCompleted)
                 {
-                    doorAnim.DoorAnim(true);
+                    if (doorAnim.isOpenDoor == false)
+                    {
+                        doorAnim.DoorAnim(true);
+                    }
+                    else if (doorAnim.isOpenDoor == true)
+                    {
+                        doorAnim.DoorAnim(false);
+                    }
                 }
-                else if(doorAnim.isOpenDoor == true)
+                else
                 {
-                    doorAnim.DoorAnim(false);
+                    print("아직 못열어요.");
+                    //못연다는 UI 추가
                 }
                 break;
         }
