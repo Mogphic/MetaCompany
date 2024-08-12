@@ -71,10 +71,6 @@ public class InteractionSystem : MonoBehaviour
         {
             RaycastCenter();
         }
-        //if (inputManager.PlayerEndInteraction())
-        {
-            inputManager.raycastAble = true;
-        }
         if (inputManager.PlayerDropItem())
         {
             inven.PullOutItem();
@@ -116,7 +112,6 @@ public class InteractionSystem : MonoBehaviour
                     // 입력 비활성화
                     if (inputDisableCoroutine != null)
                         StopCoroutine(inputDisableCoroutine);
-                    inputManager.raycastAble = false;
                 }
                 return;
             }
@@ -171,7 +166,6 @@ public class InteractionSystem : MonoBehaviour
             case ObjectType.SHIP_CHARGER:
             case ObjectType.ITEM_ONEHAND:
                 hitObjectType = "One";
-                inputManager.isAttackAble = true;
                 rb = hitObject.GetComponent<Rigidbody>();
                 rb.isKinematic = true;
                 uiManager.UpdateInteractionUI(0, 0, false);
