@@ -25,8 +25,10 @@ public class CoilHeadFSM : MonoBehaviour
     public Transform player;
     public LayerMask obstacleLayer;
 
+
     public Animator animator;
     private Vector3 randomDestination;
+
 
     private void Start()
     {
@@ -35,6 +37,7 @@ public class CoilHeadFSM : MonoBehaviour
         player = player ?? GameObject.FindWithTag("Player").transform;
         StartCoroutine(FSMRoutine());
     }
+
 
     private IEnumerator FSMRoutine()
     {
@@ -187,4 +190,17 @@ public class CoilHeadFSM : MonoBehaviour
         NavMesh.SamplePosition(randomDirection, out hit, patrolRadius, 1);
         return hit.position;
     }
+
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            
+            HpSystem hpSys = collision.gameObject.GetComponent<HpSystem>();
+            if (!navMeshAgent.isStopped)
+                hpSys.UpdateHp(90);
+        }
+    }
+
 }
