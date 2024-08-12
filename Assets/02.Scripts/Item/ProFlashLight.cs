@@ -15,13 +15,18 @@ public class ProFlashLight : MonoBehaviour
 
     private void Update()
     {
+        OnLight();
+    }
+
+    public void OnLight()
+    {
         if (InputManager.instance.ToggleTurnOnOff())
         {
-            light.SetActive(false);
+            light.SetActive(true);
         }
         else
         {
-            light.SetActive(true);
+            light.SetActive(false);
         }
     }
 }

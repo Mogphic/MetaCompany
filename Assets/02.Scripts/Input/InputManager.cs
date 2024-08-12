@@ -9,6 +9,7 @@ public class InputManager : MonoSingleton<InputManager>
 {
     private MainInputActions playerControls;
     public bool inputTurnOn = false;
+    public bool canLight = false;
     public bool inputCrouch = false;
     private bool inputEnabled = true;
     public bool isRotateAble = true;
@@ -169,13 +170,16 @@ public class InputManager : MonoSingleton<InputManager>
     #region Input_TurnOn
     public bool ToggleTurnOnOff()
     {
-        if (inputTurnOn == false && playerControls.PlayerActions.Attack.WasReleasedThisFrame())
+        if (canLight)
         {
-            inputTurnOn = true;
-        }
-        else if (inputTurnOn == true && playerControls.PlayerActions.Attack.WasReleasedThisFrame())
-        {
-            inputTurnOn = false;
+            if (inputTurnOn == false && playerControls.PlayerActions.Attack.WasReleasedThisFrame())
+            {
+                return inputTurnOn = true;
+            }
+            else if (inputTurnOn == true && playerControls.PlayerActions.Attack.WasReleasedThisFrame())
+            {
+                return inputTurnOn = false;
+            }
         }
         return inputTurnOn;
     }
