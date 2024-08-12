@@ -74,14 +74,14 @@ public class CoilHeadFSM : MonoBehaviour
 
     private IEnumerator IdleState()
     {
-        Debug.Log("Idle State");
+        // Debug.Log("Idle State");
         yield return new WaitForSeconds(2f);
         ChangeState(CoilHeadState.Patrol);
     }
 
     private IEnumerator PatrolState()
     {
-        Debug.Log("Patrol State");
+        // Debug.Log("Patrol State");
         navMeshAgent.speed = patrolSpeed;
 
         if (!navMeshAgent.hasPath)
@@ -100,7 +100,7 @@ public class CoilHeadFSM : MonoBehaviour
 
     private IEnumerator TraceState()
     {
-        Debug.Log("Trace State");
+        // Debug.Log("Trace State");
         navMeshAgent.speed = traceSpeed;
 
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
@@ -145,7 +145,7 @@ public class CoilHeadFSM : MonoBehaviour
 
     private IEnumerator FastTraceState()
     {
-        Debug.Log("Fast Trace State");
+        // Debug.Log("Fast Trace State");
         navMeshAgent.speed = fastTraceSpeed;
 
         navMeshAgent.SetDestination(player.position);

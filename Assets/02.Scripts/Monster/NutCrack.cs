@@ -147,7 +147,7 @@ public class NutCrack : MonoBehaviour
 
             case EEnemyState.Chase:
                 agent.enabled = true;
-                agent.speed = defaultSpeed * 2; // 속도를 2배로 설정
+                agent.speed = defaultSpeed * 4; // 속도를 2배로 설정
 
                 animator.SetBool("Chase", true);
                 animator.SetBool("loading", false);
@@ -175,6 +175,7 @@ public class NutCrack : MonoBehaviour
 
             case EEnemyState.Die_nut:
                 animator.SetTrigger("Die");
+                // agent.enabled = false;
                 break;
         }
     }
@@ -228,17 +229,19 @@ public class NutCrack : MonoBehaviour
 
         LayerMask obstacleLayerMask = LayerMask.GetMask("Obstacle"); // 벽이나 장애물에 사용되는 레이어
         LayerMask playerLayerMask = LayerMask.GetMask("Player");
-        Ray ray = new Ray(transform.position + Vector3.up * 0.5f, transform.forward);
+        
+        Ray ray = new Ray(transform.position  + Vector3.up , transform.forward);
 
         RaycastHit hitinfo;
 
         for (int i = 0; i < 4; i++)
         {
-            if (Physics.Raycast(ray, out hitinfo, 0.5f, playerLayerMask))
+            if (Physics.Raycast(ray, out hitinfo, 20.0f, playerLayerMask))
             {
                 // 플레이어를 감지한 후, 플레이어가 장애물 뒤에 있는지 확인
-                if (!Physics.Raycast(transform.position + Vector3.up, (hitinfo.point - transform.position).normalized, out RaycastHit obstacleHit, hitinfo.distance, obstacleLayerMask))
+                if (!Physics.Raycast(transform.position + Vector3.up , (hitinfo.point - (transform.position + Vector3.up)).normalized, out RaycastHit obstacleHit, hitinfo.distance, obstacleLayerMask))
                 {
+                    print(hitinfo.point);
                     Debug.Log("Player 감지 및 장애물 없음");
 
                     ChangState(EEnemyState.ShootAttack);
@@ -255,14 +258,15 @@ public class NutCrack : MonoBehaviour
 
             while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5.0f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10.0f);
 
                 ray = new Ray(transform.position + Vector3.up, transform.forward);
                 if (Physics.Raycast(ray, out hitinfo, float.MaxValue, playerLayerMask))
                 {
                     // 플레이어를 감지한 후, 장애물 확인
-                    if (!Physics.Raycast(transform.position + Vector3.up, (hitinfo.point - transform.position).normalized, out RaycastHit obstacleHit, hitinfo.distance, obstacleLayerMask))
+                    if (!Physics.Raycast(transform.position + Vector3.up , (hitinfo.point - (transform.position + Vector3.up)).normalized, out RaycastHit obstacleHit, hitinfo.distance, obstacleLayerMask))
                     {
+                        print(hitinfo.point);
                         Debug.Log("Player 감지 및 장애물 없음");
 
                         ChangState(EEnemyState.ShootAttack);
@@ -289,15 +293,15 @@ public class NutCrack : MonoBehaviour
 
     // 플레이어를 일정 시간 동안 발견하지 못했을 때 상태 전환을 위한 타이머 변수
     float lostPlayerTime = 0.0f;
-    float lostPlayerThreshold = 5.0f; // 플레이어를 일정 시간 동안 발견하지 못했을 때 상태 전환 시간
+    float lostPlayerThreshold = 2.0f; // 플레이어를 일정 시간 동안 발견하지 못했을 때 상태 전환 시간
 
     void Chase()
     {
-        // 시야각 설정
-        float fieldOfView = 60.0f; // 시야각 (각도)
-        float viewDistance = 10.0f; // 시야 거리
-        float attackDistance = 2.0f; // 공격 시작 거리
-        float stopDistance = 2.0f; // 추적을 멈추는 거리
+        float fieldOfView = 60.0f;
+        float viewDistance = 10.0f;
+        float attackDistance = 3.0f;
+        float stopDistance = 3.0f;
+        float rotationThreshold = 20.0f; // 회전을 시작할 각도 차이
 
         Vector3 directionToPlayer = player.transform.position - transform.position;
         float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
@@ -306,22 +310,30 @@ public class NutCrack : MonoBehaviour
         if (angleToPlayer < fieldOfView * 0.5f && distanceToPlayer < viewDistance)
         {
             // 플레이어가 시야각과 시야 거리 안에 있는 경우
-            if (distanceToPlayer > stopDistance)
+            if (angleToPlayer > rotationThreshold)
             {
-                // 플레이어와의 거리가 stopDistance보다 크면 계속 추적
-                agent.isStopped = false;
-                agent.SetDestination(player.transform.position);
+                // 각도 차이가 크면 먼저 회전
+                RotateTowardsPlayer();
             }
             else
             {
-                // stopDistance 이내로 접근하면 정지
-                agent.isStopped = true;
-            }
+                if (distanceToPlayer > stopDistance)
+                {
+                    // 플레이어와의 거리가 stopDistance보다 크면 계속 추적
+                    agent.isStopped = false;
+                    agent.SetDestination(player.transform.position);
+                }
+                else
+                {
+                    // stopDistance 이내로 접근하면 정지
+                    agent.isStopped = true;
+                }
 
-            // attackDistance 이내에 들어오면 공격 상태로 전환
-            if (distanceToPlayer <= attackDistance)
-            {
-                ChangState(EEnemyState.ShootAttack);
+                // attackDistance 이내에 들어오면 공격 상태로 전환
+                if (distanceToPlayer <= attackDistance)
+                {
+                    ChangState(EEnemyState.ShootAttack);
+                }
             }
         }
         else
@@ -331,9 +343,16 @@ public class NutCrack : MonoBehaviour
         }
     }
 
+    void RotateTowardsPlayer()
+    {
+        Vector3 direction = (player.transform.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+    }
+
 
     public GameObject shootParticle; // 발사 파티클 프리팹
-    float shootDamege = 50.0f; // 발사 데미지
+    float shootDamege = 10.0f; // 발사 데미지
     float shootInterval = 2.0f; // 발사 간격
     public int shotsPerAttac = 2; // 한 번에 발사할 횟수
 
@@ -364,7 +383,7 @@ public class NutCrack : MonoBehaviour
         player.GetComponent<HpSystem>().UpdateHp(shootDamege);
         shotsPerAttac--;
 
-        yield return new WaitForSeconds(1.2f); // "1.2초 동안 잠시 멈춘 후에 다음 동작을 수행해라
+        yield return new WaitForSeconds(2.0f); // "1.2초 동안 잠시 멈춘 후에 다음 동작을 수행해라
         // update는 계속 수행
 
         // 현재 플레이어와의 거리 계산
@@ -373,7 +392,7 @@ public class NutCrack : MonoBehaviour
         // 거리에 따른 애니메이션 재생
 
         
-        if (distanceToPlayer <= 2.0f)
+        if (distanceToPlayer <= 00.5f)
         {
             ChangState(EEnemyState.ShootAttack);
             yield break;
@@ -398,7 +417,7 @@ public class NutCrack : MonoBehaviour
             float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
             // 거리에 따른 상태 전환
-            if (distanceToPlayer <= 2.0f)
+            if (distanceToPlayer <= 10.0f)
             {
                 print(distanceToPlayer);
                 // 플레이어가 가까우면 ShootAttack 상태로 전환
@@ -438,7 +457,7 @@ public class NutCrack : MonoBehaviour
 
         // 콜라이더와 NavMeshAgent 비활성화
         GetComponent<Collider>().enabled = false;
-        agent.isStopped = true;
+        agent.enabled = false;
 
         // 사망 애니메이션이 완료된 후 오브젝트를 제거
         StartCoroutine(DestroyAfterDeath());

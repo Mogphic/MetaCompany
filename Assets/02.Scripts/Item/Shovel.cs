@@ -49,12 +49,12 @@ public class Shovel : MonoBehaviour
             NutCrack enemyFSM2 = other.GetComponent<NutCrack>();
             if (enemyFSM != null)
             {
-                enemyFSM.TakeDamage(50f); 
+                enemyFSM.TakeDamage(35.0f); 
             }
             
-            else if(enemyFSM2 != null)
+            if(enemyFSM2 != null)
             {
-                enemyFSM2.TakeDamage(50f);
+                enemyFSM2.TakeDamage(35.0f);
             }
         }
     }
