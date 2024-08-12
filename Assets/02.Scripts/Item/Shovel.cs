@@ -27,11 +27,34 @@ public class Shovel : MonoBehaviour
         col.enabled = false;
     }
 
+
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
             other.GetComponent<HpSystem>().UpdateHp(1f);
+        }
+    }
+    */
+
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            FSM_SoundCheck enemyFSM = other.GetComponent<FSM_SoundCheck>();
+            NutCrack enemyFSM2 = other.GetComponent<NutCrack>();
+            if (enemyFSM != null)
+            {
+                enemyFSM.TakeDamage(50f); 
+            }
+            
+            else if(enemyFSM2 != null)
+            {
+                enemyFSM2.TakeDamage(50f);
+            }
         }
     }
 }
