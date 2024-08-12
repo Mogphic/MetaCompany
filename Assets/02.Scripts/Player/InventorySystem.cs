@@ -79,7 +79,7 @@ public class InventorySystem : MonoBehaviour
         if (inventory[index] != null)
         {
             print(inventory[index].name);
-            if (inventory[index].name == "Pro-Flashlight(Clone)")
+            if (inventory[index].name.Contains("Pro-Flashlight"))
             {
                 return true;
             }
@@ -95,7 +95,7 @@ public class InventorySystem : MonoBehaviour
     {
         if (inventory[index] != null)
         {
-            if (inventory[index].name == "Shovel")
+            if (inventory[index].name.Contains("Shovel"))
             {
                 return true;
             }
