@@ -55,6 +55,7 @@ public class InventorySystem : MonoBehaviour
         for (int i = 0; i < playerToolObj.Length; i++)
         {
             GameObject toolObj = Instantiate(playerToolObj[i], grabObj.transform.position, Quaternion.identity);
+            //toolObj.name = playerToolObj[i].name;
             PutIndexInventory(toolObj, toolObj.GetComponent<InteractableObject>().icon);
             toolObj.GetComponent<Rigidbody>().isKinematic = true;
             toolObj.transform.position = grabObj.transform.position;
@@ -77,7 +78,8 @@ public class InventorySystem : MonoBehaviour
     {
         if (inventory[index] != null)
         {
-            if (inventory[index].name == "Pro-Flashlight")
+            print(inventory[index].name);
+            if (inventory[index].name == "Pro-Flashlight(Clone)")
             {
                 return true;
             }
@@ -117,10 +119,12 @@ public class InventorySystem : MonoBehaviour
         if (CheckLight(curInventoryContainerNum))
         {
             inputManager.canLight = true;
+            print(inputManager.canLight);
         }
         else
         {
             inputManager.canLight = false;
+            print(inputManager.canLight);
         }
         if (CheckShovel(curInventoryContainerNum))
         {

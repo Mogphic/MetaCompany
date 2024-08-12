@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 5952330100131542610}
   - component: {fileID: 2186063218719466828}
   m_Layer: 8
-  m_Name: Pro-Flashlight
+  m_Name: Pro-Flashlight_Model
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

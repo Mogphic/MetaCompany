@@ -15,7 +15,8 @@ public class FSM_SoundCheck : MonoBehaviour
         WalkClam,
         Rotate_,
         Chase_,
-        Attack
+        Attack,
+        Die_Dog
     }
 
     // 현재 상태
@@ -74,6 +75,9 @@ public class FSM_SoundCheck : MonoBehaviour
     float soundThreshold = 0.1f;
     bool isPlayerDetected;
 
+    // 적의 체력
+    public float health = 100f;
+
     void Start()
     {
         // 현재 게임 오브젝트에서 Animator 컴포넌트를 찾는다.
@@ -123,6 +127,8 @@ public class FSM_SoundCheck : MonoBehaviour
 
     void Update()
     {
+        Debug.Log($"Current State: {currentState}, Health: {health}");
+
         // Sound_Check 로직
         CheckPlayerSound();
 
@@ -195,6 +201,12 @@ public class FSM_SoundCheck : MonoBehaviour
                 isChasing = false;
                 agent.speed = attackSpeed;
                 isAttacking = true;
+                break;
+
+            case EEnemyState.Die_Dog:
+                animator.SetTrigger("Die 0");
+                // agent.enabled = false;
+                StartCoroutine(DestroyAfterDelay());
                 break;
         }
     }
@@ -273,7 +285,7 @@ public class FSM_SoundCheck : MonoBehaviour
             rotationStartTime = 0;
 
             // 플레이어와의 거리를 기반으로 다음 상태 결정
-            if (( radius / 3 ) <= dir.magnitude)
+            if ((radius / 3) <= dir.magnitude)
             {
                 // 플레이어가 충분히 멀리 있으면 추격 상태로 전환
                 ChangState(EEnemyState.Chase_);
@@ -344,7 +356,7 @@ public class FSM_SoundCheck : MonoBehaviour
             // 플레이어 체력을 감소시키는 로직 추가
             if (play_health != null && play_health.curHp > 0)
             {
-                play_health.UpdateHp(10f);  // 공격할 때마다 플레이어 체력을 10만큼 감소시킴
+                play_health.UpdateHp(0.1f);  // 공격할 때마다 플레이어 체력을 10만큼 감소시킴
 
                 // 플레이어 체력이 0 이하가 되면 처리할 로직
                 if (play_health.curHp <= 0)
@@ -417,4 +429,29 @@ public class FSM_SoundCheck : MonoBehaviour
     {
         return isPlayerDetected;
     }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die_dog();
+        }
+    }
+
+    void Die_dog()
+    {
+        if (currentState != EEnemyState.Die_Dog)
+        {
+            ChangState(EEnemyState.Die_Dog);
+        }
+    }
+
+    // 사망 후 오브젝트 제거를 위한 코루틴
+    IEnumerator DestroyAfterDelay()
+    {
+        yield return new WaitForSeconds(4.0f); // 3.5초 후 제거 (애니메이션 재생 시간에 맞춰 조정)
+        Destroy(gameObject);
+    }
 }
+

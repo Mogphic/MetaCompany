@@ -31,16 +31,16 @@ public class ItemComponent : MonoBehaviour
             hasSound = itemData.sound;
             isInteractable = itemData.interact;
             hasConduction = itemData.Conduction;
-            Debug.Log($"Synced item: {itemData.Name}, ID: {itemData.ID}, Type: {type}, kg: {kg}");
+            //Debug.Log($"Synced item: {itemData.Name}, ID: {itemData.ID}, Type: {type}, kg: {kg}");
         }
         else
         {
-            Debug.LogWarning("Item data is not assigned for " + gameObject.name);
+            //Debug.LogWarning("Item data is not assigned for " + gameObject.name);
         }
     }
 
     private void OnEnable()
     {
-        Debug.Log($"ItemComponent enabled for {gameObject.name}. ItemData: {(itemData != null ? itemData.Name : "null")}");
+        //Debug.Log($"ItemComponent enabled for {gameObject.name}. ItemData: {(itemData != null ? itemData.Name : "null")}");
     }
 }
