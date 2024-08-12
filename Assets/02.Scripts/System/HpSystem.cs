@@ -35,7 +35,9 @@ public class HpSystem : MonoBehaviour
         //플레이어는 래그돌 >> 알파는 destroy
         //적 알파는 >> destroy
         print(gameObject.name + " : Die!");
-        Destroy(gameObject, 3); // 안진형이 추가한 코드
+        UIManager.instance.PlayerDie();
+        //Destroy(gameObject, 3); // 안진형이 추가한 코드
+        
     }
 }
 

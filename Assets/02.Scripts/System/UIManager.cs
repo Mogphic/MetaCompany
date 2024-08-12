@@ -17,6 +17,7 @@ public class UIManager : MonoSingleton<UIManager>
     private Coroutine[] resizeCoroutines;
     public Canvas canvas;
     public CanvasGroup dieStartUI;
+    public CanvasGroup playerAllUI;
 
     private void Start()
     {
@@ -114,11 +115,7 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void PlayerDie()
     {
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            dieStartUI.alpha = Mathf.Lerp(0f, 1f, Mathf.Clamp01(elapsedTime / duration));
-            print(dieStartUI.alpha);
-        }
+        dieStartUI.alpha = 1f;
+        playerAllUI.alpha = 0f;
     }
 }
