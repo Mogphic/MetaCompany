@@ -7,7 +7,10 @@ public enum ObjectType
     SHIP_CONSOLE,
     SHIP_CHARGER,
     ITEM_ONEHAND,
-    ITEM_TWOHAND
+    ITEM_TWOHAND,
+    SCENE_DOOR,
+    MAP_DOOR
+
 };
 public class InteractableObject : MonoBehaviour
 {

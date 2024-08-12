@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class InteractionSystem : MonoBehaviour
 {
@@ -202,6 +203,12 @@ public class InteractionSystem : MonoBehaviour
                 //OntriggerEnter
                 //스크립터블오브젝트 클래스 넣기
                 break;
+            case ObjectType.SCENE_DOOR:
+                hitObjectType = "Scene_Door";
+                string nextname = hitObject.gameObject.GetComponent<InteractionNextSceneData>().nextSceneName;
+                SceneLoadManager.Instance.LoadSceneByName(nextname);
+                break;
+
         }
     }
 
