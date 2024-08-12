@@ -73,6 +73,22 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
+    public bool CheckLight(int index)
+    {
+        if (inventory[index] != null)
+        {
+            if (inventory[index].name == "Pro-Flashlight")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+
     public bool CheckShovel(int index)
     {
         if (inventory[index] != null)
@@ -98,6 +114,14 @@ public class InventorySystem : MonoBehaviour
         
         curInventoryContainerNum += scrollValue;
         curInventoryContainerNum = (curInventoryContainerNum+4) % 4;
+        if (CheckLight(curInventoryContainerNum))
+        {
+            inputManager.canLight = true;
+        }
+        else
+        {
+            inputManager.canLight = false;
+        }
         if (CheckShovel(curInventoryContainerNum))
         {
             canAttack = true;
