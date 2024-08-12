@@ -166,7 +166,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3810506526858298067}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_Radius: 0.25
   m_Speed: 1.5
   m_Acceleration: 8
@@ -192,6 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6649fe1b143989f49a932aff7bb943c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHp: 100
   shootParticle: {fileID: 0}
   shotsPerAttac: 2
 --- !u!136 &1461100223154683516
@@ -213,10 +214,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.92
-  m_Height: 3.9
+  m_Radius: 1.54
+  m_Height: 4.6
   m_Direction: 1
-  m_Center: {x: 0, y: 2.06, z: 0}
+  m_Center: {x: 0, y: 2.49, z: 0}
 --- !u!54 &7304120714865091380
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -424,6 +425,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 21560934397440952, guid: 39d72fd98b7a13b4e8f7543af0e6e4d1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4213df28e0d15d848864386ae41ed005, type: 2}
     - target: {fileID: 919132149155446097, guid: 39d72fd98b7a13b4e8f7543af0e6e4d1,
         type: 3}
       propertyPath: m_Name
