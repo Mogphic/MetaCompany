@@ -17,8 +17,8 @@ public class NutCrack : MonoBehaviour
         Chase,
         ShootAttack,
         Loading,
-        Die,
-        Drop
+        Die_nut,
+        // Drop
     }
 
     // 현재 상태
@@ -38,6 +38,11 @@ public class NutCrack : MonoBehaviour
 
     // 추가: 기본 속도를 저장할 변수
     private float defaultSpeed;
+
+
+    // 적의 최대 체력과 현재 체력
+    public float maxHp = 100f;
+    private float currentHp;
 
     void Start()
     {
@@ -66,7 +71,7 @@ public class NutCrack : MonoBehaviour
 
         if (NavMesh.SamplePosition(RandomPositionSetting(), out hit, navMeshBounds.size.magnitude, 1))
         {
-            agent.SetDestination(hit.position);
+              agent.SetDestination(hit.position);
         }
 
         Collider collider = GetComponent<Collider>();
@@ -74,6 +79,10 @@ public class NutCrack : MonoBehaviour
         {
             collider.isTrigger = true; // 콜라이더를 트리거로 설정
         }
+
+
+        // 체력을 최대값으로 초기화
+        currentHp = maxHp;
     }
 
     void Update()
@@ -162,6 +171,10 @@ public class NutCrack : MonoBehaviour
                 agent.speed = defaultSpeed; // 속도를 기본값으로 재설정
                 animator.SetBool("loading", true);
                 animator.SetBool("Attack", false);
+                break;
+
+            case EEnemyState.Die_nut:
+                animator.SetTrigger("Die");
                 break;
         }
     }
@@ -414,6 +427,41 @@ public class NutCrack : MonoBehaviour
             agent.SetDestination(newDestination);
 
             Debug.Log("Obstacle encountered! Changing destination.");
+        }
+    }
+
+
+    void DieNut()
+    {
+        // 상태를 Die_nut로 변경
+        ChangState(EEnemyState.Die_nut);
+
+        // 콜라이더와 NavMeshAgent 비활성화
+        GetComponent<Collider>().enabled = false;
+        agent.isStopped = true;
+
+        // 사망 애니메이션이 완료된 후 오브젝트를 제거
+        StartCoroutine(DestroyAfterDeath());
+    }
+
+    IEnumerator DestroyAfterDeath()
+    {
+        // 사망 애니메이션이 2초 동안 재생된 후에 오브젝트 제거
+        yield return new WaitForSeconds(2f);
+        Destroy(gameObject);
+    }
+
+
+    // 적이 피해를 받을 때 호출되는 메서드
+    public void TakeDamage(float damage)
+    {
+        // 체력 감소
+        currentHp -= damage;
+
+        // 체력이 0 이하가 되면 DieNut 메서드 호출
+        if (currentHp <= 0)
+        {
+            DieNut();
         }
     }
 }
