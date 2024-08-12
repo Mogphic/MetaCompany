@@ -297,6 +297,13 @@ public class NutCrack : MonoBehaviour
 
     void Chase()
     {
+        if (player == null)
+        {
+            // 플레이어가 없으면 Patroll 상태로 전환
+            ChangState(EEnemyState.Patroll);
+            return;
+        }
+
         float fieldOfView = 60.0f;
         float viewDistance = 10.0f;
         float attackDistance = 3.0f;
