@@ -3740,15 +3740,18 @@ MonoBehaviour:
   - sceneName: 00.MainMenu
     buildIndex: 0
     sceneAsset: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
-  - sceneName: OutSide_Rend
+  - sceneName: 01.Ship
     buildIndex: 1
-    sceneAsset: {fileID: 102900000, guid: 361de45ee343ec94b96b95d9e9f316dc, type: 3}
-  - sceneName: Mansion3
+    sceneAsset: {fileID: 102900000, guid: 63aaf64e4c469d04996011c02b1015fc, type: 3}
+  - sceneName: 02.CompanyBuilding
     buildIndex: 2
-    sceneAsset: {fileID: 102900000, guid: f96ccf80c655d4f4f859e64dc7755de3, type: 3}
-  - sceneName: OutSide_Rend_Exit
+    sceneAsset: {fileID: 102900000, guid: 1196e818d181fe141b67dcebf5b5bf8c, type: 3}
+  - sceneName: 03.Rend
     buildIndex: 3
-    sceneAsset: {fileID: 102900000, guid: e1e64177148877a44968fa617038b04e, type: 3}
+    sceneAsset: {fileID: 102900000, guid: 3c128217506a2004ea2de6efa241f2d5, type: 3}
+  - sceneName: Mansion3
+    buildIndex: 4
+    sceneAsset: {fileID: 102900000, guid: f96ccf80c655d4f4f859e64dc7755de3, type: 3}
 --- !u!1 &537622287 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5301184156589514610, guid: 5b3cb5acc7cfcf04897b202706275f5f,
