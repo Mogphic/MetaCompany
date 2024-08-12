@@ -16,6 +16,7 @@ public class UIManager : MonoSingleton<UIManager>
     private float lerpSpeed = 7.5f; // 크기 변경 속도 조절
     private Coroutine[] resizeCoroutines;
     public Canvas canvas;
+    public CanvasGroup dieStartUI;
 
     private void Start()
     {
@@ -105,6 +106,19 @@ public class UIManager : MonoSingleton<UIManager>
         {
             Destroy(itemUIList[idx]);
             itemUIList[idx] = null;
+        }
+    }
+
+    public float duration = 1f; // 페이드 인에 걸리는 시간
+    private float elapsedTime = 0f;
+
+    public void PlayerDie()
+    {
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            dieStartUI.alpha = Mathf.Lerp(0f, 1f, Mathf.Clamp01(elapsedTime / duration));
+            print(dieStartUI.alpha);
         }
     }
 }

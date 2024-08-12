@@ -119,12 +119,10 @@ public class InventorySystem : MonoBehaviour
         if (CheckLight(curInventoryContainerNum))
         {
             inputManager.canLight = true;
-            print(inputManager.canLight);
         }
         else
         {
             inputManager.canLight = false;
-            print(inputManager.canLight);
         }
         if (CheckShovel(curInventoryContainerNum))
         {

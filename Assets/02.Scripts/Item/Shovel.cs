@@ -31,7 +31,6 @@ public class Shovel : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            print("Enemy!");
             other.GetComponent<HpSystem>().UpdateHp(1f);
         }
     }
