@@ -33,6 +33,8 @@ public class InteractionSystem : MonoBehaviour
     private InventorySystem inven;
     public string hitObjectType;
 
+    public DoorAnimation doorAnim;
+
     private void Awake()
     {
         interactableLayerMask = 1 << LayerMask.NameToLayer("Interactable");
@@ -94,7 +96,7 @@ public class InteractionSystem : MonoBehaviour
         if (hitDetected)
         {
             hitObject = hit.collider.GetComponent<InteractableObject>();
-            
+            doorAnim = hit.collider.GetComponent<DoorAnimation>();
             if (hitObject != null && hitObject.CompareTag("Interactable"))
             {
                 uiManager.UpdateInteractionUI(hitObject.info, 1, false);
@@ -208,7 +210,16 @@ public class InteractionSystem : MonoBehaviour
                 string nextname = hitObject.gameObject.GetComponent<InteractionNextSceneData>().nextSceneName;
                 SceneLoadManager.Instance.LoadSceneByName(nextname);
                 break;
-
+            case ObjectType.MAP_DOOR:
+                if (doorAnim.isOpenDoor == false)
+                {
+                    doorAnim.DoorAnim(true);
+                }
+                else if(doorAnim.isOpenDoor == true)
+                {
+                    doorAnim.DoorAnim(false);
+                }
+                break;
         }
     }
 
