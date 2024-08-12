@@ -13,9 +13,10 @@ public class PlayerAnimation : MonoBehaviour
     
     private void Update()
     {
-        if (animator.GetCurrentAnimatorStateInfo(1).IsName("Attack_Impact") == true)
+        InputManager.instance.raycastAble = true;
+        if (animator.GetCurrentAnimatorStateInfo(2).IsName("Attack_Impact") == true)
         {
-
+            InputManager.instance.raycastAble = false;
             float animTime = animator.GetCurrentAnimatorStateInfo(1).normalizedTime;
             if (animTime >= 1.0f)
             {

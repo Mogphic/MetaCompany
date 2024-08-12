@@ -71,10 +71,6 @@ public class InteractionSystem : MonoBehaviour
         {
             RaycastCenter();
         }
-        //if (inputManager.PlayerEndInteraction())
-        {
-            inputManager.raycastAble = true;
-        }
         if (inputManager.PlayerDropItem())
         {
             inven.PullOutItem();
@@ -116,7 +112,6 @@ public class InteractionSystem : MonoBehaviour
                     // 입력 비활성화
                     if (inputDisableCoroutine != null)
                         StopCoroutine(inputDisableCoroutine);
-                    inputManager.raycastAble = false;
                 }
                 return;
             }
@@ -171,7 +166,6 @@ public class InteractionSystem : MonoBehaviour
             case ObjectType.SHIP_CHARGER:
             case ObjectType.ITEM_ONEHAND:
                 hitObjectType = "One";
-                inputManager.isAttackAble = true;
                 rb = hitObject.GetComponent<Rigidbody>();
                 rb.isKinematic = true;
                 uiManager.UpdateInteractionUI(0, 0, false);
@@ -211,13 +205,21 @@ public class InteractionSystem : MonoBehaviour
                 SceneLoadManager.Instance.LoadSceneByName(nextname);
                 break;
             case ObjectType.MAP_DOOR:
-                if (doorAnim.isOpenDoor == false)
+                if (MissionManager.instance.missions[0].isCompleted)
                 {
-                    doorAnim.DoorAnim(true);
+                    if (doorAnim.isOpenDoor == false)
+                    {
+                        doorAnim.DoorAnim(true);
+                    }
+                    else if (doorAnim.isOpenDoor == true)
+                    {
+                        doorAnim.DoorAnim(false);
+                    }
                 }
-                else if(doorAnim.isOpenDoor == true)
+                else
                 {
-                    doorAnim.DoorAnim(false);
+                    print("아직 못열어요.");
+                    //못연다는 UI 추가
                 }
                 break;
         }
