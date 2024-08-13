@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class TargetArea : MonoBehaviour
 {
+    public int missionIndex = 0;
     public string probName = string.Empty;
+    public bool isPutAble = false;
     private MissionManager missionManager;
 
     void Start()
@@ -12,12 +14,41 @@ public class TargetArea : MonoBehaviour
         missionManager = FindObjectOfType<MissionManager>();
     }
 
-    void OnTriggerEnter(Collider other)
+    [SerializeField]private float weight = 0;
+    [SerializeField]private float maxWeight = 10f;
+
+    public void PutInProbInArea(GameObject other)
     {
-        if (other.name.Contains(probName))
+        print(other);
+        switch (missionIndex)
         {
-            missionManager.missionOneList.Add(other.gameObject);
-            missionManager.CheckMissionOneList();
+            case 0:
+                weight += other.GetComponent<ItemComponent>().kg;
+                if (weight >= maxWeight)
+                {
+                    missionManager.CheckMissionComplate(missionIndex);
+                }
+                break;
+            case 1:
+                if (other.gameObject.name.Contains(probName))
+                {
+                    isPutAble = true;
+                    missionManager.missionTwoList.Add(other.gameObject);
+                    other.gameObject.GetComponent<BoxCollider>().enabled = false;
+                    other.gameObject.GetComponent<Rigidbody>().useGravity = false;
+                    other.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+                    other.gameObject.transform.position = transform.position;
+                    missionManager.CheckMissionComplate(missionIndex);
+                }
+                else
+                {
+                    isPutAble = false;
+                }
+                break;
         }
     }
+    /*void OnTriggerEnter(Collider other)
+    {
+
+    }*/
 }
