@@ -35,6 +35,8 @@ public class InteractionSystem : MonoBehaviour
 
     public DoorAnimation doorAnim;
 
+    public GameObject doorStopText;
+
     private void Awake()
     {
         interactableLayerMask = 1 << LayerMask.NameToLayer("Interactable");
@@ -218,8 +220,8 @@ public class InteractionSystem : MonoBehaviour
                 }
                 else
                 {
-                    print("아직 못열어요.");
                     //못연다는 UI 추가
+                    StartCoroutine(DoorStopAnim());
                 }
                 break;
             case ObjectType.TRIGGERBOX:
@@ -235,7 +237,12 @@ public class InteractionSystem : MonoBehaviour
                 break;
         }
     }
-
+    IEnumerator DoorStopAnim()
+    {
+        doorStopText.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        doorStopText.SetActive(false);
+    }
     private IEnumerator MoveAndRotatePlayer()
     {
         isMoving = true;

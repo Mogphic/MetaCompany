@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: Fancy Lamp
   Type: Scrap
   kg: 5
-  hand: Two
+  hand: One
   sound: 0
   interact: 0
   Conduction: 1
