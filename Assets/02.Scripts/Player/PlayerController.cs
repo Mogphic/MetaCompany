@@ -68,6 +68,15 @@ public class PlayerController : MonoBehaviour
             {
                 PlayerRun();
             }
+            if (inputManager.PlayerRunReleasedOnce())
+            {
+                anim.OnRun(false);
+                stamina.ChangeCoroutine("Increase");
+            }
+            else if (inputManager.PlayerRunOnce())
+            {
+                stamina.ChangeCoroutine("Decrease");
+            }
             
             if (inventory.canAttack)
             {

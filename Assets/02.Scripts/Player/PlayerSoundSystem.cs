@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerSoundSystem : MonoBehaviour
 {
-    [SerializeField] private AudioClip[] footstepSounds;
+    [SerializeField] private AudioClip[] outerFootstepSounds;
     [SerializeField] private AudioClip JumpSound;
     [SerializeField] private AudioClip LandingSound;
     private AudioSource audioSource;
@@ -110,10 +110,10 @@ public class PlayerSoundSystem : MonoBehaviour
         switch (type)
         {
             case "FootStep":
-                if (footstepSounds.Length > 0)
+                if (outerFootstepSounds.Length > 0)
                 {
-                    int randomIndex = Random.Range(0, footstepSounds.Length);
-                    audioSource.PlayOneShot(footstepSounds[randomIndex]);
+                    int randomIndex = Random.Range(0, outerFootstepSounds.Length);
+                    audioSource.PlayOneShot(outerFootstepSounds[randomIndex]);
                 }
                 break;
             case "Jump":
