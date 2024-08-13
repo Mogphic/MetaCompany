@@ -17,7 +17,7 @@ public class FSM_SoundCheck : MonoBehaviour
         Rotate_,
         Chase_,
         Attack,
-        Die_Dog
+        Die_Dog,
     }
 
     // 현재 상태
@@ -50,7 +50,7 @@ public class FSM_SoundCheck : MonoBehaviour
     // 콜라이더의 라디어스 값
     float radius;
 
-    // walk clam의 setDestination 남은 거리 
+    // walk clam의 setDestination 남은 거리
     public float remaindistnace2;
 
     // player 방향 콕 알기
@@ -63,8 +63,8 @@ public class FSM_SoundCheck : MonoBehaviour
     bool isAttacking;
 
     float walkSpeed = 1.5f;
-    float chaseSpeed = 3f;
-    float attackSpeed = 5f;
+    float chaseSpeed = 50f;
+    float attackSpeed = 100f;
 
     // 딱 감지되었을 때 player 처음 위치
     private Vector3 initialTargetPosition;
@@ -81,7 +81,7 @@ public class FSM_SoundCheck : MonoBehaviour
 
     GameObject item;
     ItemSpawner itemSpawn;
- 
+
     void Start()
     {
         // 현재 게임 오브젝트에서 Animator 컴포넌트를 찾는다.
@@ -134,7 +134,8 @@ public class FSM_SoundCheck : MonoBehaviour
 
     void Update()
     {
-        // Debug.Log($"Current State: {currentState}, Health: {health}");
+        // 상태와 현재 플레이어 감지 상태를 출력
+        // Debug.Log($"Current State: {currentState}, IsPlayerDetected: {isPlayerDetected}");
 
         // Sound_Check 로직
         CheckPlayerSound();
@@ -142,28 +143,41 @@ public class FSM_SoundCheck : MonoBehaviour
         switch (currentState)
         {
             case EEnemyState.WalkClam:
+                Debug.Log("State: WalkClam");
                 UpdateWalkClam();
                 break;
 
             case EEnemyState.Rotate_:
+                Debug.Log("State: Rotate_");
                 UpdateRotate();
                 break;
 
             case EEnemyState.Chase_:
+                Debug.Log("State: Chase_");
                 UpdateChase_Check();
                 break;
 
             case EEnemyState.Attack:
+                Debug.Log("State: Attack");
                 Attack();
                 break;
         }
 
-        // 사운드 체크 로직
-        if (isPlayerDetected && currentState != EEnemyState.Attack)
+        // 사운드 체크 로직 (그러면 조금이라도 돌아볼텐데
+        // )
+        if (isPlayerDetected && currentState != EEnemyState.Attack && currentState != EEnemyState.Die_Dog)
         {
             if (!isChasing && !isAttacking)
             {
-                UpdateRotate();
+                Debug.Log("Player detected, transitioning to Rotate_ state.");
+                if (currentState == EEnemyState.WalkClam)
+                {
+                    ChangState(EEnemyState.Rotate_);
+                }
+                else
+                {
+                    UpdateRotate();
+                }
             }
         }
     }
@@ -177,15 +191,17 @@ public class FSM_SoundCheck : MonoBehaviour
             case EEnemyState.WalkClam:
                 animator.SetBool("WalkClam", true);
                 animator.SetBool("Attack_", false);
+                animator.SetBool("Rotate_", false);
+                animator.SetBool("Chase_", false);
                 isChasing = false;
                 isAttacking = false;
-                agent.isStopped = false;
                 break;
 
             case EEnemyState.Rotate_:
                 animator.SetBool("Rotate_", true);
                 animator.SetBool("WalkClam", false);
                 animator.SetBool("Attack_", false);
+                animator.SetBool("Chase_", false);
                 agent.isStopped = true;
                 isChasing = false;
                 isAttacking = false;
@@ -195,6 +211,7 @@ public class FSM_SoundCheck : MonoBehaviour
                 animator.SetBool("Chase_", true);
                 animator.SetBool("Rotate_", false);
                 animator.SetBool("WalkClam", false);
+                animator.SetBool("Attack_", false);
                 agent.isStopped = false;
                 agent.speed = chaseSpeed;
                 isChasing = true;
@@ -205,6 +222,7 @@ public class FSM_SoundCheck : MonoBehaviour
                 animator.SetBool("Attack_", true);
                 animator.SetBool("Chase_", false);
                 animator.SetBool("WalkClam", false);
+                animator.SetBool("Rotate_", false);
                 isChasing = false;
                 agent.speed = attackSpeed;
                 isAttacking = true;
@@ -212,7 +230,7 @@ public class FSM_SoundCheck : MonoBehaviour
 
             case EEnemyState.Die_Dog:
                 animator.SetTrigger("Die 0");
-                agent.enabled = false;
+                // agent.enabled = false;
                 itemSpawn.SpawnItem(5);
                 StartCoroutine(DestroyAfterDelay());
                 break;
@@ -222,11 +240,11 @@ public class FSM_SoundCheck : MonoBehaviour
     void UpdateWalkClam()
     {
         remaindistnace2 = 0.5f;
+        Debug.Log($"Walking, remaining distance: {agent.remainingDistance}");
 
         if (agent.remainingDistance < remaindistnace2)
         {
             NavMeshHit hit;
-
             if (NavMesh.SamplePosition(RandomPositionSetting(), out hit, navMeshBounds.size.magnitude, 1))
             {
                 agent.speed = walkSpeed;
@@ -239,9 +257,9 @@ public class FSM_SoundCheck : MonoBehaviour
     {
         Vector3 randomPosition = new Vector3
         (
-            Random.Range(-16.55f, 16.2f),
-            0,
-            Random.Range(-13.0f, 31.33f)
+            Random.Range(navMeshBounds.min.x, navMeshBounds.max.x),
+            Random.Range(navMeshBounds.min.y, navMeshBounds.max.y),
+            Random.Range(navMeshBounds.min.z, navMeshBounds.max.z)
 
         );
 
@@ -249,77 +267,68 @@ public class FSM_SoundCheck : MonoBehaviour
     }
 
     // 회전에 걸리는 시간 (초)
-    private float rotationDuration = 0.8f;
+    private float rotationDuration = 1.0f;
     // 회전 시작 시간을 저장하는 변수
     private float rotationStartTime;
 
     // 플레이어를 향해 AI가 회전하도록 하는 로직을 처리하는 메서드
     void UpdateRotate()
     {
-        // 플레이어의 현재 위치를 저장
         player_p = player.transform.position;
-        // 처음 플레이어의 위치를 저장 (공격 시 이 위치로 이동하기 위함)
         initialTargetPosition = player_p;
 
-        // 플레이어와 AI 간의 방향 벡터 계산 (y 축 차이를 무시함)
         dir = player_p - transform.position;
-        // dir.y = 0.08f;
-
-        // 위에서 계산한 방향 벡터를 기반으로 회전할 목표 방향을 생성
         lookRotation = Quaternion.LookRotation(dir);
 
-        // 회전 시작 시간을 기록하고 회전 상태로 전환
         if (rotationStartTime == 0)
         {
             rotationStartTime = Time.time;
-            ChangState(EEnemyState.Rotate_);
+            //ChangState(EEnemyState.Rotate_);
         }
 
-        // 회전이 시작된 후 경과된 시간 계산
         float elapsedTime = Time.time - rotationStartTime;
-        // 회전 진행도를 0에서 1 사이의 값으로 클램프
-        float t = Mathf.Clamp01(elapsedTime / rotationDuration);
+        float t = Mathf.Clamp01(elapsedTime / rotationDuration); // 회전 진행도를 0에서 1 사이의 값으로 정규화합니다.
 
-        // 현재 AI의 회전을 목표 방향으로 Slerp(구면 선형 보간)하여 회전
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, t);
 
-        // 현재 회전각과 목표 회전각 간의 차이를 계산
         float angle = Quaternion.Angle(transform.rotation, lookRotation);
 
-        // 만약 회전 각도가 거의 맞거나 회전 시간이 완료된 경우
-        if (angle < 0.1f || t >= 1)
+        if (angle < 00.001f || t >= 1)
         {
-            // 회전 시작 시간을 초기화하여 다음 회전 때 다시 초기화되도록 함
             rotationStartTime = 0;
-
-            // 플레이어와의 거리를 기반으로 다음 상태 결정
-            if ((radius / 3) <= dir.magnitude)
+            if ((radius / 5) <= dir.magnitude) // 3 나누기 5는 0.6
             {
-                // 플레이어가 충분히 멀리 있으면 추격 상태로 전환
                 ChangState(EEnemyState.Chase_);
             }
             else
             {
-                // 플레이어가 가까이 있으면 공격 상태로 전환
                 ChangState(EEnemyState.Attack);
             }
         }
-    }
 
+        // 여기서 else는  => AI는 계속해서 회전을 시도할 것이며, 아직 상태전환이 일어나지 않는다.
+        // 여기서 else가 없디 때문에 계속 회전을 완료할려고 한다.
+    }
 
 
 
     private void UpdateChase_Check()
     {
         // 플레이어의 현재 위치로 AI를 이동시킴
-        agent.SetDestination(player_p);
+        // agent.SetDestination(player_p);
+
+        agent.SetDestination(initialTargetPosition);
 
         // AI가 플레이어에게 충분히 가까워졌는지 확인
-        if ((radius / 0.5) >= agent.remainingDistance)
+        if ((radius / 3) >= agent.remainingDistance) // 8 나누기 5는 1.6
         {
-            // 플레이어가 AI의 공격 범위 내에 있으면 공격 상태로 전환
             ChangState(EEnemyState.Attack);
         }
+
+
+        /*
+
+
         // AI가 목적지(플레이어의 마지막 알려진 위치)에 도달했는지 확인
         else if (agent.remainingDistance < 0.01f)
         {
@@ -338,75 +347,68 @@ public class FSM_SoundCheck : MonoBehaviour
             }
         }
         // 위의 조건들에 해당하지 않으면 계속 추적 상태를 유지
+
+
+        */
+
     }
 
 
     // 공격 동작의 지속 시간을 설정하는 변수 (초 단위)
-    private float attackDuration = 3.0f;
+    private float attackDuration = 2.0f;
     private float attackStartTime;
 
     // 공격 후 대기하는 시간을 설정하는 변수 (초 단위)
-    private float postAttackWaitDuration = 1.3f;
+    private float postAttackWaitDuration = 2.0f;
     private float postAttackWaitStartTime;
 
     void Attack()
     {
-        // 공격 시작 시간 초기화
         if (attackStartTime == 0)
         {
             attackStartTime = Time.time;
             agent.SetDestination(initialTargetPosition);
         }
 
-        // AI가 플레이어와 충분히 가까워졌는지 확인
-        if (agent.remainingDistance < 0.5f)
+        if (Time.time - attackStartTime < attackDuration)
         {
-            // 플레이어 체력을 감소시키는 로직 추가
-            if (play_health != null && play_health.curHp > 0)
+            // 공격 로직 유지
+            isPlayerDetected = false;
+
+            if (agent.remainingDistance < 10)
             {
-                play_health.UpdateHp(0.1f);  // 공격할 때마다 플레이어 체력을 10만큼 감소시킴
-
-                // 플레이어 체력이 0 이하가 되면 처리할 로직
-                if (play_health.curHp <= 0)
+                if (play_health != null && play_health.curHp > 0)
                 {
-                    play_health.Die();  // Die 메서드를 호출하여 플레이어의 사망 로직을 처리
-                                        // 필요한 경우 AI도 상태를 변경하거나 멈추게 할 수 있음
-                    ChangState(EEnemyState.WalkClam);  // 예시: 다시 돌아다니게 함
+                    play_health.UpdateHp(0.1f);
+
+                    if (play_health.curHp <= 0)
+                    {
+                        play_health.Die();
+                        animator.SetBool("Attack_", false);
+                        ChangState(EEnemyState.WalkClam);
+                        return;
+                    }
                 }
-            }
-
-            // 공격 후 대기 로직
-            if (postAttackWaitStartTime == 0)
-            {
-                postAttackWaitStartTime = Time.time;
-                isAttacking = false;
-                animator.SetBool("Attack_", false);
-                agent.isStopped = true;
-            }
-
-            float elapsedTime = Time.time - postAttackWaitStartTime;
-
-            if (elapsedTime >= postAttackWaitDuration)
-            {
-                postAttackWaitStartTime = 0;
-                attackStartTime = 0;
-
-                if (isPlayerDetected)
-                {
-                    ChangState(EEnemyState.Rotate_);
-                }
-                else
-                {
-                    ChangState(EEnemyState.WalkClam);
-                }
-                agent.isStopped = false;
             }
         }
         else
         {
-            agent.SetDestination(initialTargetPosition);
+            // 공격 지속 시간이 지나면 상태 전환
+            attackStartTime = 0;
+            isAttacking = false;
+            animator.SetBool("Attack_", false);
+            CheckPlayerSound();
+            if (isPlayerDetected)
+            {
+                ChangState(EEnemyState.Rotate_);
+            }
+            else
+            {
+                ChangState(EEnemyState.WalkClam);
+            }
         }
     }
+
 
 
     // Sound_Check의 로직을 메서드로 분리
@@ -463,4 +465,3 @@ public class FSM_SoundCheck : MonoBehaviour
         Destroy(gameObject);
     }
 }
-
