@@ -9,8 +9,8 @@ public enum ObjectType
     ITEM_ONEHAND,
     ITEM_TWOHAND,
     SCENE_DOOR,
-    MAP_DOOR
-
+    MAP_DOOR,
+    TRIGGERBOX
 };
 public class InteractableObject : MonoBehaviour
 {

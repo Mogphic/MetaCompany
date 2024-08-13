@@ -73,7 +73,7 @@ public class InteractionSystem : MonoBehaviour
         }
         if (inputManager.PlayerDropItem())
         {
-            inven.PullOutItem();
+            inven.PullOutItem(true);
             anim.IsOneHand(false);
         }
     }
@@ -220,6 +220,17 @@ public class InteractionSystem : MonoBehaviour
                 {
                     print("아직 못열어요.");
                     //못연다는 UI 추가
+                }
+                break;
+            case ObjectType.TRIGGERBOX:
+                Transform grabTr = grabObj.GetComponentsInChildren<Transform>()[1];
+                int idx = hitObject.GetComponent<TargetArea>().missionIndex;
+                MissionManager.instance.missions[idx].area.PutInProbInArea(grabTr.gameObject);
+                if (MissionManager.instance.missions[idx].area.isPutAble)
+                {
+                    inven.PullOutItem(false);
+                    grabTr.position = hitObject.transform.position;
+                    grabTr.SetParent(hitObject.transform);
                 }
                 break;
         }

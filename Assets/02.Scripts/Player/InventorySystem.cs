@@ -78,7 +78,6 @@ public class InventorySystem : MonoBehaviour
     {
         if (inventory[index] != null)
         {
-            print(inventory[index].name);
             if (inventory[index].name.Contains("Pro-Flashlight"))
             {
                 return true;
@@ -189,13 +188,17 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-    public void PullOutItem()
+    public void PullOutItem(bool isDrop)
     {
         if (inventory[curInventoryContainerNum] != null)
         {
+            if (isDrop)
+            {
+
+                inventory[curInventoryContainerNum].GetComponent<BoxCollider>().enabled = true;
+                inventory[curInventoryContainerNum].GetComponent<Rigidbody>().isKinematic = false;
+            }
             inventory[curInventoryContainerNum].transform.SetParent(null);
-            inventory[curInventoryContainerNum].GetComponent<BoxCollider>().enabled = true;
-            inventory[curInventoryContainerNum].GetComponent<Rigidbody>().isKinematic = false;
             inventory[curInventoryContainerNum] = null;
             ChangePose(inventory[curInventoryContainerNum]);
             uiManager.PullOutInventoryUI(curInventoryContainerNum);
