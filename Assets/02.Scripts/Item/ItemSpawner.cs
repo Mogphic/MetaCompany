@@ -5,8 +5,8 @@ using UnityEngine;
 public class ItemSpawner : MonoBehaviour
 {
     
-    [SerializeField] private GameObject[] itemList;
-    [SerializeField] private GameObject[] playerItems;
+    [SerializeField] public GameObject[] itemList;
+    [SerializeField] public GameObject[] playerItems;
 
     public bool isPlayerItems;
     public bool isRandom = false;
@@ -25,12 +25,12 @@ public class ItemSpawner : MonoBehaviour
         }
     }
 
-    private void SpawnPlayerItem(int index)
+    public void SpawnPlayerItem(int index)
     {
         Instantiate(playerItems[index], transform.position, transform.rotation);
     }
 
-    private void SpawnItem(int index)
+    public void SpawnItem(int index)
     {
         int randIndex = index;
         if (isRandom == true)
