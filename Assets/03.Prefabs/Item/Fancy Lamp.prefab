@@ -134,7 +134,7 @@ MonoBehaviour:
   itemData: {fileID: 11400000, guid: 97b9f0f4ab9166343ab7132978e0e469, type: 2}
   type: Scrap
   kg: 5
-  hand: Two
+  hand: One
   hasSound: 0
   isInteractable: 0
   hasConduction: 1
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cac17222b7853648a576ed7ef4bb1cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 4
+  type: 3
   info: 0
   standingTr: {fileID: 0}
   lookAtDir: {fileID: 0}

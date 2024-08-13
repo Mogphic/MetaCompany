@@ -63,11 +63,11 @@ public class InventorySystem : MonoBehaviour
             toolObj.transform.SetParent(grabObj.transform);
 
             toolObj.GetComponent<BoxCollider>().enabled = false;
-            if (toolObj.GetComponent<InteractableObject>().type.ToString() == "ITEM_ONEHAND")
+            if (toolObj.GetComponent<InteractableObject>().type.ToString().Contains("ITEM_ONEHAND"))
             {
                 anim.IsOneHand(true);
             }
-            if (toolObj.GetComponent<InteractableObject>().type.ToString() == "ITEM_TWOHAND")
+            if (toolObj.GetComponent<InteractableObject>().type.ToString().Contains("ITEM_TWOHAND"))
             {
                 anim.IsTwoHand(true);
             }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class DoorAnimation : MonoBehaviour
 {
     private Animator animator;
-
+    
     public bool isOpenDoor = false;
     private void Awake()
     {
@@ -16,5 +16,15 @@ public class DoorAnimation : MonoBehaviour
     {
         animator.SetBool("isOpenDoor", isOpen);
         isOpenDoor = isOpen;
+    }
+
+    public void OnCollider()
+    {
+        GetComponent<BoxCollider>().enabled = true;
+    }
+
+    public void OffCollider()
+    {
+        GetComponent<BoxCollider>().enabled = false;
     }
 }
