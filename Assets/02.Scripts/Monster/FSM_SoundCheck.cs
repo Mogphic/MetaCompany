@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -78,6 +79,9 @@ public class FSM_SoundCheck : MonoBehaviour
     // 적의 체력
     public float health = 100f;
 
+    GameObject item;
+    ItemSpawner itemSpawn;
+ 
     void Start()
     {
         // 현재 게임 오브젝트에서 Animator 컴포넌트를 찾는다.
@@ -123,6 +127,9 @@ public class FSM_SoundCheck : MonoBehaviour
         }
 
         playerAudioSource = player.GetComponentInChildren<AudioSource>();
+
+        item = GameObject.Find("ItemSpawner");
+        itemSpawn = item.GetComponent<ItemSpawner>();
     }
 
     void Update()
@@ -206,6 +213,7 @@ public class FSM_SoundCheck : MonoBehaviour
             case EEnemyState.Die_Dog:
                 animator.SetTrigger("Die 0");
                 agent.enabled = false;
+                itemSpawn.SpawnItem(5);
                 StartCoroutine(DestroyAfterDelay());
                 break;
         }
@@ -436,6 +444,7 @@ public class FSM_SoundCheck : MonoBehaviour
         if (health <= 0)
         {
             Die_dog();
+
         }
     }
 
