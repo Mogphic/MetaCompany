@@ -63,8 +63,8 @@ public class FSM_SoundCheck : MonoBehaviour
     bool isAttacking;
 
     float walkSpeed = 1.5f;
-    float chaseSpeed = 50f;
-    float attackSpeed = 100f;
+    float chaseSpeed = 10f;
+    float attackSpeed = 5f;
 
     // 딱 감지되었을 때 player 처음 위치
     private Vector3 initialTargetPosition;
@@ -73,7 +73,7 @@ public class FSM_SoundCheck : MonoBehaviour
 
     Transform playerTransform;
     AudioSource playerAudioSource;
-    float soundThreshold = 0.1f;
+    float soundThreshold = 0.3f;
     bool isPlayerDetected;
 
     // 적의 체력
@@ -163,8 +163,7 @@ public class FSM_SoundCheck : MonoBehaviour
                 break;
         }
 
-        // 사운드 체크 로직 (그러면 조금이라도 돌아볼텐데
-        // )
+        // 사운드 체크 로직 (그러면 조금이라도 돌아볼텐데)
         if (isPlayerDetected && currentState != EEnemyState.Attack && currentState != EEnemyState.Die_Dog)
         {
             if (!isChasing && !isAttacking)
@@ -223,6 +222,7 @@ public class FSM_SoundCheck : MonoBehaviour
                 animator.SetBool("Chase_", false);
                 animator.SetBool("WalkClam", false);
                 animator.SetBool("Rotate_", false);
+                agent.isStopped = false;
                 isChasing = false;
                 agent.speed = attackSpeed;
                 isAttacking = true;
@@ -231,7 +231,10 @@ public class FSM_SoundCheck : MonoBehaviour
             case EEnemyState.Die_Dog:
                 animator.SetTrigger("Die 0");
                 // agent.enabled = false;
-                itemSpawn.SpawnItem(5);
+                int randomIndex = Random.Range(0, itemSpawn.itemList.Length); // 랜덤으로 아이템 생성 만약에 이 코드가 없고
+                // ItemSpawner에서 false로 설정되어 있다면 항상 itemList 5번 인덱스 아이템이 생성
+                itemSpawn.SpawnItem(randomIndex, transform.position);
+                // itemSpawn.SpawnItem(5, transform.position);
                 StartCoroutine(DestroyAfterDelay());
                 break;
         }
@@ -249,6 +252,26 @@ public class FSM_SoundCheck : MonoBehaviour
             {
                 agent.speed = walkSpeed;
                 agent.SetDestination(hit.position);
+            }
+        }
+
+        else
+        {
+            // 현재 목적지의 방향을 계산
+            Vector3 directionToDestination = (agent.destination - transform.position).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(directionToDestination);
+
+            // 회전이 완료되었는지 확인
+            if (Quaternion.Angle(transform.rotation, targetRotation) > 20.0f)
+            {
+                // 아직 회전 중이라면 회전 먼저 수행
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5.0f);
+                agent.isStopped = true; // 회전 중에는 이동하지 않도록 정지
+            }
+            else
+            {
+                // 회전이 완료되었으면 이동 시작
+                agent.isStopped = false;
             }
         }
     }
@@ -293,10 +316,10 @@ public class FSM_SoundCheck : MonoBehaviour
 
         float angle = Quaternion.Angle(transform.rotation, lookRotation);
 
-        if (angle < 00.001f || t >= 1)
+        if (angle < 00.001f && t >= 1)
         {
             rotationStartTime = 0;
-            if ((radius / 5) <= dir.magnitude) // 3 나누기 5는 0.6
+            if (radius <= dir.magnitude) 
             {
                 ChangState(EEnemyState.Chase_);
             }
@@ -320,7 +343,7 @@ public class FSM_SoundCheck : MonoBehaviour
         agent.SetDestination(initialTargetPosition);
 
         // AI가 플레이어에게 충분히 가까워졌는지 확인
-        if ((radius / 3) >= agent.remainingDistance) // 8 나누기 5는 1.6
+        if (radius >= agent.remainingDistance) 
         {
             ChangState(EEnemyState.Attack);
         }
@@ -359,37 +382,50 @@ public class FSM_SoundCheck : MonoBehaviour
     private float attackStartTime;
 
     // 공격 후 대기하는 시간을 설정하는 변수 (초 단위)
-    private float postAttackWaitDuration = 2.0f;
+    private float postAttackWaitDuration = 1.0f;
     private float postAttackWaitStartTime;
 
     void Attack()
     {
+        Vector3 extendedDestination = transform.position + transform.forward;
+
+        // NavMesh 위의 유효한 위치로 조정합니다.
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(extendedDestination, out hit, 3.0f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
+
         if (attackStartTime == 0)
         {
             attackStartTime = Time.time;
-            agent.SetDestination(initialTargetPosition);
+
+            // 현재 위치에서 목표 위치까지의 방향을 계산합니다.
+            Vector3 directionToTarget = (initialTargetPosition - transform.position).normalized;
+
+            // 목표 위치에서 약간 더 나아간 위치를 계산합니다.
+            // 여기서 2.0f는 추가 거리입니다. 필요에 따라 조절하세요.
+            //Vector3 extendedDestination = initialTargetPosition + directionToTarget * 2.0f;
+
+            //Vector3 extendedDestination = transform.position + transform.forward * 5;
+
+            // NavMesh 위의 유효한 위치로 조정합니다.
+            //NavMeshHit hit;
+            if (NavMesh.SamplePosition(extendedDestination, out hit, 3.0f, NavMesh.AllAreas))
+            {
+               // agent.SetDestination(hit.position);
+            }
+            else
+            {
+                // 유효한 NavMesh 위치를 찾지 못했을 경우, 원래 목표 위치를 사용합니다.
+                agent.SetDestination(initialTargetPosition);
+            }
         }
 
         if (Time.time - attackStartTime < attackDuration)
         {
-            // 공격 로직 유지
+            // 공격 애니메이션 유지
             isPlayerDetected = false;
-
-            if (agent.remainingDistance < 10)
-            {
-                if (play_health != null && play_health.curHp > 0)
-                {
-                    play_health.UpdateHp(0.1f);
-
-                    if (play_health.curHp <= 0)
-                    {
-                        play_health.Die();
-                        animator.SetBool("Attack_", false);
-                        ChangState(EEnemyState.WalkClam);
-                        return;
-                    }
-                }
-            }
         }
         else
         {
@@ -463,5 +499,25 @@ public class FSM_SoundCheck : MonoBehaviour
     {
         yield return new WaitForSeconds(4.0f); // 3.5초 후 제거 (애니메이션 재생 시간에 맞춰 조정)
         Destroy(gameObject);
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && currentState == EEnemyState.Attack)
+        {
+            HpSystem playerHealth = other.GetComponent<HpSystem>();
+            if (playerHealth != null && playerHealth.curHp > 0)
+            {
+                playerHealth.UpdateHp(0.1f);
+
+                if (playerHealth.curHp <= 0)
+                {
+                    playerHealth.Die();
+                    animator.SetBool("Attack_", false);
+                    ChangState(EEnemyState.WalkClam);
+                }
+            }
+        }
     }
 }
