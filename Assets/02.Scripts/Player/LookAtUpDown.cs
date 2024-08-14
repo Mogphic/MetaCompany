@@ -11,8 +11,9 @@ public class LookAtUpDown : MonoBehaviour
     public float minX = -0.4f;
     public float maxX = 2.0f;
     public float sensitivity = 0.01f;
-    [SerializeField]
-    private float newY;
+    [SerializeField] private float newY;
+    [SerializeField] private Transform CameraVec;
+
     bool originTransition = false;
     int cnt = 0;
     private void Update()

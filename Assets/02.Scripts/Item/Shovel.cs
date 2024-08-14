@@ -1,18 +1,25 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Shovel : MonoBehaviour
 {
     private BoxCollider col;
-    private float time = 0f;
     [SerializeField] private AudioClip[] ImpactSounds;
     [SerializeField] private AudioClip grabSound;
     [SerializeField] private AudioClip swingSound;
     [SerializeField] private AudioClip readySound;
+    [SerializeField] private AudioClip chargingSound;
     private AudioSource audioSource;
     private bool hitOnce = false;
-    private bool readyOnce = false;
+    private bool isCharging = false;
+    private float chargeStartTime;
+    private float currentChargeDuration;
+
+    [SerializeField] private float minChargeDuration = 0.75f;
+    [SerializeField] private float attackCooldown = 0f;
+    private float lastAttackTime;
+
+    private Coroutine attackCoroutine;
 
     private void OnEnable()
     {
@@ -32,54 +39,92 @@ public class Shovel : MonoBehaviour
     {
         //if (inventorySystem.canAttack)
         {
-            if (InputManager.instance.PlayerAttackStarted() && readyOnce == false)
+            if (InputManager.instance.PlayerAttackStarted() && !isCharging && Time.time - lastAttackTime >= attackCooldown)
             {
-                readyOnce = true;
-                audioSource.PlayOneShot(readySound);
+                StartCharging();
             }
-            if (InputManager.instance.PlayerAttackImacted())
+
+            if (InputManager.instance.PlayerAttackImacted() && isCharging)
             {
-                col.enabled = true;
-                audioSource.PlayOneShot(swingSound);
-                hitOnce = false;
-                readyOnce = false;
-                StartCoroutine(Timer());
+                StopCharging();
+                Attack();
+            }
+
+            if (isCharging)
+            {
+                currentChargeDuration = Time.time - chargeStartTime;
             }
         }
     }
 
-    IEnumerator Timer()
+    private void StartCharging()
+    {
+        isCharging = true;
+        chargeStartTime = Time.time;
+        audioSource.PlayOneShot(readySound);
+        audioSource.loop = true;
+        audioSource.clip = chargingSound;
+        audioSource.Play();
+    }
+
+    private void StopCharging()
+    {
+        isCharging = false;
+        audioSource.loop = false;
+        audioSource.Stop();
+    }
+
+    private void Attack()
+    {
+        lastAttackTime = Time.time;
+        float attackPower = Mathf.Max(1, currentChargeDuration / minChargeDuration);
+
+        col.enabled = true;
+        audioSource.PlayOneShot(swingSound);
+        hitOnce = false;
+
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+        }
+        attackCoroutine = StartCoroutine(AttackCoroutine(attackPower));
+    }
+
+    private IEnumerator AttackCoroutine(float attackPower)
     {
         yield return new WaitForSeconds(0.3f);
         col.enabled = false;
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (hitOnce == false)
+        if (!hitOnce)
         {
             hitOnce = true;
             audioSource.PlayOneShot(ImpactSounds[Random.Range(0, ImpactSounds.Length)]);
-        }
-        else
-        {
-            return;
-        }
-        
-        if (other.CompareTag("Enemy"))
-        {
-            FSM_SoundCheck enemyFSM = other.GetComponent<FSM_SoundCheck>();
-            NutCrack enemyFSM2 = other.GetComponent<NutCrack>();
-            if (enemyFSM != null)
+
+            if (other.CompareTag("Enemy"))
             {
-                enemyFSM.TakeDamage(100.0f);
+                DealDamageToEnemy(other);
             }
-            
-            
-            if(enemyFSM2 != null)
-            {
-                enemyFSM2.TakeDamage(35.0f);
-            }
-            
+        }
+    }
+
+    private void DealDamageToEnemy(Collider enemy)
+    {
+        float damageMultiplier = Mathf.Max(1, currentChargeDuration / minChargeDuration);
+
+        FSM_SoundCheck enemyFSM = enemy.GetComponent<FSM_SoundCheck>();
+        NutCrack enemyFSM2 = enemy.GetComponent<NutCrack>();
+
+        if (enemyFSM != null)
+        {
+            enemyFSM.TakeDamage(100.0f * damageMultiplier);
+        }
+
+        if (enemyFSM2 != null)
+        {
+            enemyFSM2.TakeDamage(35.0f * damageMultiplier);
         }
     }
 }

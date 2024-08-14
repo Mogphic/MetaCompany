@@ -177,6 +177,9 @@ MonoBehaviour:
   grabSound: {fileID: 8300000, guid: 822b9f9adb5362948ab6a9aab29f4aa1, type: 3}
   swingSound: {fileID: 8300000, guid: 9020d9b94b1f3a746b95e5b6fe11c453, type: 3}
   readySound: {fileID: 8300000, guid: 2bba8de4f02a59f4c9faea2535dea9ba, type: 3}
+  chargingSound: {fileID: 0}
+  minChargeDuration: 0.73
+  attackCooldown: 0.73
 --- !u!65 &922911766159837991
 BoxCollider:
   m_ObjectHideFlags: 0
