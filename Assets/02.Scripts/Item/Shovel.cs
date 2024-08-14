@@ -11,7 +11,6 @@ public class Shovel : MonoBehaviour
     [SerializeField] private AudioClip swingSound;
     [SerializeField] private AudioClip readySound;
     private AudioSource audioSource;
-    private InventorySystem inventorySystem;
     private bool hitOnce = false;
     private bool readyOnce = false;
 
@@ -25,14 +24,13 @@ public class Shovel : MonoBehaviour
 
     private void Start()
     {
-        //inventorySystem = FindObjectOfType<InventorySystem>();
         col = GetComponent<BoxCollider>();
         audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
-       // if (inventorySystem.canAttack)
+        //if (inventorySystem.canAttack)
         {
             if (InputManager.instance.PlayerAttackStarted() && readyOnce == false)
             {
