@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StaminaSystem : MonoBehaviour
 {
-    private float curStamina = 0f;
+    [SerializeField] private float curStamina = 0f;
     [SerializeField] private float maxStamina = 100f;
     [SerializeField] private float increaseRatePerSecond = 10f;
     [SerializeField] private float decreaseRatePerSecond = 10f;
@@ -20,7 +20,7 @@ public class StaminaSystem : MonoBehaviour
     {
         curStamina = maxStamina;
         increaseSec = new WaitForSeconds(1f / increaseRatePerSecond);
-        decreaseSec = new WaitForSeconds(1f / (decreaseRatePerSecond + weight));
+        decreaseSec = new WaitForSeconds(1f / (decreaseRatePerSecond + (weight * 0.05f)));
         staminaCoroutine = StartCoroutine(IncreaseStamina());
     }
 
@@ -33,16 +33,23 @@ public class StaminaSystem : MonoBehaviour
         }
         if (curStamina <= 0)
         {
-            isExhausted = true;
             curStamina = 0;
+            ChangeCoroutine("Increase");
         }
-        if (curStamina > 0)
+
+        if (curStamina < decreaseRateForJump)
+        {
+            isExhausted = true;
+        }
+        else if (curStamina > decreaseRateForJump)
         {
             isExhausted = false;
         }
+
         if (curStamina < decreaseRateForJump)
         {
             isImpossibleJump = true;
+            ChangeCoroutine("Increase");
         }
         else
         {

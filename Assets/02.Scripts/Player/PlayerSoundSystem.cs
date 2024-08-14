@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerSoundSystem : MonoBehaviour
 {
-    [SerializeField] private AudioClip[] footstepSounds;
+    [SerializeField] private AudioClip[] outerFootstepSounds;
     [SerializeField] private AudioClip JumpSound;
     [SerializeField] private AudioClip LandingSound;
     private AudioSource audioSource;
@@ -12,22 +12,33 @@ public class PlayerSoundSystem : MonoBehaviour
     [SerializeField] private float runInterval = 0.25f; // 발걸음 소리 간격
     private Coroutine soundCoroutine;
     private InputManager inputManager;
+    private PlayerController playerController;
+    private StaminaSystem stamina;
     private float interval = 0f;
     void Start()
     {
+        playerController = GetComponentInParent<PlayerController>();
+        stamina = GetComponentInParent<StaminaSystem>();
         audioSource = GetComponent<AudioSource>();
         inputManager = InputManager.instance;
     }
 
     private bool isRunning = false;
-    public bool isLanding = false;
 
     private void Update()
     {
         
-        if (isLanding == true && inputManager.GetPlayerMovement() != Vector2.zero && !inputManager.inputCrouch)
+        if (playerController.isLandingOnce && playerController.isLandingOnce && inputManager.GetPlayerMovement() != Vector2.zero && !inputManager.inputCrouch)
         {
-            bool currentlyRunning = inputManager.PlayerRan();
+            bool currentlyRunning = false;
+            if (!stamina.isExhausted && !stamina.isImpossibleJump)
+            {
+                currentlyRunning = inputManager.PlayerRan();
+            }
+            else
+            {
+                currentlyRunning = false;
+            }
             if (currentlyRunning != isRunning || soundCoroutine == null)
             {
                 isRunning = currentlyRunning;
@@ -42,7 +53,7 @@ public class PlayerSoundSystem : MonoBehaviour
         {
             StopFootsteps();
         }
-        if (isLanding == true && inputManager.PlayerJumpedThisFrame())
+        if (!stamina.isImpossibleJump && playerController.isLandingOnce && inputManager.PlayerJumpedThisFrame())
         {
             StartJump();
         }
@@ -84,14 +95,13 @@ public class PlayerSoundSystem : MonoBehaviour
     #region Jump
     public void StartJump()
     {
-        //StopFootsteps();
-        isLanding = false;
+        //isLanding = false;
         PlayRandomSound("Jump");
     }
 
     public void StartLanding()
     {
-        isLanding = true;
+        //isLanding = true;
         PlayRandomSound("Landing");
     }
     #endregion
@@ -100,10 +110,10 @@ public class PlayerSoundSystem : MonoBehaviour
         switch (type)
         {
             case "FootStep":
-                if (footstepSounds.Length > 0)
+                if (outerFootstepSounds.Length > 0)
                 {
-                    int randomIndex = Random.Range(0, footstepSounds.Length);
-                    audioSource.PlayOneShot(footstepSounds[randomIndex]);
+                    int randomIndex = Random.Range(0, outerFootstepSounds.Length);
+                    audioSource.PlayOneShot(outerFootstepSounds[randomIndex]);
                 }
                 break;
             case "Jump":

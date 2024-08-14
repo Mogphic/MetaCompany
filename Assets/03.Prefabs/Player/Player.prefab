@@ -317,21 +317,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c8f1cc7743dd05418075e9768da0303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footstepSounds:
-  - {fileID: 8300000, guid: 1f0199a4c6005ec4abbb302f71bc036d, type: 3}
-  - {fileID: 8300000, guid: 53e2adf2ac488ef46bb2b4074de9e363, type: 3}
-  - {fileID: 8300000, guid: a03a96c5d1e99b4409ddd79098abd9ab, type: 3}
-  - {fileID: 8300000, guid: 7187dc81f98b8be4eb97bfc4dd9a5abf, type: 3}
-  - {fileID: 8300000, guid: e3cfcb32689b274419ac73380ea96888, type: 3}
-  - {fileID: 8300000, guid: 314d37dfb74502a4094b835d0e0d6c23, type: 3}
-  - {fileID: 8300000, guid: f0f794c67e9233d468a38d165590d253, type: 3}
-  - {fileID: 8300000, guid: 1a7741daba5446e46a40f8074aae75dc, type: 3}
-  - {fileID: 8300000, guid: 0bc66974c41ff8c4fa15f46d21ad3548, type: 3}
+  outerFootstepSounds:
+  - {fileID: 8300000, guid: 24ceb01d07316764ebe8eb9492262811, type: 3}
+  - {fileID: 8300000, guid: 8ad9ae8e73dab024e87c8e81c4b36bd8, type: 3}
+  - {fileID: 8300000, guid: 5bd0acc672ce2eb4fb59c5d60398e234, type: 3}
+  - {fileID: 8300000, guid: e6c2465269805f3468455757443bcc10, type: 3}
   JumpSound: {fileID: 8300000, guid: effd59cbf9620a0478338167870c4d51, type: 3}
   LandingSound: {fileID: 8300000, guid: d9a050c362cfe1d48a96c2130f560370, type: 3}
   walkInterval: 0.5
   runInterval: 0.25
-  isLanding: 0
 --- !u!82 &2839697485201721372
 AudioSource:
   m_ObjectHideFlags: 0
@@ -344,7 +338,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.564
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1456,6 +1450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be1b25de8d51cd34c9bf08806e8e9288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curStamina: 0
   maxStamina: 100
   increaseRatePerSecond: 10
   decreaseRatePerSecond: 10
@@ -1510,6 +1505,7 @@ MonoBehaviour:
   grabObj: {fileID: 2709349250111543570}
   hitObjectType: 
   doorAnim: {fileID: 0}
+  doorStopText: {fileID: 543572040818279264}
 --- !u!114 &8504789718915744043
 MonoBehaviour:
   m_ObjectHideFlags: 0

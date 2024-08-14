@@ -64,7 +64,20 @@ public class PlayerController : MonoBehaviour
             {
                 PlayerWalk(movement);
             }
-            PlayerRun();
+            if (stamina.isImpossibleJump == false)
+            {
+                PlayerRun();
+            }
+            if (inputManager.PlayerRunReleasedOnce())
+            {
+                anim.OnRun(false);
+                stamina.ChangeCoroutine("Increase");
+            }
+            else if (inputManager.PlayerRunOnce())
+            {
+                stamina.ChangeCoroutine("Decrease");
+            }
+            
             if (inventory.canAttack)
             {
                 PlayerAttack();
@@ -82,6 +95,16 @@ public class PlayerController : MonoBehaviour
                     anim.OnStand();
                     stamina.ChangeCoroutine("Increase");
                 }
+            }
+
+            //속도 조절
+            if (inputManager.PlayerRunReleasedOnce())
+            {
+                playerSpeed = originSpeed;
+            }
+            if (stamina.isImpossibleJump)
+            {
+                playerSpeed = originSpeed;
             }
             
             //Quaternion targetRotation = Quaternion.LookRotation();
@@ -238,20 +261,34 @@ public class PlayerController : MonoBehaviour
             anim.OnRun(true);
             isCrouch = false;
         }
-        else
+        else if (stamina.isImpossibleJump)
         {
             if (inputManager.PlayerRunReleasedOnce())
             {
                 runDecreaseCount = false;
                 stamina.ChangeCoroutine("Increase");
             }
-            else if (inputManager.PlayerRan())
+            if (inputManager.PlayerRan())
             {
                 stamina.ChangeCoroutine("Decrease");
             }
             playerSpeed = originSpeed;
             anim.OnRun(false);
         }
+        //else
+        //{
+        //    if (inputManager.PlayerRunReleasedOnce())
+        //    {
+        //        runDecreaseCount = false;
+        //        stamina.ChangeCoroutine("Increase");
+        //    }
+        //    if (inputManager.PlayerRan())
+        //    {
+        //        stamina.ChangeCoroutine("Decrease");
+        //    }
+        //    playerSpeed = originSpeed;
+        //    anim.OnRun(false);
+        //}
     }
     public bool isCrouch = false;
     private void PlayerCrouching()

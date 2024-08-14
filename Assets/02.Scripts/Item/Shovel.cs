@@ -6,18 +6,47 @@ public class Shovel : MonoBehaviour
 {
     private BoxCollider col;
     private float time = 0f;
+    [SerializeField] private AudioClip[] ImpactSounds;
+    [SerializeField] private AudioClip grabSound;
+    [SerializeField] private AudioClip swingSound;
+    [SerializeField] private AudioClip readySound;
+    private AudioSource audioSource;
+    private InventorySystem inventorySystem;
+    private bool hitOnce = false;
+    private bool readyOnce = false;
+
+    private void OnEnable()
+    {
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(grabSound);
+        }
+    }
 
     private void Start()
     {
+        //inventorySystem = FindObjectOfType<InventorySystem>();
         col = GetComponent<BoxCollider>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
-        if (InputManager.instance.PlayerAttackImacted())
+       // if (inventorySystem.canAttack)
         {
-            col.enabled = true;
-            StartCoroutine(Timer());
+            if (InputManager.instance.PlayerAttackStarted() && readyOnce == false)
+            {
+                readyOnce = true;
+                audioSource.PlayOneShot(readySound);
+            }
+            if (InputManager.instance.PlayerAttackImacted())
+            {
+                hitOnce = false;
+                readyOnce = false;
+                audioSource.PlayOneShot(swingSound);
+                col.enabled = true;
+                StartCoroutine(Timer());
+            }
         }
     }
 
@@ -26,22 +55,14 @@ public class Shovel : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         col.enabled = false;
     }
-
-
-    /*
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (hitOnce == false)
         {
-            other.GetComponent<HpSystem>().UpdateHp(1f);
+            hitOnce = true;
+            audioSource.PlayOneShot(ImpactSounds[Random.Range(0, ImpactSounds.Length)]);
         }
-    }
-    */
-
-
-
-    private void OnTriggerEnter(Collider other)
-    {
+        
         if (other.CompareTag("Enemy"))
         {
             FSM_SoundCheck enemyFSM = other.GetComponent<FSM_SoundCheck>();

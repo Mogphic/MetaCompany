@@ -29,6 +29,12 @@ public class InventorySystem : MonoBehaviour
         inputManager = InputManager.instance;
         anim = GetComponent<PlayerAnimation>();
         waitScrollingDelay = new WaitForSeconds(scrollingDelay);
+        StartCoroutine(DelayPut());
+    }
+
+    IEnumerator DelayPut()
+    {
+        yield return new WaitForSeconds(0.05f);
         PutToolInventory();
     }
     

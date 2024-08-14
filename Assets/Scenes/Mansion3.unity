@@ -7461,12 +7461,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!1 &760969578 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 543572040818279264, guid: 0c42cc8adc08be342918e39626cb5ac0,
-    type: 3}
-  m_PrefabInstance: {fileID: 3460181135434177872}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &764284888
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20782,21 +20776,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6111587693054159286, guid: 0c42cc8adc08be342918e39626cb5ac0,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6111587693054159286, guid: 0c42cc8adc08be342918e39626cb5ac0,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7028361085670721921, guid: 0c42cc8adc08be342918e39626cb5ac0,
-        type: 3}
-      propertyPath: doorStopText
-      value: 
-      objectReference: {fileID: 760969578}
     - target: {fileID: 7028361085670721921, guid: 0c42cc8adc08be342918e39626cb5ac0,
         type: 3}
       propertyPath: virtualCamera
