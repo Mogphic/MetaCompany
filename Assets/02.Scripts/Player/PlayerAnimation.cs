@@ -13,17 +13,19 @@ public class PlayerAnimation : MonoBehaviour
     
     private void Update()
     {
-        InputManager.instance.raycastAble = true;
-        if (animator.GetCurrentAnimatorStateInfo(2).IsName("Attack_Impact") == true)
+        
+        if (animator.GetCurrentAnimatorStateInfo(2).IsName("Attack_Ready") == true)
         {
+            float animTime = animator.GetCurrentAnimatorStateInfo(2).normalizedTime;
             InputManager.instance.raycastAble = false;
-            float animTime = animator.GetCurrentAnimatorStateInfo(1).normalizedTime;
             if (animTime >= 1.0f)
             {
-                isEndAtk = true;
-                animator.SetBool("isAtkReady", false);
-                animator.SetBool("isAtkImpacted", false);
+                
             }
+        }
+        if (animator.GetCurrentAnimatorStateInfo(2).IsName("TwoHand") == true)
+        {
+            InputManager.instance.raycastAble = true;
         }
     }
     public void OnWalk(bool isWalk)

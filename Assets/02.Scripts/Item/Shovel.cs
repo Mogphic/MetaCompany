@@ -41,10 +41,10 @@ public class Shovel : MonoBehaviour
             }
             if (InputManager.instance.PlayerAttackImacted())
             {
+                col.enabled = true;
+                audioSource.PlayOneShot(swingSound);
                 hitOnce = false;
                 readyOnce = false;
-                audioSource.PlayOneShot(swingSound);
-                col.enabled = true;
                 StartCoroutine(Timer());
             }
         }
