@@ -78,7 +78,8 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (speed == 0)
         {
-            animator.Play("Crouch", 0, 0);
+            //animator.Play("Crouch", 0, 0);
+            animator.SetFloat("CrouchingFrontBack", 0f);
         }
         else
         {
