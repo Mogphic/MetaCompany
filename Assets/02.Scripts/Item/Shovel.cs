@@ -11,7 +11,6 @@ public class Shovel : MonoBehaviour
     [SerializeField] private AudioClip swingSound;
     [SerializeField] private AudioClip readySound;
     private AudioSource audioSource;
-    private InventorySystem inventorySystem;
     private bool hitOnce = false;
     private bool readyOnce = false;
 
@@ -25,14 +24,13 @@ public class Shovel : MonoBehaviour
 
     private void Start()
     {
-        //inventorySystem = FindObjectOfType<InventorySystem>();
         col = GetComponent<BoxCollider>();
         audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
-       // if (inventorySystem.canAttack)
+        //if (inventorySystem.canAttack)
         {
             if (InputManager.instance.PlayerAttackStarted() && readyOnce == false)
             {
@@ -41,10 +39,10 @@ public class Shovel : MonoBehaviour
             }
             if (InputManager.instance.PlayerAttackImacted())
             {
+                col.enabled = true;
+                audioSource.PlayOneShot(swingSound);
                 hitOnce = false;
                 readyOnce = false;
-                audioSource.PlayOneShot(swingSound);
-                col.enabled = true;
                 StartCoroutine(Timer());
             }
         }
@@ -62,6 +60,10 @@ public class Shovel : MonoBehaviour
             hitOnce = true;
             audioSource.PlayOneShot(ImpactSounds[Random.Range(0, ImpactSounds.Length)]);
         }
+        else
+        {
+            return;
+        }
         
         if (other.CompareTag("Enemy"))
         {
@@ -69,13 +71,15 @@ public class Shovel : MonoBehaviour
             NutCrack enemyFSM2 = other.GetComponent<NutCrack>();
             if (enemyFSM != null)
             {
-                enemyFSM.TakeDamage(35.0f); 
+                enemyFSM.TakeDamage(100.0f);
             }
+            
             
             if(enemyFSM2 != null)
             {
                 enemyFSM2.TakeDamage(35.0f);
             }
+            
         }
     }
 }

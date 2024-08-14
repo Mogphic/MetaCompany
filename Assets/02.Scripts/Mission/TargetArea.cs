@@ -19,7 +19,6 @@ public class TargetArea : MonoBehaviour
 
     public void PutInProbInArea(GameObject other)
     {
-        print(other);
         switch (missionIndex)
         {
             case 0:

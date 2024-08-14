@@ -121,22 +121,10 @@ public class InventorySystem : MonoBehaviour
         
         curInventoryContainerNum += scrollValue;
         curInventoryContainerNum = (curInventoryContainerNum+4) % 4;
-        if (CheckLight(curInventoryContainerNum))
-        {
-            inputManager.canLight = true;
-        }
-        else
-        {
-            inputManager.canLight = false;
-        }
-        if (CheckShovel(curInventoryContainerNum))
-        {
-            canAttack = true;
-        }
-        else
-        {
-            canAttack = false;
-        }
+
+        inputManager.canLight = CheckLight(curInventoryContainerNum);
+        canAttack = CheckShovel(curInventoryContainerNum);
+
         if (inventory[curInventoryContainerNum] != null)
         {
             inventory[curInventoryContainerNum].SetActive(true);

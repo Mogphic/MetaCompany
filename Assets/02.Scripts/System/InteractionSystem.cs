@@ -14,7 +14,6 @@ public class InteractionSystem : MonoBehaviour
     [SerializeField] private GameObject consoleObj;
 
     private int interactableLayerMask;
-    private InteractableObject[] interactables;
     private Camera mainCamera;
     private Ray ray;
     private RaycastHit hit;
@@ -42,7 +41,6 @@ public class InteractionSystem : MonoBehaviour
         interactableLayerMask = 1 << LayerMask.NameToLayer("Interactable");
         mainCamera = Camera.main;
         ray = new Ray();
-        CacheInteractableObjects();
     }
 
     private void Start()
@@ -78,11 +76,6 @@ public class InteractionSystem : MonoBehaviour
             inven.PullOutItem(true);
             anim.IsOneHand(false);
         }
-    }
-
-    private void CacheInteractableObjects()
-    {
-        interactables = FindObjectsOfType<InteractableObject>();
     }
 
     private void RaycastCenter()
@@ -227,12 +220,15 @@ public class InteractionSystem : MonoBehaviour
             case ObjectType.TRIGGERBOX:
                 Transform grabTr = grabObj.GetComponentsInChildren<Transform>()[1];
                 int idx = hitObject.GetComponent<TargetArea>().missionIndex;
-                MissionManager.instance.missions[idx].area.PutInProbInArea(grabTr.gameObject);
-                if (MissionManager.instance.missions[idx].area.isPutAble)
+                if (!grabTr.name.Contains("Shovel") && !grabTr.name.Contains("Pro-FlashLight"))
                 {
-                    inven.PullOutItem(false);
-                    grabTr.position = hitObject.transform.position;
-                    grabTr.SetParent(hitObject.transform);
+                    MissionManager.instance.missions[idx].area.PutInProbInArea(grabTr.gameObject);
+                    if (MissionManager.instance.missions[idx].area.isPutAble)
+                    {
+                        inven.PullOutItem(false);
+                        grabTr.position = hitObject.transform.position;
+                        grabTr.SetParent(hitObject.transform);
+                    }
                 }
                 break;
         }
