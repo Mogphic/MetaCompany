@@ -68,6 +68,14 @@ public class PlayerController : MonoBehaviour
             {
                 PlayerRun();
             }
+            else
+            {
+                runDecreaseCount = false;
+            }
+            //if (stamina.isImpossibleJump == true && inputManager.PlayerRan())
+            //{
+            //    stamina.ChangeCoroutine("Decrease");
+            //}
             if (inputManager.PlayerRunReleasedOnce())
             {
                 anim.OnRun(false);
@@ -77,7 +85,11 @@ public class PlayerController : MonoBehaviour
             {
                 stamina.ChangeCoroutine("Decrease");
             }
-            
+            //if (inputManager.PlayerRan())
+            //{
+            //    stamina.ChangeCoroutine("Decrease");
+            //}
+
             if (inventory.canAttack)
             {
                 PlayerAttack();
@@ -249,7 +261,7 @@ public class PlayerController : MonoBehaviour
     private void PlayerRun()
     {
         // 달리기 처리
-        if (!stamina.isImpossibleJump && inputManager.PlayerRan())
+        if (inputManager.PlayerRan())
         {
             if (runDecreaseCount == false)
             {
@@ -261,34 +273,6 @@ public class PlayerController : MonoBehaviour
             anim.OnRun(true);
             isCrouch = false;
         }
-        else if (stamina.isImpossibleJump)
-        {
-            if (inputManager.PlayerRunReleasedOnce())
-            {
-                runDecreaseCount = false;
-                stamina.ChangeCoroutine("Increase");
-            }
-            if (inputManager.PlayerRan())
-            {
-                stamina.ChangeCoroutine("Decrease");
-            }
-            playerSpeed = originSpeed;
-            anim.OnRun(false);
-        }
-        //else
-        //{
-        //    if (inputManager.PlayerRunReleasedOnce())
-        //    {
-        //        runDecreaseCount = false;
-        //        stamina.ChangeCoroutine("Increase");
-        //    }
-        //    if (inputManager.PlayerRan())
-        //    {
-        //        stamina.ChangeCoroutine("Decrease");
-        //    }
-        //    playerSpeed = originSpeed;
-        //    anim.OnRun(false);
-        //}
     }
     public bool isCrouch = false;
     private void PlayerCrouching()

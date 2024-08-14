@@ -72,7 +72,8 @@ public class InputManager : MonoSingleton<InputManager>
     #region Input_Run
     public bool PlayerRan()
     {
-        if (playerControls.PlayerActions.Run.IsPressed())
+        //if (playerControls.PlayerActions.Run.IsPressed())
+        if(Input.GetKey(KeyCode.LeftShift))
         {
             inputCrouch = false;
             return true;

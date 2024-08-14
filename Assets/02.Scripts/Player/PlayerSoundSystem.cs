@@ -31,7 +31,7 @@ public class PlayerSoundSystem : MonoBehaviour
         if (playerController.isLandingOnce && playerController.isLandingOnce && inputManager.GetPlayerMovement() != Vector2.zero && !inputManager.inputCrouch)
         {
             bool currentlyRunning = false;
-            if (!stamina.isExhausted && !stamina.isImpossibleJump)
+            if (!stamina.isExhausted)
             {
                 currentlyRunning = inputManager.PlayerRan();
             }

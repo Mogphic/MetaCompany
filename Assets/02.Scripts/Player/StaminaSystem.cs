@@ -15,6 +15,7 @@ public class StaminaSystem : MonoBehaviour
     public float weight = 0f;
     public bool isExhausted = false;
     public bool isImpossibleJump = false;
+    public bool isImpossibleRun = false;
 
     private void Start()
     {
@@ -55,6 +56,7 @@ public class StaminaSystem : MonoBehaviour
         {
             isImpossibleJump = false;
         }
+
         UIManager.instance.UpdateStaminaUI(curStamina / maxStamina);
     }
 
