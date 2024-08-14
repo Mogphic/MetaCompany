@@ -34,27 +34,28 @@ public class StaminaSystem : MonoBehaviour
         }
         if (curStamina <= 0)
         {
+            isExhausted = true;
             curStamina = 0;
             ChangeCoroutine("Increase");
         }
 
-        if (curStamina < decreaseRateForJump)
-        {
-            isExhausted = true;
-        }
-        else if (curStamina > decreaseRateForJump)
+        if (curStamina > decreaseRateForJump)
         {
             isExhausted = false;
         }
 
-        if (curStamina < decreaseRateForJump)
+        if (isExhausted)
         {
-            isImpossibleJump = true;
-            ChangeCoroutine("Increase");
-        }
-        else
-        {
-            isImpossibleJump = false;
+            if (curStamina < decreaseRateForJump)
+            {
+                isImpossibleJump = true;
+                ChangeCoroutine("Increase");
+            }
+            else
+            {
+                isImpossibleJump = false;
+                isExhausted = false;
+            }
         }
 
         UIManager.instance.UpdateStaminaUI(curStamina / maxStamina);

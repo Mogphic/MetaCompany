@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
             {
                 PlayerWalk(movement);
             }
-            if (stamina.isImpossibleJump == false)
+            if (stamina.isExhausted == false)
             {
                 PlayerRun();
             }
