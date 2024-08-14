@@ -62,6 +62,10 @@ public class Shovel : MonoBehaviour
             hitOnce = true;
             audioSource.PlayOneShot(ImpactSounds[Random.Range(0, ImpactSounds.Length)]);
         }
+        else
+        {
+            return;
+        }
         
         if (other.CompareTag("Enemy"))
         {
@@ -69,13 +73,15 @@ public class Shovel : MonoBehaviour
             NutCrack enemyFSM2 = other.GetComponent<NutCrack>();
             if (enemyFSM != null)
             {
-                enemyFSM.TakeDamage(35.0f); 
+                enemyFSM.TakeDamage(100.0f);
             }
+            
             
             if(enemyFSM2 != null)
             {
                 enemyFSM2.TakeDamage(35.0f);
             }
+            
         }
     }
 }
