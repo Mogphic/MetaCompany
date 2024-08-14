@@ -452,7 +452,7 @@ public class NutCrack : MonoBehaviour
             Vector3 newDestination = transform.position + directionAroundObstacle * 2.0f;
             agent.SetDestination(newDestination);
 
-            Debug.Log("Obstacle encountered! Changing destination.");
+            // Debug.Log("Obstacle encountered! Changing destination.");
         }
     }
 

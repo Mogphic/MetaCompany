@@ -13,11 +13,13 @@ public class FSM_SoundCheck : MonoBehaviour
 {
     public enum EEnemyState
     {
+        Idle,
         WalkClam,
         Rotate_,
         Chase_,
         Attack,
         Die_Dog,
+        Bite
     }
 
     // 현재 상태
@@ -72,8 +74,11 @@ public class FSM_SoundCheck : MonoBehaviour
 
 
     Transform playerTransform;
+
     AudioSource playerAudioSource;
+
     float soundThreshold = 0.3f;
+
     bool isPlayerDetected;
 
     // 적의 체력
@@ -91,13 +96,13 @@ public class FSM_SoundCheck : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
 
         // NavMeshSurface 바운딩 박스를 설정한다.
-        NavMeshSurface navMeshSurface = FindObjectOfType<NavMeshSurface>();
+        NavMeshSurface navMeshSurface = GameObject.Find("3floor").GetComponent<NavMeshSurface>();
 
         // 플레이어 찾기
         player = GameObject.Find("Player");
 
         // 플레이어의 체력 관련 메서드 가져오기
-        play_health = player.GetComponent<HpSystem>(); // 아 이렇게 갖고 왔구나...
+        play_health = player.GetComponent<HpSystem>(); 
 
 
         playerTransform = player.GetComponent<Transform>();
@@ -115,7 +120,8 @@ public class FSM_SoundCheck : MonoBehaviour
         }
 
         // 애니메이터 작동하기
-        animator.SetBool("WalkClam", true);
+        // animator.SetBool("WalkClam", true);
+        ChangState(EEnemyState.Idle);
 
         NavMeshHit hit;
 
@@ -134,31 +140,28 @@ public class FSM_SoundCheck : MonoBehaviour
 
     void Update()
     {
-        // 상태와 현재 플레이어 감지 상태를 출력
-        // Debug.Log($"Current State: {currentState}, IsPlayerDetected: {isPlayerDetected}");
-
         // Sound_Check 로직
         CheckPlayerSound();
 
         switch (currentState)
         {
             case EEnemyState.WalkClam:
-                Debug.Log("State: WalkClam");
+                // Debug.Log("State: WalkClam");
                 UpdateWalkClam();
                 break;
 
             case EEnemyState.Rotate_:
-                Debug.Log("State: Rotate_");
+                // Debug.Log("State: Rotate_");
                 UpdateRotate();
                 break;
 
             case EEnemyState.Chase_:
-                Debug.Log("State: Chase_");
+                // Debug.Log("State: Chase_");
                 UpdateChase_Check();
                 break;
 
             case EEnemyState.Attack:
-                Debug.Log("State: Attack");
+                // Debug.Log("State: Attack");
                 Attack();
                 break;
         }
@@ -168,7 +171,7 @@ public class FSM_SoundCheck : MonoBehaviour
         {
             if (!isChasing && !isAttacking)
             {
-                Debug.Log("Player detected, transitioning to Rotate_ state.");
+                // Debug.Log("Player detected, transitioning to Rotate_ state.");
                 if (currentState == EEnemyState.WalkClam)
                 {
                     ChangState(EEnemyState.Rotate_);
@@ -179,6 +182,7 @@ public class FSM_SoundCheck : MonoBehaviour
                 }
             }
         }
+
     }
 
     void ChangState(EEnemyState state)
@@ -187,11 +191,22 @@ public class FSM_SoundCheck : MonoBehaviour
 
         switch (currentState)
         {
+            case EEnemyState.Idle:
+                animator.SetBool("WalkClam", false);
+                animator.SetBool("Attack_", false);
+                animator.SetBool("Rotate_", false);
+                animator.SetBool("Chase_", false);
+                agent.isStopped = true;
+                isChasing = false;
+                isAttacking = false;
+                break;
+
             case EEnemyState.WalkClam:
                 animator.SetBool("WalkClam", true);
                 animator.SetBool("Attack_", false);
                 animator.SetBool("Rotate_", false);
                 animator.SetBool("Chase_", false);
+                agent.isStopped = false;
                 isChasing = false;
                 isAttacking = false;
                 break;
@@ -233,9 +248,18 @@ public class FSM_SoundCheck : MonoBehaviour
                 // agent.enabled = false;
                 int randomIndex = Random.Range(0, itemSpawn.itemList.Length); // 랜덤으로 아이템 생성 만약에 이 코드가 없고
                 // ItemSpawner에서 false로 설정되어 있다면 항상 itemList 5번 인덱스 아이템이 생성
-                itemSpawn.SpawnItem(randomIndex, transform.position);
+                Vector3 pos = transform.position;
+                pos.y = 1;
+                GameObject item = itemSpawn.SpawnItem(randomIndex, pos);
+
                 // itemSpawn.SpawnItem(5, transform.position);
                 StartCoroutine(DestroyAfterDelay());
+                break;
+
+            case EEnemyState.Bite:
+                animator.SetTrigger("Bite");
+                // animator.SetBool("Attack_", false);
+                // ChangState(EEnemyState.WalkClam);
                 break;
         }
     }
@@ -243,7 +267,7 @@ public class FSM_SoundCheck : MonoBehaviour
     void UpdateWalkClam()
     {
         remaindistnace2 = 0.5f;
-        Debug.Log($"Walking, remaining distance: {agent.remainingDistance}");
+        // Debug.Log($"Walking, remaining distance: {agent.remainingDistance}");
 
         if (agent.remainingDistance < remaindistnace2)
         {
@@ -513,11 +537,18 @@ public class FSM_SoundCheck : MonoBehaviour
 
                 if (playerHealth.curHp <= 0)
                 {
+                    ChangState(EEnemyState.Bite);
                     playerHealth.Die();
-                    animator.SetBool("Attack_", false);
-                    ChangState(EEnemyState.WalkClam);
                 }
             }
+        }
+    }
+
+    public void ActivateAI()
+    {
+        if (currentState == EEnemyState.Idle)
+        {
+            ChangState(EEnemyState.WalkClam);
         }
     }
 }

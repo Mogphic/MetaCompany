@@ -185,7 +185,7 @@ public class CoilHeadFSM : MonoBehaviour
 
     private void OnCollisionStay(Collision other)
     {
-        print(other.collider.name);
+        // print(other.collider.name);
         if (other.gameObject.CompareTag("Player"))
         {
             
