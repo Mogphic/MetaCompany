@@ -72,8 +72,11 @@ public class FSM_SoundCheck : MonoBehaviour
 
 
     Transform playerTransform;
+
     AudioSource playerAudioSource;
+
     float soundThreshold = 0.3f;
+
     bool isPlayerDetected;
 
     // 적의 체력
@@ -97,7 +100,7 @@ public class FSM_SoundCheck : MonoBehaviour
         player = GameObject.Find("Player");
 
         // 플레이어의 체력 관련 메서드 가져오기
-        play_health = player.GetComponent<HpSystem>(); // 아 이렇게 갖고 왔구나...
+        play_health = player.GetComponent<HpSystem>(); 
 
 
         playerTransform = player.GetComponent<Transform>();
@@ -134,31 +137,28 @@ public class FSM_SoundCheck : MonoBehaviour
 
     void Update()
     {
-        // 상태와 현재 플레이어 감지 상태를 출력
-        // Debug.Log($"Current State: {currentState}, IsPlayerDetected: {isPlayerDetected}");
-
         // Sound_Check 로직
         CheckPlayerSound();
 
         switch (currentState)
         {
             case EEnemyState.WalkClam:
-                Debug.Log("State: WalkClam");
+                // Debug.Log("State: WalkClam");
                 UpdateWalkClam();
                 break;
 
             case EEnemyState.Rotate_:
-                Debug.Log("State: Rotate_");
+                // Debug.Log("State: Rotate_");
                 UpdateRotate();
                 break;
 
             case EEnemyState.Chase_:
-                Debug.Log("State: Chase_");
+                // Debug.Log("State: Chase_");
                 UpdateChase_Check();
                 break;
 
             case EEnemyState.Attack:
-                Debug.Log("State: Attack");
+                // Debug.Log("State: Attack");
                 Attack();
                 break;
         }
@@ -168,7 +168,7 @@ public class FSM_SoundCheck : MonoBehaviour
         {
             if (!isChasing && !isAttacking)
             {
-                Debug.Log("Player detected, transitioning to Rotate_ state.");
+                // Debug.Log("Player detected, transitioning to Rotate_ state.");
                 if (currentState == EEnemyState.WalkClam)
                 {
                     ChangState(EEnemyState.Rotate_);
@@ -243,7 +243,7 @@ public class FSM_SoundCheck : MonoBehaviour
     void UpdateWalkClam()
     {
         remaindistnace2 = 0.5f;
-        Debug.Log($"Walking, remaining distance: {agent.remainingDistance}");
+        // Debug.Log($"Walking, remaining distance: {agent.remainingDistance}");
 
         if (agent.remainingDistance < remaindistnace2)
         {
