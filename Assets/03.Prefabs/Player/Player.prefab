@@ -1388,6 +1388,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curHp: 0
   maxHp: 100
+  deathUIDelay: 3
 --- !u!114 &3526372621460962377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2909,6 +2910,7 @@ MonoBehaviour:
   maxX: 1.5
   sensitivity: 0.01
   newY: 0
+  CameraVec: {fileID: 7430179672115952750}
 --- !u!1 &8429766113246073296
 GameObject:
   m_ObjectHideFlags: 0
