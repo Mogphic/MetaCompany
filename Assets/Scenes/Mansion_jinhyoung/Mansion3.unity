@@ -6185,7 +6185,7 @@ PrefabInstance:
     - target: {fileID: 2979342437604397217, guid: f471dc768d668f04faf102a3f1277304,
         type: 3}
       propertyPath: m_UseGravity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2979342437604397217, guid: f471dc768d668f04faf102a3f1277304,
         type: 3}
@@ -6210,7 +6210,7 @@ PrefabInstance:
     - target: {fileID: 6702224711841511302, guid: f471dc768d668f04faf102a3f1277304,
         type: 3}
       propertyPath: m_Radius
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6702224711841511302, guid: f471dc768d668f04faf102a3f1277304,
         type: 3}
@@ -19287,7 +19287,7 @@ PrefabInstance:
     - target: {fileID: 2839697485201721372, guid: 0c42cc8adc08be342918e39626cb5ac0,
         type: 3}
       propertyPath: MaxDistance
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2839697485201721372, guid: 0c42cc8adc08be342918e39626cb5ac0,
         type: 3}

@@ -18,6 +18,7 @@ public class FSM_SoundCheck : MonoBehaviour
         Chase_,
         Attack,
         Die_Dog,
+        Bite
     }
 
     // 현재 상태
@@ -94,7 +95,7 @@ public class FSM_SoundCheck : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
 
         // NavMeshSurface 바운딩 박스를 설정한다.
-        NavMeshSurface navMeshSurface = FindObjectOfType<NavMeshSurface>();
+        NavMeshSurface navMeshSurface = GameObject.Find("3floor").GetComponent<NavMeshSurface>();
 
         // 플레이어 찾기
         player = GameObject.Find("Player");
@@ -236,6 +237,12 @@ public class FSM_SoundCheck : MonoBehaviour
                 itemSpawn.SpawnItem(randomIndex, transform.position);
                 // itemSpawn.SpawnItem(5, transform.position);
                 StartCoroutine(DestroyAfterDelay());
+                break;
+
+            case EEnemyState.Bite:
+                animator.SetTrigger("Bite");
+                // animator.SetBool("Attack_", false);
+                // ChangState(EEnemyState.WalkClam);
                 break;
         }
     }
@@ -509,13 +516,12 @@ public class FSM_SoundCheck : MonoBehaviour
             HpSystem playerHealth = other.GetComponent<HpSystem>();
             if (playerHealth != null && playerHealth.curHp > 0)
             {
-                playerHealth.UpdateHp(0.1f);
+                playerHealth.UpdateHp(100f);
 
                 if (playerHealth.curHp <= 0)
                 {
+                    ChangState(EEnemyState.Bite);
                     playerHealth.Die();
-                    animator.SetBool("Attack_", false);
-                    ChangState(EEnemyState.WalkClam);
                 }
             }
         }

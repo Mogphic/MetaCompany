@@ -10,6 +10,8 @@ public class HpSystem : MonoBehaviour
     public float curHp;
     [SerializeField] private float maxHp;
 
+    [SerializeField] private float deathUIDelay = 3.0f;
+
     private void Start()
     {
         curHp = maxHp;
@@ -35,9 +37,19 @@ public class HpSystem : MonoBehaviour
         //플레이어는 래그돌 >> 알파는 destroy
         //적 알파는 >> destroy
         print(gameObject.name + " : Die!");
-        UIManager.instance.PlayerDie();
+        // UIManager.instance.PlayerDie();
+
+        StartCoroutine(DelayedDeath());
+
         //Destroy(gameObject, 3); // 안진형이 추가한 코드
-        
+
+    }
+
+
+    private IEnumerator DelayedDeath()
+    {
+        yield return new WaitForSeconds(deathUIDelay);
+        UIManager.instance.PlayerDie();
     }
 }
 
