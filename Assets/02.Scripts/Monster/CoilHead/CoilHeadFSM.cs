@@ -102,43 +102,32 @@ public class CoilHeadFSM : MonoBehaviour
     {
         // Debug.Log("Trace State");
         navMeshAgent.speed = traceSpeed;
-
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        RaycastHit hit;
-
-        // Ray를 발사할 때 시작 위치를 위로 1f 올립니다.
-        Vector3 rayStartPosition = transform.position + Vector3.up * 1f;
-        Vector3 playerPosition = player.position + Vector3.up * 1f;
-
-        if (Physics.Raycast(playerPosition, directionToPlayer, out hit, detectionRange, obstacleLayer))
-        {
-            if (hit.collider.gameObject == gameObject)
-            {
-                ChangeState(CoilHeadState.Patrol);
-                yield break;
-            }
-        }
-
         navMeshAgent.SetDestination(player.position);
+        navMeshAgent.isStopped = true;
+        navMeshAgent.velocity = Vector3.zero;
+        /*
+                Vector3 directionToPlayer = (player.position - transform.position).normalized;
+                RaycastHit hit;
 
-        if (!IsPlayerVisible())
+                // Ray를 발사할 때 시작 위치를 위로 1f 올립니다.
+                Vector3 rayStartPosition = transform.position + Vector3.up * 1f;
+                Vector3 playerPosition = player.position + Vector3.up * 1f;
+
+                if (Physics.Raycast(playerPosition, directionToPlayer, out hit, detectionRange, obstacleLayer))
+                {
+                    if (hit.collider.gameObject == gameObject)
+                    {
+                        ChangeState(CoilHeadState.Patrol);
+                        yield break;
+                    }
+                }*/
+
+
+        if (!IsPlayerVisible() || !IsPlayerLookingAtEnemy())
         {
-            navMeshAgent.isStopped = false;
             ChangeState(CoilHeadState.FastTrace);
         }
-        else
-        {
-            if (IsPlayerLookingAtEnemy())
-            {
-                navMeshAgent.isStopped = true;
-                navMeshAgent.velocity = Vector3.zero;
-            }
-            else
-            {
-                navMeshAgent.isStopped = false;
-                ChangeState(CoilHeadState.FastTrace);
-            }
-        }
+        
 
         yield return null;
     }
@@ -147,14 +136,15 @@ public class CoilHeadFSM : MonoBehaviour
     {
         // Debug.Log("Fast Trace State");
         navMeshAgent.speed = fastTraceSpeed;
+        navMeshAgent.isStopped = false;
 
         navMeshAgent.SetDestination(player.position);
 
-        if (IsPlayerVisible() || IsPlayerLookingAtEnemy())
+        if (IsPlayerVisible() && IsPlayerLookingAtEnemy())
         {
             ChangeState(CoilHeadState.Trace);
         }
-
+        
         yield return null;
     }
 
@@ -198,6 +188,7 @@ public class CoilHeadFSM : MonoBehaviour
         print(other.collider.name);
         if (other.gameObject.CompareTag("Player"))
         {
+            
             HpSystem hpSys = other.gameObject.GetComponent<HpSystem>();
             if (!navMeshAgent.isStopped)
                 hpSys.UpdateHp(90);

@@ -8,6 +8,7 @@ public class Sequence
 {
     public string name;
     public GameObject prefab;
+    public bool isDisplay = false;
 }
 
 public class SequenceConsole : MonoBehaviour
@@ -25,6 +26,9 @@ public class SequenceConsole : MonoBehaviour
     public GameObject Spacer; // 공간 띄울 대상
     public InputField inputField; // 집중된 InputField
 
+    public Coroutine sequenceCoroutine;
+    public int nowIndex = 0;
+
     private void Awake()
     {
         if (instance == null)
@@ -39,12 +43,14 @@ public class SequenceConsole : MonoBehaviour
 
     private void OnEnable()
     {
-        LoadAndDisplayStartScreen();
+        //LoadAndDisplayStartScreen();
+        sequenceCoroutine = StartCoroutine(DisplayAll());
     }
 
     private void OnDisable()
     {
         RemoveInputFieldFocus();
+        
         StopAllCoroutines();
     }
 
@@ -84,9 +90,9 @@ public class SequenceConsole : MonoBehaviour
         inputField.transform.SetAsLastSibling();
         Canvas.ForceUpdateCanvases();
 
-        inputField.Select();
-        inputField.ActivateInputField();
-        SetupInputFieldFocus();
+        //inputField.Select();
+        //inputField.ActivateInputField();
+        //SetupInputFieldFocus();
     }
 
     private void SetupInputFieldFocus()
@@ -134,4 +140,30 @@ public class SequenceConsole : MonoBehaviour
             Debug.LogWarning($"Command '{message}' not found.");
         }
     }
+
+    private IEnumerator DisplayAll()
+    {
+        while (true)
+        {
+            Sequence sequence = sequenceList.sequences[nowIndex];
+
+            // 현재 시퀀스가 표시 가능한지 확인
+            while (!sequence.isDisplay)
+            {
+                // 표시 가능하지 않다면 인덱스를 증가시키고 다음 시퀀스로 이동
+                nowIndex = (nowIndex + 1) >= sequenceList.sequences.Count ? 0 : nowIndex + 1;
+                sequence = sequenceList.sequences[nowIndex];
+            }
+
+            // 표시 가능한 시퀀스가 발견되면 출력
+            PrintToConsole(sequence);
+
+            // 인덱스를 다음으로 이동
+            nowIndex = (nowIndex + 1) >= sequenceList.sequences.Count ? 0 : nowIndex + 1;
+
+            // 5초 대기
+            yield return new WaitForSeconds(5);
+        }
+    }
+
 }

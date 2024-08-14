@@ -13,32 +13,42 @@ MonoBehaviour:
   m_Name: NewSequenceList
   m_EditorClassIdentifier: 
   sequences:
-  - name: help
-    prefab: {fileID: 7462506918906880876, guid: 7111ef26b9e03094493013e56168eac9,
-      type: 3}
-  - name: maps
-    prefab: {fileID: 2576154918498073821, guid: c9eee4e86a24b3446b17493d4bc9f17e,
-      type: 3}
-  - name: "\uC678\uBD80"
-    prefab: {fileID: 585579105396178732, guid: a692042d587a2a24a820fec9d99f08e4, type: 3}
-  - name: "\uB0B4\uBD80"
-    prefab: {fileID: 4173469996362777976, guid: 0b9672e95b212cd46977afd364ffb22a,
-      type: 3}
-  - name: monsters
-    prefab: {fileID: 1341231316805322858, guid: 04c4ba31def359042b4ae147aa500238,
-      type: 3}
-  - name: "\uCF54\uC77C\uD5E4\uB4DC"
-    prefab: {fileID: 1256215403721595687, guid: 896ae0f96b5e6284fbb516c2993933fb,
-      type: 3}
-  - name: "\uD638\uB450\uAE4C\uAE30 \uC778\uD615"
-    prefab: {fileID: 8797237161249716461, guid: e39295e372abda74d9287b6939f776d6,
-      type: 3}
-  - name: "\uB208 \uC5C6\uB294 \uAC1C"
-    prefab: {fileID: 2374137307181239217, guid: 734494bf9c56fea4b92d7506d64b97ac,
-      type: 3}
   - name: mission
     prefab: {fileID: 6359834498461837693, guid: 037f26e6ba4f8b5479c92778ea2fc0ee,
       type: 3}
+    isDisplay: 1
+  - name: help
+    prefab: {fileID: 7462506918906880876, guid: 7111ef26b9e03094493013e56168eac9,
+      type: 3}
+    isDisplay: 0
+  - name: maps
+    prefab: {fileID: 2576154918498073821, guid: c9eee4e86a24b3446b17493d4bc9f17e,
+      type: 3}
+    isDisplay: 0
+  - name: "\uC678\uBD80"
+    prefab: {fileID: 585579105396178732, guid: a692042d587a2a24a820fec9d99f08e4, type: 3}
+    isDisplay: 1
+  - name: "\uB0B4\uBD80"
+    prefab: {fileID: 4173469996362777976, guid: 0b9672e95b212cd46977afd364ffb22a,
+      type: 3}
+    isDisplay: 1
+  - name: monsters
+    prefab: {fileID: 1341231316805322858, guid: 04c4ba31def359042b4ae147aa500238,
+      type: 3}
+    isDisplay: 0
+  - name: "\uCF54\uC77C\uD5E4\uB4DC"
+    prefab: {fileID: 1256215403721595687, guid: 896ae0f96b5e6284fbb516c2993933fb,
+      type: 3}
+    isDisplay: 1
+  - name: "\uD638\uB450\uAE4C\uAE30 \uC778\uD615"
+    prefab: {fileID: 8797237161249716461, guid: e39295e372abda74d9287b6939f776d6,
+      type: 3}
+    isDisplay: 1
+  - name: "\uB208 \uC5C6\uB294 \uAC1C"
+    prefab: {fileID: 2374137307181239217, guid: 734494bf9c56fea4b92d7506d64b97ac,
+      type: 3}
+    isDisplay: 1
   - name: Start
     prefab: {fileID: 7670910359506102071, guid: f45204b580440e84fab2d94f90b37990,
       type: 3}
+    isDisplay: 0
