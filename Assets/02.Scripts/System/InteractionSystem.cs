@@ -196,8 +196,16 @@ public class InteractionSystem : MonoBehaviour
                 break;
             case ObjectType.SCENE_DOOR:
                 hitObjectType = "Scene_Door";
-                string nextname = hitObject.gameObject.GetComponent<InteractionNextSceneData>().nextSceneName;
-                SceneLoadManager.Instance.LoadSceneByName(nextname);
+                if (!MissionManager.instance.missions[1].isCompleted)
+                {
+                    //못연다는 UI 추가
+                    StartCoroutine(DoorStopAnim());
+                }
+                else
+                {
+                    string nextname = hitObject.gameObject.GetComponent<InteractionNextSceneData>().nextSceneName;
+                    SceneLoadManager.Instance.LoadSceneByName(nextname);
+                }
                 break;
             case ObjectType.MAP_DOOR:
                 if (MissionManager.instance.missions[0].isCompleted)

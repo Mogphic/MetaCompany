@@ -8,10 +8,14 @@ public class TargetArea : MonoBehaviour
     public string probName = string.Empty;
     public bool isPutAble = false;
     private MissionManager missionManager;
+    //0 : Red //1: Green
+    public GameObject[] alerts;
 
     void Start()
     {
         missionManager = FindObjectOfType<MissionManager>();
+        alerts[0].SetActive(true);
+        alerts[1].SetActive(false);
     }
 
     [SerializeField]private float weight = 0;
@@ -25,7 +29,12 @@ public class TargetArea : MonoBehaviour
                 weight += other.GetComponent<ItemComponent>().kg;
                 if (weight >= maxWeight)
                 {
-                    missionManager.CheckMissionComplate(missionIndex);
+                    bool isComp1 = missionManager.CheckMissionComplate(missionIndex);
+                    if (isComp1 == true)
+                    {
+                        alerts[0].SetActive(false);
+                        alerts[1].SetActive(true);
+                    }
                 }
                 break;
             case 1:
@@ -37,7 +46,13 @@ public class TargetArea : MonoBehaviour
                     other.gameObject.GetComponent<Rigidbody>().useGravity = false;
                     other.gameObject.GetComponent<Rigidbody>().isKinematic = true;
                     other.gameObject.transform.position = transform.position;
-                    missionManager.CheckMissionComplate(missionIndex);
+                    
+                    bool isComp2 = missionManager.CheckMissionComplate(missionIndex);
+                    if (isComp2 == true)
+                    {
+                        alerts[0].SetActive(false);
+                        alerts[1].SetActive(true);
+                    }
                 }
                 else
                 {
