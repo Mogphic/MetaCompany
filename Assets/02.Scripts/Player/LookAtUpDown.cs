@@ -1,63 +1,131 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class LookAtUpDown : MonoBehaviour
 {
-    public float minY = 1.0f;
-    public float maxY = 2.3f;
-    public float minX = -0.4f;
-    public float maxX = 2.0f;
+    public float minStandingY = 0.75f;
+    public float maxStandingY = 2.3f;
+    public float minCrouchingY = -2.0f;
+    public float maxCrouchingY = 1.2f;
     public float sensitivity = 0.01f;
-    [SerializeField] private float newY;
+    public float crouchTransitionSpeed = 5f;
+
+    [SerializeField] private float targetY;
     [SerializeField] private Transform CameraVec;
 
-    bool originTransition = false;
-    int cnt = 0;
+    private bool isCrouching = false;
+    private bool isTransitioning = false;
+    private float transitionStartY;
+    private float transitionTargetY;
+    private float transitionStartTime;
+
     private void Update()
     {
-        // 마우스의 Y축 움직임 감지
-        float mouseY = Input.GetAxis("Mouse Y");
-        // 현재 오브젝트의 로컬 위치 가져오기
+        UpdateCrouchState();
+        UpdateYPosition();
+        UpdateCameraPosition();
+    }
+
+    private void UpdateCrouchState()
+    {
+        if (isCrouching != InputManager.instance.inputCrouch)
+        {
+            isCrouching = InputManager.instance.inputCrouch;
+            StartCrouchTransition();
+        }
+    }
+
+    private void StartCrouchTransition()
+    {
+        isTransitioning = true;
+        transitionStartY = transform.localPosition.y;
+        transitionStartTime = Time.time;
+
+        // Calculate the relative position within the current range
+        float currentRange = isCrouching ? (maxStandingY - minStandingY) : (maxCrouchingY - minCrouchingY);
+        float currentMin = isCrouching ? minStandingY : minCrouchingY;
+        float relativePosition = (transitionStartY - currentMin) / currentRange;
+
+        // Calculate the target Y position in the new range
+        float newRange = isCrouching ? (maxCrouchingY - minCrouchingY) : (maxStandingY - minStandingY);
+        float newMin = isCrouching ? minCrouchingY : minStandingY;
+        transitionTargetY = newMin + (relativePosition * newRange);
+
+        // Instantly update the camera's rotation
+        UpdateCameraRotation();
+    }
+
+    private void UpdateYPosition()
+    {
+        if (isTransitioning)
+        {
+            float t = (Time.time - transitionStartTime) * crouchTransitionSpeed;
+            if (t >= 1f)
+            {
+                t = 1f;
+                isTransitioning = false;
+            }
+            float newY = Mathf.Lerp(transitionStartY, transitionTargetY, t);
+            SetYPosition(newY);
+        }
+        else
+        {
+            float mouseY = Input.GetAxis("Mouse Y");
+            targetY = transform.localPosition.y + mouseY * sensitivity; // Not inverted for player position
+            targetY = Mathf.Clamp(targetY, isCrouching ? minCrouchingY : minStandingY, isCrouching ? maxCrouchingY : maxStandingY);
+            SetYPosition(targetY);
+        }
+    }
+
+    private void SetYPosition(float yPos)
+    {
         Vector3 currentPosition = transform.localPosition;
-        // 새로운 Y 위치 계산
-        newY = currentPosition.y + mouseY * sensitivity;
-        //float newX = currentPosition.x + mouseY * sensitivity;
-        //-0.4 ~ 2
-        if (originTransition != InputManager.instance.inputCrouch)
-        {
-            cnt = 0;
-        }
-        if (InputManager.instance.inputCrouch == true && cnt == 0)
-        {
-            if (originTransition != InputManager.instance.inputCrouch)
-            {
-                newY = -2 + (newY * 3.2f);
-            }
-            cnt = 1;
-            minY = -2.0f;
-            maxY = 1.2f;
+        transform.localPosition = new Vector3(currentPosition.x, yPos, currentPosition.z);
+    }
 
-        }
-        if (InputManager.instance.inputCrouch == false && cnt == 0)
+    private void UpdateCameraPosition()
+    {
+        if (CameraVec != null)
         {
-            if (originTransition != InputManager.instance.inputCrouch)
-            {
-                newY = 0.25f + (newY * 1.45f);
-            }
-            cnt = 1;
-            minY = 0.75f;
-            maxY = 2.3f;
+            // Update the camera's Y position
+            Vector3 cameraLocalPos = CameraVec.localPosition;
+            float targetCameraY = isCrouching ? 1.142f : 1.618f;
 
+            if (isTransitioning)
+            {
+                float t = (Time.time - transitionStartTime) * crouchTransitionSpeed;
+                t = Mathf.Clamp01(t);
+                cameraLocalPos.y = Mathf.Lerp(cameraLocalPos.y, targetCameraY, t);
+            }
+            else
+            {
+                cameraLocalPos.y = targetCameraY;
+            }
+
+            CameraVec.localPosition = cameraLocalPos;
+
+            // Update camera rotation every frame
+            UpdateCameraRotation();
         }
-        originTransition = InputManager.instance.inputCrouch;
-        // Y 위치를 제한값 내로 고정
-        newY = Mathf.Clamp(newY, minY, maxY);
-        //newX = Mathf.Clamp(newX, minX, maxX);
-        // 새로운 위치 적용
-        transform.localPosition = new Vector3(currentPosition.x, newY, currentPosition.z);
-        //transform.localPosition = new Vector3(newX, currentPosition.y, currentPosition.z);
+    }
+
+    private void UpdateCameraRotation()
+    {
+        if (CameraVec != null)
+        {
+            float mouseX = Input.GetAxis("Mouse X") * sensitivity;
+            float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
+
+            // Rotate the camera based on mouse input
+            // Invert the mouseY for vertical rotation
+            CameraVec.Rotate(Vector3.left * -mouseY);
+            transform.Rotate(Vector3.up * mouseX);
+
+            // Clamp the vertical rotation
+            Vector3 currentRotation = CameraVec.localEulerAngles;
+            if (currentRotation.x > 180f) currentRotation.x -= 360f;
+            currentRotation.x = Mathf.Clamp(currentRotation.x, -90f, 90f);
+            CameraVec.localEulerAngles = currentRotation;
+        }
     }
 }

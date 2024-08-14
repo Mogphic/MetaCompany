@@ -220,7 +220,7 @@ public class InteractionSystem : MonoBehaviour
             case ObjectType.TRIGGERBOX:
                 Transform grabTr = grabObj.GetComponentsInChildren<Transform>()[1];
                 int idx = hitObject.GetComponent<TargetArea>().missionIndex;
-                if (!grabTr.name.Contains("Shovel") && !grabTr.name.Contains("Pro-FlashLight"))
+                if (!grabTr.name.Contains("Shovel") && !grabTr.name.Contains("Pro-Flashlight"))
                 {
                     MissionManager.instance.missions[idx].area.PutInProbInArea(grabTr.gameObject);
                     if (MissionManager.instance.missions[idx].area.isPutAble)
