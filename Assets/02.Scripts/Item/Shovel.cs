@@ -122,9 +122,11 @@ public class Shovel : MonoBehaviour
             enemyFSM.TakeDamage(100.0f * damageMultiplier);
         }
 
+        
         if (enemyFSM2 != null)
         {
-            enemyFSM2.TakeDamage(35.0f * damageMultiplier);
+            enemyFSM2.TakeDamage(50.0f * damageMultiplier);
         }
+        
     }
 }

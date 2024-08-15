@@ -29,7 +29,7 @@ public class NutCrack : MonoBehaviour
     private Quaternion targetRotation;
 
     public GameObject shootParticle; // 발사 파티클 프리팹
-    public float shootDamage = 10.0f; // 발사 데미지
+    public float shootDamage = 5.0f; // 발사 데미지
     public float shootInterval = 2.5f; // 발사 간격
 
     void Start()
@@ -48,11 +48,7 @@ public class NutCrack : MonoBehaviour
 
         // 초기 상태를 Rotate로 설정
         ChangState(EEnemyState.Rotate);
-    }
 
-    void Update()
-    {
-        // 상태에 따라 처리할 로직이 있음
     }
 
     void ChangState(EEnemyState state)
@@ -63,13 +59,16 @@ public class NutCrack : MonoBehaviour
         switch (currentState)
         {
             case EEnemyState.Rotate:
+                animator.SetBool("Rotate", true);
                 animator.SetBool("Attack", false);
-                StopAllCoroutines(); // 이전 코루틴이 실행 중이면 중단
+                StopAllCoroutines();
+                isDetectingPlayer = true; // Rotate 상태로 돌아갈 때 raycast 다시 활성화
                 StartCoroutine(RotateAndWait());
                 break;
 
             case EEnemyState.ShootAttack:
                 animator.SetBool("Attack", true);
+                animator.SetBool("Rotate", false);
                 StopAllCoroutines(); // 이전 코루틴이 실행 중이면 중단
                 StartCoroutine(ShootAtPlayer());
                 break;
@@ -83,52 +82,59 @@ public class NutCrack : MonoBehaviour
 
     IEnumerator RotateAndWait()
     {
-        float rotationElapsed = 0f;
-        float rotationInterval = rotationDuration / 4f; // 회전을 4등분하여 각도 설정
 
-        while (rotationElapsed < rotationDuration)
-        {
-            // 다음 회전 설정
-            SetNextRotation();
+            float rotationElapsed = 0f;
+            float rotationInterval = rotationDuration / 4f; // 회전을 4등분하여 각도 설정
 
-            // 회전 목표까지 회전하는 동안
-            while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
+            while (rotationElapsed < rotationDuration)
             {
-                if (DetectPlayer())
+                // 다음 회전 설정
+                SetNextRotation();
+
+                // 회전 목표까지 회전하는 동안
+                while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
                 {
-                    // 플레이어를 감지하면 공격 상태로 전환하고 코루틴을 종료
-                    ChangState(EEnemyState.ShootAttack);
-                    yield break; // 코루틴 종료
+                    if (DetectPlayer())
+                    {
+                        // 플레이어를 감지하면 공격 상태로 전환하고 코루틴을 종료
+                        ChangState(EEnemyState.ShootAttack);
+                        yield break; // 코루틴 종료
+                    }
+
+                    // 회전
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                    yield return null; // 다음 프레임까지 대기
                 }
 
-                // 회전
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                rotationElapsed += rotationInterval;
                 yield return null; // 다음 프레임까지 대기
             }
 
-            rotationElapsed += rotationInterval;
-            yield return null; // 다음 프레임까지 대기
-        }
-
-        // 회전 완료 후 5초 대기
-        yield return new WaitForSeconds(5.0f);
+            // 회전 완료 후 3초 대기
+            yield return new WaitForSeconds(0.1f);
 
         // 상태를 다시 Rotate로 설정하여 무한 반복
         ChangState(EEnemyState.Rotate);
     }
 
+
+    private bool isDetectingPlayer = true; // raycast 활성화 여부를 제어하는 변수
+
     bool DetectPlayer()
     {
+        if (!isDetectingPlayer) return false; // raycast가 비활성화되어 있으면 즉시 false 반환
+
         LayerMask obstacleLayerMask = LayerMask.GetMask("Obstacle");
         LayerMask playerLayerMask = LayerMask.GetMask("Player");
         Ray ray = new Ray(transform.position + Vector3.up, transform.forward);
         RaycastHit hitinfo;
 
-        if (Physics.Raycast(ray, out hitinfo, 5.0f, playerLayerMask))
+        if (Physics.Raycast(ray, out hitinfo, 10.0f, playerLayerMask))
         {
-            if (!Physics.Raycast(transform.position + Vector3.up, (hitinfo.point - (transform.position + Vector3.up)).normalized, out RaycastHit obstacleHit, hitinfo.distance, obstacleLayerMask))
+            if (!Physics.Raycast(transform.position + Vector3.up, (hitinfo.point - (transform.position /* + Vector3.up */)).normalized, out RaycastHit obstacleHit, hitinfo.distance, obstacleLayerMask))
             {
                 Debug.Log("Player 감지 및 장애물 없음");
+                isDetectingPlayer = false; // 플레이어를 발견하면 raycast 비활성화
                 return true;
             }
             else
@@ -140,6 +146,7 @@ public class NutCrack : MonoBehaviour
         return false;
     }
 
+
     void SetNextRotation()
     {
         targetRotation = Quaternion.Euler(0, transform.eulerAngles.y - 90, 0);
@@ -147,32 +154,30 @@ public class NutCrack : MonoBehaviour
 
     IEnumerator ShootAtPlayer()
     {
-        float initialTime = Time.time;
+        int shotsFired = 0;
+        int maxShots = 2; // 최대 발사 횟수
 
-        while (Time.time - initialTime < 5.0f) // 5초 동안 총을 쏘는 루프
+        while (shotsFired < maxShots)
         {
-            // 발사
-            Shoot();
-            yield return new WaitForSeconds(shootInterval); // 간격 후 발사
-            initialTime = Time.time;
-        }
+            // 플레이어 체력 감소
+            player.GetComponent<HpSystem>().UpdateHp(shootDamage);
 
-        // 공격이 완료된 후 다시 회전 상태로 전환
+            // 발사 파티클 생성
+            if (shootParticle != null)
+            {
+                GameObject particle = Instantiate(shootParticle, transform.position + transform.forward, transform.rotation);
+                Destroy(particle, 0.1f);
+            }
+            shotsFired++;
+
+            if (shotsFired < maxShots)
+            {
+                yield return new WaitForSeconds(shootInterval);
+            }
+        }
         ChangState(EEnemyState.Rotate);
     }
 
-    void Shoot()
-    {
-        // 플레이어 체력 감소
-        player.GetComponent<HpSystem>().UpdateHp(shootDamage);
-
-        // 발사 파티클 생성 (옵션)
-        if (shootParticle != null)
-        {
-            GameObject particle = Instantiate(shootParticle, transform.position + transform.forward, transform.rotation);
-            Destroy(particle, 0.1f); // 0.1초 후 파티클 제거
-        }
-    }
 
     void DieNut()
     {
