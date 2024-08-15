@@ -165,7 +165,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3810506526858298067}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: -1372625422
   m_Radius: 0.25
   m_Speed: 1.5
@@ -193,8 +193,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 100
+  rotationDuration: 5
   shootParticle: {fileID: 0}
-  shotsPerAttac: 2
+  shootDamage: 10
+  shootInterval: 2.5
 --- !u!136 &1461100223154683516
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -212,7 +214,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 1.54
   m_Height: 4.6
