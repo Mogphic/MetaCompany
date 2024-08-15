@@ -30,8 +30,10 @@ public class PlayerController : MonoBehaviour
     private InventorySystem inventory;
 
     public GameObject grabObj;
+    private HpSystem hp;
     private void Start()
     {
+        hp = GetComponent<HpSystem>();
         groundCheck = GetComponent<GroundCheck>();
         cc = GetComponent<CharacterController>();
         inputManager = InputManager.instance;
@@ -60,6 +62,7 @@ public class PlayerController : MonoBehaviour
             Vector2 movement = inputManager.GetPlayerMovement();
             Vector3 moveDirection = Vector3.ProjectOnPlane(cameraTr.TransformDirection(new Vector3(movement.x, 0f, movement.y)), Vector3.up).normalized;
             moveDirection.y = 0f;
+            detectHealthReduction();
             if (isCrouch == false)
             {
                 PlayerWalk(movement);
@@ -324,6 +327,15 @@ public class PlayerController : MonoBehaviour
         if (inputManager.PlayerAttackImacted())
         {
             anim.isAttackImpact();
+        }
+    }
+
+    public void detectHealthReduction()
+    {
+        if (hp.isHitFromEnemy == true)
+        {
+            hp.isHitFromEnemy = false;
+            anim.isHited();
         }
     }
 }

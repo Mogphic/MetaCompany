@@ -8,6 +8,7 @@ public class HpSystem : MonoBehaviour
 {
     // private float curHp;
     public float curHp;
+    public bool isHitFromEnemy = false;
     [SerializeField] private float maxHp;
 
     [SerializeField] private float deathUIDelay = 3.0f;
@@ -20,6 +21,7 @@ public class HpSystem : MonoBehaviour
     public void UpdateHp(float value)
     {
         curHp -= value;
+        detectHealthReduction();
         if (curHp > maxHp)
         {
             curHp = maxHp;
@@ -31,12 +33,15 @@ public class HpSystem : MonoBehaviour
         }
     }
 
+    public void detectHealthReduction()
+    {
+        isHitFromEnemy = true;
+    }
+
     public void Die()
     {
         //죽는 연출 생성
-        //플레이어는 래그돌 >> 알파는 destroy
-        //적 알파는 >> destroy
-        print(gameObject.name + " : Die!");
+        //플레이어는 래그돌 > 플레이어 기능 정지
         // UIManager.instance.PlayerDie();
 
         StartCoroutine(DelayedDeath());

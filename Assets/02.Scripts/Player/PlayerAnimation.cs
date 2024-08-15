@@ -27,6 +27,15 @@ public class PlayerAnimation : MonoBehaviour
         {
             InputManager.instance.raycastAble = true;
         }
+        if (animator.GetCurrentAnimatorStateInfo(3).IsName("Hited") == true)
+        {
+            float animTime = animator.GetCurrentAnimatorStateInfo(2).normalizedTime;
+            InputManager.instance.raycastAble = false;
+            if (animTime >= 1.0f)
+            {
+                animator.SetBool("isHited", false);
+            }
+        }
     }
     public void OnWalk(bool isWalk)
     {
@@ -117,5 +126,10 @@ public class PlayerAnimation : MonoBehaviour
         isEndAtk = true;
         animator.SetBool("isAtkReady", false);
         animator.SetBool("isAtkImpacted", true);
+    }
+
+    public void isHited()
+    {
+        animator.SetBool("isHited", true);
     }
 }
