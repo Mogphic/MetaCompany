@@ -1409,6 +1409,8 @@ MonoBehaviour:
   gravity: -9.81
   rotationSpeed: 7
   grabObj: {fileID: 2709349250111543570}
+  dogMouth: {fileID: 0}
+  playerMesh: {fileID: 5318440314108137377}
   isLandingOnce: 0
   isCrouch: 0
 --- !u!114 &5245687335016137691
@@ -7743,6 +7745,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2852861582058065968}
+    - targetCorrespondingSourceObject: {fileID: -5067417469064874575, guid: 60550649509d6d7419be053b9d922b84,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4581467078328046564}
     - targetCorrespondingSourceObject: {fileID: -6328634841372673698, guid: 60550649509d6d7419be053b9d922b84,
         type: 3}
       insertIndex: -1
@@ -8038,6 +8044,43 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4581467078328046564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2840852348068829558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 292b3bba556d1a647a60738f26543b13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 362817943496584918}
+  rigidbodies:
+  - {fileID: 2852861582058065968}
+  - {fileID: 1506284638956394714}
+  - {fileID: 3420340272519918777}
+  - {fileID: 2937793363021081029}
+  - {fileID: 834421867852966610}
+  - {fileID: 6609102478396165426}
+  - {fileID: 5472845203701423448}
+  - {fileID: 5012655040667037364}
+  - {fileID: 8813450592767221423}
+  - {fileID: 1571604288005318853}
+  - {fileID: 2077021635305718560}
+  colliders:
+  - {fileID: 7985608914592013084}
+  - {fileID: 2153007998285338117}
+  - {fileID: 5457153874867371116}
+  - {fileID: 8188903077100717959}
+  - {fileID: 4515926593241209950}
+  - {fileID: 3550710508749255589}
+  - {fileID: 4886705863032637634}
+  - {fileID: 1854980650914124128}
+  - {fileID: 7474091968801193798}
+  - {fileID: 6812693006793165993}
+  - {fileID: 6484406069602678924}
 --- !u!4 &3054441097888580143 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -5430255385405706520, guid: 60550649509d6d7419be053b9d922b84,
@@ -8652,6 +8695,12 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!1 &5318440314108137377 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6273149003281802086, guid: 60550649509d6d7419be053b9d922b84,
+    type: 3}
+  m_PrefabInstance: {fileID: 2215866131841641671}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5654013421026649213 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5816189743937407162, guid: 60550649509d6d7419be053b9d922b84,
