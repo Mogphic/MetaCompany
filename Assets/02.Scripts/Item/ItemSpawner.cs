@@ -47,13 +47,15 @@ public class ItemSpawner : MonoBehaviour
     // 코드 변경 8월 14일 오전 8시 47분
     public GameObject SpawnItem(int index, Vector3 position)
     {
+        
         int randIndex = index;
+
         if (isRandom == true)
         {
             randIndex = Random.Range(0, itemList.Length);
         }
-
-        return Instantiate(itemList[randIndex], position, Quaternion.identity);
+        
+        return Instantiate(itemList[index], position, Quaternion.identity);
     }
 
 }
