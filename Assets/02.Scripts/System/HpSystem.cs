@@ -13,17 +13,25 @@ public class HpSystem : MonoBehaviour
 
     [SerializeField] private float deathUIDelay = 3.0f;
     private VignetteController vignetteController;
+    private RagdollExample ragdoll;
+    private bool isPlayer = false;
 
     private void Start()
     {
         vignetteController = FindObjectOfType<VignetteController>();
+        isPlayer = gameObject.name.Contains("Player");
+        if (isPlayer == true)
+        {
+            ragdoll = FindAnyObjectByType<RagdollExample>();
+        }
+        
         curHp = maxHp;
     }
 
     public void UpdateHp(float value)
     {
         curHp -= value;
-        if (gameObject.name.Contains("Player"))
+        if (isPlayer == true)
         {
             detectHealthReduction();
             if (vignetteController != null)
@@ -38,7 +46,7 @@ public class HpSystem : MonoBehaviour
         else if (curHp <= 0)
         {
             curHp = 0;
-            Die();
+            //Die();
         }
     }
 
@@ -68,7 +76,8 @@ public class HpSystem : MonoBehaviour
         //죽는 연출 생성
         //플레이어는 래그돌 > 플레이어 기능 정지
         // UIManager.instance.PlayerDie();
-
+        ragdoll.ToggleRagdoll();
+        InputManager.instance.EnableInput(false);
         StartCoroutine(DelayedDeath());
     }
 

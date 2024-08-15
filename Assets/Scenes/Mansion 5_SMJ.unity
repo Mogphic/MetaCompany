@@ -743,6 +743,12 @@ MonoBehaviour:
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
+--- !u!1 &63004342 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1168646534582256333, guid: f471dc768d668f04faf102a3f1277304,
+    type: 3}
+  m_PrefabInstance: {fileID: 428924267}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &64671343
 GameObject:
   m_ObjectHideFlags: 0
@@ -8663,6 +8669,12 @@ MonoBehaviour:
   m_FocusTarget: {fileID: 0}
   m_FocusOffset: 0
   m_Profile: {fileID: 11400000, guid: f9335626ba004644995e42699d20104c, type: 2}
+--- !u!1 &873192125 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5318440314108137377, guid: 0c42cc8adc08be342918e39626cb5ac0,
+    type: 3}
+  m_PrefabInstance: {fileID: 3460181135434177872}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &875366887
 GameObject:
   m_ObjectHideFlags: 0
@@ -21943,6 +21955,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3526372621460962377, guid: 0c42cc8adc08be342918e39626cb5ac0,
+        type: 3}
+      propertyPath: dogMouth
+      value: 
+      objectReference: {fileID: 63004342}
+    - target: {fileID: 3526372621460962377, guid: 0c42cc8adc08be342918e39626cb5ac0,
+        type: 3}
+      propertyPath: playerMesh
+      value: 
+      objectReference: {fileID: 873192125}
     - target: {fileID: 5822874008268874523, guid: 0c42cc8adc08be342918e39626cb5ac0,
         type: 3}
       propertyPath: m_LocalPosition.x
