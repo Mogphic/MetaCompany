@@ -21,8 +21,8 @@ RenderSettings:
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
-  m_AmbientEquatorColor: {r: 0.35639408, g: 0.37259382, b: 0.42767292, a: 1}
-  m_AmbientGroundColor: {r: 0.37106913, g: 0.37106913, b: 0.37106913, a: 1}
+  m_AmbientEquatorColor: {r: 0.20184098, g: 0.20094, b: 0.255, a: 1}
+  m_AmbientGroundColor: {r: 0.31480494, g: 0.353119, b: 0.36477977, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
@@ -3650,7 +3650,7 @@ Camera:
     height: 1
   near clip plane: 0.05
   far clip plane: 400
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -3676,8 +3676,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 696997880}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.011902247, y: -0.19043607, z: 0.0023090567, w: 0.9816247}
-  m_LocalPosition: {x: -118.38429, y: 6.793835, z: -16.839886}
+  m_LocalRotation: {x: 0.08369002, y: -0.91368616, z: 0.26868606, w: 0.29322588}
+  m_LocalPosition: {x: -111.96596, y: 18.132696, z: 2.4457302}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3707,7 +3707,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -3942,13 +3942,68 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8162877524905351634, guid: c38668264fe239a48b7a82871f959d94,
         type: 3}
+      propertyPath: simulationSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162877524905351634, guid: c38668264fe239a48b7a82871f959d94,
+        type: 3}
+      propertyPath: TrailModule.ratio
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162877524905351634, guid: c38668264fe239a48b7a82871f959d94,
+        type: 3}
+      propertyPath: NoiseModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162877524905351634, guid: c38668264fe239a48b7a82871f959d94,
+        type: 3}
       propertyPath: CollisionModule.type
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8162877524905351634, guid: c38668264fe239a48b7a82871f959d94,
         type: 3}
+      propertyPath: NoiseModule.strength.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162877524905351634, guid: c38668264fe239a48b7a82871f959d94,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162877524905351634, guid: c38668264fe239a48b7a82871f959d94,
+        type: 3}
       propertyPath: CollisionModule.m_Dampen.scalar
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162877524905351634, guid: c38668264fe239a48b7a82871f959d94,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162877524905351634, guid: c38668264fe239a48b7a82871f959d94,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162877524905351634, guid: c38668264fe239a48b7a82871f959d94,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162877524905351634, guid: c38668264fe239a48b7a82871f959d94,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162877524905351634, guid: c38668264fe239a48b7a82871f959d94,
+        type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 0.19215687
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162877524905351634, guid: c38668264fe239a48b7a82871f959d94,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.minMaxState
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4944,8 +4999,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853696482}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.011902067, y: -0.19043608, z: 0.0023090118, w: 0.9816247}
-  m_LocalPosition: {x: -118.38429, y: 6.793835, z: -16.839886}
+  m_LocalRotation: {x: 0.014996284, y: -0.19056976, z: 0.0029115423, w: 0.9815548}
+  m_LocalPosition: {x: -118.33292, y: 6.8038974, z: -16.966488}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
