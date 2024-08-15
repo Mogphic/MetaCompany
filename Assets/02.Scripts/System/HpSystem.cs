@@ -12,16 +12,25 @@ public class HpSystem : MonoBehaviour
     [SerializeField] private float maxHp;
 
     [SerializeField] private float deathUIDelay = 3.0f;
+    private DamageFlashEffect damageFlashEffect;
 
     private void Start()
     {
+        damageFlashEffect = FindObjectOfType<DamageFlashEffect>();
         curHp = maxHp;
     }
 
     public void UpdateHp(float value)
     {
         curHp -= value;
-        detectHealthReduction();
+        if (gameObject.name.Contains("Player"))
+        {
+            detectHealthReduction();
+            if (damageFlashEffect != null)
+            {
+                damageFlashEffect.TriggerDamageFlash();
+            }
+        }
         if (curHp > maxHp)
         {
             curHp = maxHp;
