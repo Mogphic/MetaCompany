@@ -525,23 +525,68 @@ public class FSM_SoundCheck : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private float invincibilityDuration = 3f; // 무적 시간 (초)
+    private float lastHitTime = -100f; // 마지막으로 맞은 시간
 
-    private void OnTriggerEnter(Collider other)
+
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player") && currentState == EEnemyState.Attack)
         {
             HpSystem playerHealth = other.GetComponent<HpSystem>();
+            CharacterController playerController = other.GetComponent<CharacterController>();
             if (playerHealth != null && playerHealth.curHp > 0)
             {
-                playerHealth.UpdateHp(0.1f);
-
-                if (playerHealth.curHp <= 0)
+                // 무적 시간 체크
+                if (Time.time - lastHitTime > invincibilityDuration)
                 {
-                    ChangState(EEnemyState.Bite);
-                    playerHealth.Die();
+                    playerHealth.UpdateHp(50.0f);
+                    lastHitTime = Time.time; // 마지막 피격 시간 갱신
+
+                    if (playerController != null)
+                    {
+                        Vector3 pushDirection = (other.transform.position - transform.position).normalized;
+                        pushDirection.y = 0; // Y축 이동 방지
+                        StartCoroutine(PushPlayerSmoothly(playerController, pushDirection, 15.0f, 0.5f));
+                    }
+
+                    if (playerHealth.curHp <= 0)
+                    {
+                        ChangState(EEnemyState.Bite);
+                        playerHealth.Die();
+                    }
                 }
+                /*
+                else
+                {
+                    // 무적 시간 중이라면 밀어내기만 수행
+                    if (playerController != null)
+                    {
+                        Vector3 pushDirection = (other.transform.position - transform.position).normalized;
+                        pushDirection.y = 0; // Y축 이동 방지
+                        StartCoroutine(PushPlayerSmoothly(playerController, pushDirection, 10f, 2.0f));
+                    }
+                }
+                */
             }
         }
+    }
+
+    private IEnumerator PushPlayerSmoothly(CharacterController controller, Vector3 pushDirection, float distance, float duration)
+    {
+        float elapsedTime = 0;
+        Vector3 startPosition = controller.transform.position;
+        Vector3 targetPosition = startPosition + pushDirection * distance;
+
+        while (elapsedTime < duration)
+        {
+            controller.Move(pushDirection * (distance / duration) * Time.deltaTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // 정확한 위치로 조정
+        controller.Move(targetPosition - controller.transform.position);
     }
 
     public void ActivateAI()
