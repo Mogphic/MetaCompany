@@ -600,7 +600,7 @@ public class FSM_SoundCheck : MonoBehaviour
                 // 무적 시간 체크
                 if (Time.time - lastHitTime > invincibilityDuration)
                 {
-                    playerHealth.UpdateHp(35.0f);
+                    playerHealth.UpdateHp(35.0f, gameObject.name);
                     lastHitTime = Time.time; // 마지막 피격 시간 갱신
 
                     if (playerController != null)

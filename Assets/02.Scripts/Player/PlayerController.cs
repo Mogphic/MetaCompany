@@ -55,12 +55,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (hp.curHp <= 0f)
+        if (hp.curHp <= 0f && hp.attackerName.Contains("Dog"))
         {
             gameObject.transform.parent = dogMouth.transform;
-            //playerMesh.transform.parent = dogMouth.transform;
             gameObject.transform.position = Vector3.zero;
-            //playerMesh.transform.position = dogMouth.transform.position;
         }
         if (inputManager.IsInputEnabled())
         {
