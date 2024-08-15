@@ -12,11 +12,11 @@ public class HpSystem : MonoBehaviour
     [SerializeField] private float maxHp;
 
     [SerializeField] private float deathUIDelay = 3.0f;
-    private DamageFlashEffect damageFlashEffect;
+    private VignetteController vignetteController;
 
     private void Start()
     {
-        damageFlashEffect = FindObjectOfType<DamageFlashEffect>();
+        vignetteController = FindObjectOfType<VignetteController>();
         curHp = maxHp;
     }
 
@@ -25,12 +25,10 @@ public class HpSystem : MonoBehaviour
         curHp -= value;
         if (gameObject.name.Contains("Player"))
         {
-            print("!!");
             detectHealthReduction();
-            if (damageFlashEffect != null)
+            if (vignetteController != null)
             {
-                print("!@!@");
-                damageFlashEffect.TriggerDamageFlash();
+                UpdateVignetteEffect();
             }
         }
         if (curHp > maxHp)
@@ -41,6 +39,22 @@ public class HpSystem : MonoBehaviour
         {
             curHp = 0;
             Die();
+        }
+    }
+
+    private void UpdateVignetteEffect()
+    {
+        if (curHp <= 30)
+        {
+            vignetteController.ApplySustainedRedEffect();
+        }
+        else if (curHp <= 65)
+        {
+            vignetteController.TriggerSingleBlink();
+        }
+        else
+        {
+            vignetteController.StopEffect();
         }
     }
 
