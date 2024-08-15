@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3530764688475377577}
   - component: {fileID: 526971911241724982}
   - component: {fileID: 487707106647000177}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: DoorBlocker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 27.84, y: 3.81, z: 12.26}
-  m_LocalScale: {x: 0.90709, y: 1, z: 1}
+  m_LocalScale: {x: 1.5538453, y: 1.713, z: 1.713}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 328f729d7cbc5884a93a8e8102823abe, type: 2}
+  - {fileID: 2100000, guid: ed9349ac8f0f7154e94b96c7f8cfadd8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

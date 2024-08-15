@@ -160,7 +160,7 @@ public class NutCrack : MonoBehaviour
         while (shotsFired < maxShots)
         {
             // 플레이어 체력 감소
-            player.GetComponent<HpSystem>().UpdateHp(shootDamage);
+            player.GetComponent<HpSystem>().UpdateHp(shootDamage, "NutCracker");
 
             // 발사 파티클 생성
             if (shootParticle != null)

@@ -52,13 +52,18 @@ public class PlayerController : MonoBehaviour
     private float jumpVelocity;
     private bool isJumpOnce = false;
     public bool isLandingOnce = false;
-
+    public bool isCriticalOnce = false;
     private void Update()
     {
         if (hp.curHp <= 0f && hp.attackerName.Contains("Dog"))
         {
             gameObject.transform.parent = dogMouth.transform;
             gameObject.transform.position = Vector3.zero;
+        }
+        if (hp.curHp <= 35f && isCriticalOnce == false)
+        {
+            isCriticalOnce = true;
+            sound.CriticalHit();
         }
         if (inputManager.IsInputEnabled())
         {
@@ -198,7 +203,7 @@ public class PlayerController : MonoBehaviour
         }
         
         // 좌우 회전
-        if (inputManager.isRotateAble)
+        if (inputManager.isRotateAble && inputManager.IsInputEnabled())
         {
             Vector2 lookInput = inputManager.GetMouseDelta();
             float mouseX = lookInput.x * rotationSpeed * Time.deltaTime;

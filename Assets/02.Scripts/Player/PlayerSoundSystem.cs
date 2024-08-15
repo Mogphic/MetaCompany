@@ -6,7 +6,13 @@ public class PlayerSoundSystem : MonoBehaviour
 {
     [SerializeField] private AudioClip[] outerFootstepSounds;
     [SerializeField] private AudioClip JumpSound;
-    [SerializeField] private AudioClip LandingSound;
+    [SerializeField] private AudioClip landingSound;
+    [SerializeField] private AudioClip criticalSound;
+    [SerializeField] private AudioClip biteSound;
+    [SerializeField] private AudioClip dogKillSound;
+    [SerializeField] private AudioClip hitedSound;
+    [SerializeField] private AudioClip coilHitSound;
+    [SerializeField] private AudioClip[] MissionSounds;
     private AudioSource audioSource;
     [SerializeField] private float walkInterval = 0.5f; // 발걸음 소리 간격
     [SerializeField] private float runInterval = 0.25f; // 발걸음 소리 간격
@@ -120,8 +126,38 @@ public class PlayerSoundSystem : MonoBehaviour
                 audioSource.PlayOneShot(JumpSound);
                 break;
             case "Landing":
-                audioSource.PlayOneShot(LandingSound);
+                audioSource.PlayOneShot(landingSound);
                 break;
         }
+    }
+
+    public void CriticalHit()
+    {
+        audioSource.PlayOneShot(criticalSound);
+    }
+
+    public void BitePlayer()
+    {
+        audioSource.PlayOneShot(biteSound);
+    }
+
+    public void DogKillPlayer()
+    {
+        audioSource.PlayOneShot(dogKillSound);
+    }
+
+    public void HitedPlayer()
+    {
+        audioSource.PlayOneShot(hitedSound);
+    }
+
+    public void CoilHitPlayer()
+    {
+        audioSource.PlayOneShot(coilHitSound);
+    }
+
+    public void MissionSound(int index)
+    {
+        audioSource.PlayOneShot(MissionSounds[index]);
     }
 }

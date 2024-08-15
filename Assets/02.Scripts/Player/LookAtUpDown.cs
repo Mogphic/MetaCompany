@@ -21,9 +21,12 @@ public class LookAtUpDown : MonoBehaviour
 
     private void Update()
     {
-        UpdateCrouchState();
-        UpdateYPosition();
-        UpdateCameraPosition();
+        if (InputManager.instance.IsInputEnabled())
+        {
+            UpdateCrouchState();
+            UpdateYPosition();
+            UpdateCameraPosition();
+        }
     }
 
     private void UpdateCrouchState()
@@ -85,7 +88,7 @@ public class LookAtUpDown : MonoBehaviour
 
     private void UpdateCameraPosition()
     {
-        if (CameraVec != null)
+        if (CameraVec != null && InputManager.instance.IsInputEnabled())
         {
             // Update the camera's Y position
             Vector3 cameraLocalPos = CameraVec.localPosition;
@@ -112,7 +115,7 @@ public class LookAtUpDown : MonoBehaviour
 
     private void UpdateCameraRotation()
     {
-        if (CameraVec != null)
+        if (CameraVec != null && InputManager.instance.IsInputEnabled())
         {
             float mouseX = Input.GetAxis("Mouse X") * sensitivity;
             float mouseY = Input.GetAxis("Mouse Y") * sensitivity;

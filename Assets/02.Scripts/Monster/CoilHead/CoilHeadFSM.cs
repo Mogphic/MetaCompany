@@ -189,15 +189,18 @@ public class CoilHeadFSM : MonoBehaviour
 
 
 
-    private void OnCollisionStay(Collision other)
+    private void OnCollisionEnter(Collision other)
     {
         // print(other.collider.name);
         if (other.gameObject.CompareTag("Player"))
         {
-            
+            if (other.gameObject.GetComponent<HpSystem>().curHp <= 0)
+            {
+                navMeshAgent.isStopped = true;
+            }
             HpSystem hpSys = other.gameObject.GetComponent<HpSystem>();
             if (!navMeshAgent.isStopped)
-                hpSys.UpdateHp(90, gameObject.name);
+                hpSys.UpdateHp(50, gameObject.name);
         }
     }
 

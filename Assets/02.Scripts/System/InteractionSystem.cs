@@ -12,6 +12,7 @@ public class InteractionSystem : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private Transform targetDir; // 상호작용 시 Follow 타겟
     [SerializeField] private GameObject consoleObj;
+    private PlayerSoundSystem sound;
 
     private int interactableLayerMask;
     private Camera mainCamera;
@@ -200,6 +201,7 @@ public class InteractionSystem : MonoBehaviour
                 {
                     //못연다는 UI 추가
                     StartCoroutine(DoorStopAnim());
+                    sound.MissionSound(1);
                 }
                 else
                 {
@@ -223,6 +225,7 @@ public class InteractionSystem : MonoBehaviour
                 {
                     //못연다는 UI 추가
                     StartCoroutine(DoorStopAnim());
+                    sound.MissionSound(1);
                 }
                 break;
             case ObjectType.TRIGGERBOX:

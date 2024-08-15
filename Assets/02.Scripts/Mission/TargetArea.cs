@@ -13,10 +13,11 @@ public class TargetArea : MonoBehaviour
     public GameObject[] alerts;
     public GameObject textObj;
     private TextMeshProUGUI text;
-
+    private PlayerSoundSystem sound;
     void Start()
     {
         missionManager = FindObjectOfType<MissionManager>();
+        sound = FindObjectOfType<PlayerSoundSystem>();
         alerts[0].SetActive(true);
         alerts[1].SetActive(false);
         
@@ -45,6 +46,7 @@ public class TargetArea : MonoBehaviour
                     bool isComp1 = missionManager.CheckMissionComplate(missionIndex);
                     if (isComp1 == true)
                     {
+                        sound.MissionSound(0);
                         alerts[0].SetActive(false);
                         alerts[1].SetActive(true);
                     }
@@ -63,6 +65,7 @@ public class TargetArea : MonoBehaviour
                     bool isComp2 = missionManager.CheckMissionComplate(missionIndex);
                     if (isComp2 == true)
                     {
+                        sound.MissionSound(0);
                         alerts[0].SetActive(false);
                         alerts[1].SetActive(true);
                     }

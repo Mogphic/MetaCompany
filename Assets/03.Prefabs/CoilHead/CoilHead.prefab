@@ -8181,7 +8181,7 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1.1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -8202,7 +8202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coilHeadState: 0
-  navMeshAgent: {fileID: 0}
+  navMeshAgent: {fileID: 1877240252651942274}
   patrolSpeed: 3
   traceSpeed: 5
   fastTraceSpeed: 10
