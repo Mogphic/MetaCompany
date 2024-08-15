@@ -25,9 +25,11 @@ public class HpSystem : MonoBehaviour
         curHp -= value;
         if (gameObject.name.Contains("Player"))
         {
+            print("!!");
             detectHealthReduction();
             if (damageFlashEffect != null)
             {
+                print("!@!@");
                 damageFlashEffect.TriggerDamageFlash();
             }
         }
