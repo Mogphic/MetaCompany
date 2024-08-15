@@ -18,7 +18,6 @@ public class NutCrack : MonoBehaviour
         ShootAttack,
         Loading,
         Die,
-        Drop
     }
 
     // 현재 상태
@@ -48,7 +47,9 @@ public class NutCrack : MonoBehaviour
         player = GameObject.Find("Player");
 
         // NavMeshSurface 바운딩 박스를 설정한다.
-        NavMeshSurface navMeshSurface = FindObjectOfType<NavMeshSurface>();
+        NavMeshSurface navMeshSurface = GameObject.Find("Cube_Nut").GetComponent<NavMeshSurface>();
+
+        // NavMeshSurface navMeshSurface = GameObject.Find("3floor").GetComponent<NavMeshSurface>();
 
         // NavMeshSurface 경계를 가져온다.
         if (navMeshSurface != null)
@@ -100,9 +101,7 @@ public class NutCrack : MonoBehaviour
             case EEnemyState.Patroll:
                 agent.enabled = true;
                 animator.SetBool("Patroll", true);
-                animator.SetBool("Attack", false);
                 animator.SetBool("Rotate", false);
-                animator.SetBool("Chase", false);
 
                 NavMeshHit hit;
 
@@ -125,7 +124,6 @@ public class NutCrack : MonoBehaviour
                 agent.enabled = true;
                 animator.SetBool("Chase", true);
                 animator.SetBool("loading", false);
-                animator.SetBool("Attack", false);
                 animator.SetBool("Rotate", false);
 
                 Chase();
@@ -135,8 +133,6 @@ public class NutCrack : MonoBehaviour
                 animator.SetBool("Attack", true);
                 animator.SetBool("loading", false);
                 animator.SetBool("Rotate", false);
-                animator.SetBool("Chase", false);
-
                 StartCoroutine(ShootAttack());
                 break;
 
@@ -144,7 +140,6 @@ public class NutCrack : MonoBehaviour
             case EEnemyState.Loading:
                 animator.SetBool("loading", true);
                 animator.SetBool("Attack", false);
-
                 // Loading();
                 break;
         }
@@ -155,9 +150,9 @@ public class NutCrack : MonoBehaviour
     {
         Vector3 randomPosition = new Vector3
         (
-            Random.Range(-5.53f, 18.46f),  // x 범위
-            0.04f,                        // y 고정
-            Random.Range(33.05f, 48.63f)  // z 범위
+            Random.Range(navMeshBounds.min.x, navMeshBounds.max.x),
+            Random.Range(navMeshBounds.min.y, navMeshBounds.max.y),
+            Random.Range(navMeshBounds.min.z, navMeshBounds.max.z)
         );
         return randomPosition;
     }
@@ -185,7 +180,7 @@ public class NutCrack : MonoBehaviour
 
     IEnumerator Rotate()
     {
-        LayerMask obstacleLayerMask = LayerMask.GetMask("Default"); // 벽이나 장애물에 사용되는 레이어
+        LayerMask obstacleLayerMask = LayerMask.GetMask("Obstacle"); // 벽이나 장애물에 사용되는 레이어
         LayerMask playerLayerMask = LayerMask.GetMask("Player");
         Ray ray = new Ray(transform.position + Vector3.up * 0.5f, transform.forward);
 
@@ -299,8 +294,6 @@ public class NutCrack : MonoBehaviour
 
     // float lastShootTime = 0.0f;
 
-    // PlayerHealth playerHealth;
-
     float reloadTime = 2.0f;
     float reloadStartTime;
     IEnumerator ShootAttack()
@@ -320,7 +313,7 @@ public class NutCrack : MonoBehaviour
             yield break;
         }
 
-        player.GetComponent<PlayerMove>().TakeDamage(shootDamege);
+        // player.GetComponent<PlayerMove>().TakeDamage(shootDamege);
         shotsPerAttac--;
 
         yield return new WaitForSeconds(1.2f); // "1.2초 동안 잠시 멈춘 후에 다음 동작을 수행해라
