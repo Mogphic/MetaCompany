@@ -25,6 +25,9 @@ public class CoilHeadFSM : MonoBehaviour
     public Transform player;
     public LayerMask obstacleLayer;
 
+    public AudioClip wobbleAudio;
+    public AudioSource audioSource;
+
 
     public Animator animator;
     private Vector3 randomDestination;
@@ -32,9 +35,11 @@ public class CoilHeadFSM : MonoBehaviour
 
     private void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();    
+        navMeshAgent = navMeshAgent ?? gameObject.GetComponent<NavMeshAgent>();
+        animator = animator ?? gameObject.GetComponent<Animator>();    
         player = player ?? GameObject.FindWithTag("Player").transform;
+        audioSource = audioSource ?? gameObject.AddComponent<AudioSource>();
+        audioSource.clip = audioSource.clip ?? wobbleAudio;
         StartCoroutine(FSMRoutine());
     }
 
@@ -59,6 +64,7 @@ public class CoilHeadFSM : MonoBehaviour
                 animator.SetBool("isStopped", false);
                 break;
             case CoilHeadState.Trace:
+                audioSource.Play();
                 animator.SetBool("isStopped", true);
                 break;
             case CoilHeadState.FastTrace:
