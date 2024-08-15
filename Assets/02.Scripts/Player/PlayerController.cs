@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
 
     public GameObject grabObj;
     private HpSystem hp;
+    [SerializeField] private GameObject dogMouth;
+    [SerializeField] private GameObject playerMesh;
     private void Start()
     {
         hp = GetComponent<HpSystem>();
@@ -53,6 +55,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (hp.curHp <= 0f)
+        {
+            gameObject.transform.parent = dogMouth.transform;
+            //playerMesh.transform.parent = dogMouth.transform;
+            gameObject.transform.position = Vector3.zero;
+            //playerMesh.transform.position = dogMouth.transform.position;
+        }
         if (inputManager.IsInputEnabled())
         {
             isGroundedPlayer = groundCheck.IsGrounded();
@@ -63,6 +72,7 @@ public class PlayerController : MonoBehaviour
             Vector3 moveDirection = Vector3.ProjectOnPlane(cameraTr.TransformDirection(new Vector3(movement.x, 0f, movement.y)), Vector3.up).normalized;
             moveDirection.y = 0f;
             detectHealthReduction();
+            
             if (isCrouch == false)
             {
                 PlayerWalk(movement);
