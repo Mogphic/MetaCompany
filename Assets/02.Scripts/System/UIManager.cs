@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class UIManager : MonoSingleton<UIManager>
 {
@@ -18,6 +19,7 @@ public class UIManager : MonoSingleton<UIManager>
     public Canvas canvas;
     public CanvasGroup dieStartUI;
     public CanvasGroup playerAllUI;
+    public Image playerHpUI;
 
     private void Start()
     {
@@ -117,5 +119,10 @@ public class UIManager : MonoSingleton<UIManager>
     {
         dieStartUI.alpha = 1f;
         playerAllUI.alpha = 0f;
+    }
+    int hitCount = 0;
+    public void PlayerHit(float value)
+    {
+        playerHpUI.fillAmount = value;
     }
 }

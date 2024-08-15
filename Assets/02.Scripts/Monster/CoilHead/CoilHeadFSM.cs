@@ -191,7 +191,7 @@ public class CoilHeadFSM : MonoBehaviour
             
             HpSystem hpSys = other.gameObject.GetComponent<HpSystem>();
             if (!navMeshAgent.isStopped)
-                hpSys.UpdateHp(90);
+                hpSys.UpdateHp(90, gameObject.name);
         }
     }
 

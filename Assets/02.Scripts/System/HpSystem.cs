@@ -15,6 +15,7 @@ public class HpSystem : MonoBehaviour
     private VignetteController vignetteController;
     private RagdollExample ragdoll;
     private bool isPlayer = false;
+    public string attackerName = string.Empty;
 
     private void Start()
     {
@@ -28,8 +29,9 @@ public class HpSystem : MonoBehaviour
         curHp = maxHp;
     }
 
-    public void UpdateHp(float value)
+    public void UpdateHp(float value, string name)
     {
+        attackerName = name;
         curHp -= value;
         if (isPlayer == true)
         {
@@ -38,6 +40,7 @@ public class HpSystem : MonoBehaviour
             {
                 UpdateVignetteEffect();
             }
+            UIManager.instance.PlayerHit(curHp / maxHp);
         }
         if (curHp > maxHp)
         {
