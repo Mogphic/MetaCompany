@@ -40,9 +40,6 @@ public class HpSystem : MonoBehaviour
         // UIManager.instance.PlayerDie();
 
         StartCoroutine(DelayedDeath());
-
-        //Destroy(gameObject, 3); // 안진형이 추가한 코드
-
     }
 
 

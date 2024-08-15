@@ -246,11 +246,11 @@ public class FSM_SoundCheck : MonoBehaviour
             case EEnemyState.Die_Dog:
                 animator.SetTrigger("Die 0");
                 // agent.enabled = false;
-                int randomIndex = Random.Range(0, itemSpawn.itemList.Length); // 랜덤으로 아이템 생성 만약에 이 코드가 없고
+                // int randomIndex = Random.Range(0, itemSpawn.itemList.Length); // 랜덤으로 아이템 생성 만약에 이 코드가 없고
                 // ItemSpawner에서 false로 설정되어 있다면 항상 itemList 5번 인덱스 아이템이 생성
                 Vector3 pos = transform.position;
                 pos.y = 1;
-                GameObject item = itemSpawn.SpawnItem(randomIndex, pos);
+                GameObject item = itemSpawn.SpawnItem(1, pos);
 
                 // itemSpawn.SpawnItem(5, transform.position);
                 StartCoroutine(DestroyAfterDelay());
@@ -540,7 +540,7 @@ public class FSM_SoundCheck : MonoBehaviour
                 // 무적 시간 체크
                 if (Time.time - lastHitTime > invincibilityDuration)
                 {
-                    playerHealth.UpdateHp(50.0f);
+                    playerHealth.UpdateHp(35.0f);
                     lastHitTime = Time.time; // 마지막 피격 시간 갱신
 
                     if (playerController != null)

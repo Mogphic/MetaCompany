@@ -40,12 +40,6 @@ public class NutCrack : MonoBehaviour
         // Player라는 오브젝트 찾기
         player = GameObject.Find("Player");
 
-        Collider collider = GetComponent<Collider>();
-        if (collider != null)
-        {
-            collider.isTrigger = true; // 콜라이더를 트리거로 설정
-        }
-
         // 체력을 최대값으로 초기화
         currentHp = maxHp;
 
@@ -69,7 +63,6 @@ public class NutCrack : MonoBehaviour
         switch (currentState)
         {
             case EEnemyState.Rotate:
-                animator.SetBool("Rotate", true);
                 animator.SetBool("Attack", false);
                 StopAllCoroutines(); // 이전 코루틴이 실행 중이면 중단
                 StartCoroutine(RotateAndWait());
@@ -77,7 +70,6 @@ public class NutCrack : MonoBehaviour
 
             case EEnemyState.ShootAttack:
                 animator.SetBool("Attack", true);
-                animator.SetBool("Rotate", false);
                 StopAllCoroutines(); // 이전 코루틴이 실행 중이면 중단
                 StartCoroutine(ShootAtPlayer());
                 break;
@@ -162,6 +154,7 @@ public class NutCrack : MonoBehaviour
             // 발사
             Shoot();
             yield return new WaitForSeconds(shootInterval); // 간격 후 발사
+            initialTime = Time.time;
         }
 
         // 공격이 완료된 후 다시 회전 상태로 전환
