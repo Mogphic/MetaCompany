@@ -13,6 +13,13 @@ public class FSM_SoundCheck : MonoBehaviour
 {
     public enum EEnemyState
     {
+
+        Sleep,
+        Awake,
+        Awake_up,
+        Roar,
+
+
         Idle,
         WalkClam,
         Rotate_,
@@ -121,8 +128,10 @@ public class FSM_SoundCheck : MonoBehaviour
 
         // 애니메이터 작동하기
         // animator.SetBool("WalkClam", true);
-        ChangState(EEnemyState.Idle);
+        ChangState(EEnemyState.Sleep);
 
+
+        /*
         NavMeshHit hit;
 
         // 일단 start 부분에서 눈 없는 개 무작정 돌아다니게 하기
@@ -131,6 +140,7 @@ public class FSM_SoundCheck : MonoBehaviour
             agent.SetDestination(hit.position);
             agent.speed = walkSpeed;
         }
+        */
 
         playerAudioSource = player.GetComponentInChildren<AudioSource>();
 
@@ -140,8 +150,16 @@ public class FSM_SoundCheck : MonoBehaviour
 
     void Update()
     {
+
+        if (!isActivated)
+        {
+            return; // AI가 활성화되지 않았다면 Update 로직을 실행하지 않음
+        }
+
         // Sound_Check 로직
         CheckPlayerSound();
+
+        print(currentState);
 
         switch (currentState)
         {
@@ -185,23 +203,58 @@ public class FSM_SoundCheck : MonoBehaviour
 
     }
 
+
+    private Coroutine walkClamCoroutine;
+
+    // AI가 활성화되었는지 확인하는 변수
+    private bool isActivated = false;
+
     void ChangState(EEnemyState state)
     {
         currentState = state;
 
         switch (currentState)
         {
-            case EEnemyState.Idle:
-                animator.SetBool("WalkClam", false);
-                animator.SetBool("Attack_", false);
-                animator.SetBool("Rotate_", false);
-                animator.SetBool("Chase_", false);
+            case EEnemyState.Sleep:
                 agent.isStopped = true;
                 isChasing = false;
                 isAttacking = false;
                 break;
 
+            case EEnemyState.Awake:
+                animator.SetBool("Awake", true);
+                agent.isStopped = true;
+                isChasing = false;
+                isAttacking = false;
+                StartCoroutine(TransitionToNextState(EEnemyState.Awake_up, 2f));
+                break;
+
+            case EEnemyState.Awake_up:
+                animator.SetBool("Awake_up", true);
+                agent.isStopped = true;
+                isChasing = false;
+                isAttacking = false;
+                StartCoroutine(TransitionToNextState(EEnemyState.Roar, 2f));
+                break;
+
+            case EEnemyState.Roar:
+                animator.SetBool("Roar", true);
+                agent.isStopped = true;
+                isChasing = false;
+                isAttacking = false;
+                StartCoroutine(TransitionToNextState(EEnemyState.Idle, 2f));
+                break;
+
+            case EEnemyState.Idle:
+                animator.SetBool("idle", true);
+                agent.isStopped = true;
+                isChasing = false;
+                isAttacking = false;
+                StartCoroutine(TransitionToNextState(EEnemyState.WalkClam, 0.1f));
+                break;
+
             case EEnemyState.WalkClam:
+                isActivated = true; // AI 활성화
                 animator.SetBool("WalkClam", true);
                 animator.SetBool("Attack_", false);
                 animator.SetBool("Rotate_", false);
@@ -262,6 +315,13 @@ public class FSM_SoundCheck : MonoBehaviour
                 // ChangState(EEnemyState.WalkClam);
                 break;
         }
+    }
+
+
+    IEnumerator TransitionToNextState(EEnemyState nextState, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ChangState(nextState);
     }
 
     void UpdateWalkClam()
@@ -340,10 +400,10 @@ public class FSM_SoundCheck : MonoBehaviour
 
         float angle = Quaternion.Angle(transform.rotation, lookRotation);
 
-        if (angle < 00.001f && t >= 1)
+        if (angle < 0.001f && t >= 1)
         {
             rotationStartTime = 0;
-            if (radius <= dir.magnitude) 
+            if (radius <= dir.magnitude)
             {
                 ChangState(EEnemyState.Chase_);
             }
@@ -556,6 +616,7 @@ public class FSM_SoundCheck : MonoBehaviour
                         playerHealth.Die();
                     }
                 }
+                
                 /*
                 else
                 {
@@ -564,10 +625,11 @@ public class FSM_SoundCheck : MonoBehaviour
                     {
                         Vector3 pushDirection = (other.transform.position - transform.position).normalized;
                         pushDirection.y = 0; // Y축 이동 방지
-                        StartCoroutine(PushPlayerSmoothly(playerController, pushDirection, 10f, 2.0f));
+                        StartCoroutine(PushPlayerSmoothly(playerController, pushDirection, 5.0f, 0.5f));
                     }
                 }
                 */
+                
             }
         }
     }
@@ -591,9 +653,9 @@ public class FSM_SoundCheck : MonoBehaviour
 
     public void ActivateAI()
     {
-        if (currentState == EEnemyState.Idle)
+        if (currentState == EEnemyState.Sleep)
         {
-            ChangState(EEnemyState.WalkClam);
+            ChangState(EEnemyState.Awake);
         }
     }
 }
