@@ -29,7 +29,7 @@ MonoBehaviour:
     prefab: {fileID: 585579105396178732, guid: a692042d587a2a24a820fec9d99f08e4, type: 3}
     isDisplay: 1
   - name: "\uB0B4\uBD80"
-    prefab: {fileID: 4173469996362777976, guid: 0b9672e95b212cd46977afd364ffb22a,
+    prefab: {fileID: 8411020549866262581, guid: 757b18ae80402524c853318763fff2ce,
       type: 3}
     isDisplay: 1
   - name: monsters

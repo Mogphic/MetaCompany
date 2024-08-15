@@ -87,7 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6012548965479467990}
   - component: {fileID: 5226513762942904248}
-  - component: {fileID: 2893781412345933172}
+  - component: {fileID: 2623789557977358908}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -111,8 +111,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 183.33, y: 286.9}
+  m_AnchoredPosition: {x: -16.8, y: 0}
+  m_SizeDelta: {x: 154.3, y: 286.9}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &5226513762942904248
 CanvasRenderer:
@@ -122,7 +122,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4479560440850015057}
   m_CullTransparentMesh: 1
---- !u!114 &2893781412345933172
+--- !u!114 &2623789557977358908
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4479560440850015057}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -142,13 +142,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+  m_Sprite: {fileID: -437229946, guid: 12c317be65b53d349afa0e0974297166, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8719861952916081535
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,12 +230,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uCF54\uC77C\uD5E4\uB4DC\n----------------------------\n\n\n\uCF54\uC77C\uD5E4\uB4DC\uB294
+  m_Text: "\uCF54\uC77C\uD5E4\uB4DC\n----------------------------\n\n\n\n\uCF54\uC77C\uD5E4\uB4DC\uB294
     \uC591\uD314\uC774 \uC5C6\uACE0 \n\uBAA9\uC5D0 \uC2A4\uD504\uB9C1\uC774 \uB2EC\uB824
     \uC788\uC73C\uBA70,\n\uB300\uBABB\uC774 \uC5EC\uB7EC \uAC1C \uBC15\uD78C \uB9C8\uB124\uD0B9
     \uAD34\uBB3C.\n\uC774\uB3D9\uC18D\uB3C4\uAC00 \uB9E4\uC6B0 \uBE60\uB978 \uB300\uC2E0
     \n\uC2DC\uC57C\uC5D0 \uB4E4\uC5B4\uC624\uBA74 \uC6C0\uC9C1\uC774\uAC70\uB098
-    \n\uACF5\uACA9\uD558\uC9C0 \uBABB\uD55C\uB2E4.\n\uACF5\uACA9\uBB34\uAE30\uAC00
-    \uC788\uC5B4\uB3C4 \uD53C\uD574\uB97C \uBC1B\uC9C0 \uC54A\uC73C\uBA70,\n\uC8FD\uC77C
-    \uC218 \uC788\uB294 <color=#E03E1A>\uBB34\uC5B8\uAC00</color>\uC758 \uBC29\uBC95\uC774
-    \uD544\uC694\uD558\uB2E4."
+    \n\uACF5\uACA9\uD558\uC9C0 \uBABB \uD55C\uB2E4.\n\uACF5\uACA9\uBB34\uAE30\uAC00
+    \uC788\uC5B4\uB3C4 \uD53C\uD574\uB97C \uBC1B\uC9C0 \uC54A\uC73C\uB2C8 \uC870\uC2EC\uD558\uC790."

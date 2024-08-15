@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1553490806261750894}
   - component: {fileID: 7267344840248891823}
-  - component: {fileID: 2518226556428293097}
+  - component: {fileID: 5761559852395987345}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 183.33, y: 286.9}
+  m_AnchoredPosition: {x: -15.5, y: 0}
+  m_SizeDelta: {x: 168.3, y: 286.9}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &7267344840248891823
 CanvasRenderer:
@@ -45,7 +45,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1622703014541247078}
   m_CullTransparentMesh: 1
---- !u!114 &2518226556428293097
+--- !u!114 &5761559852395987345
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,7 +54,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1622703014541247078}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -65,13 +65,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+  m_Sprite: {fileID: 4600802, guid: 805d575cdb2cf014c9e1587f8458c557, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &2374137307181239217
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,5 +235,4 @@ MonoBehaviour:
     \uD50C\uB808\uC774\uC5B4\uB97C \uD0D0\uC9C0\uD558\uB294\n<color=#E03E1A>\uBCF4\uC2A4
     \uBAAC\uC2A4\uD130</color> \uC774\uB2E4.\n\uC18C\uC74C\uC774 \uBC1C\uC0DD\uB418\uB294
     \uBC29\uD5A5\uC73C\uB85C \uD3EC\uD6A8\n\uD558\uBA74\uC11C \uBE60\uB978 \uC18D\uB3C4\uB85C
-    \uB3CC\uC9C4\uD55C\uB2E4.\nHP\uAC00 \uB9CE\uC73C\uBA70, <color=#E03E1A>\uBB34\uC5B8\uAC00</color>\uC758
-    \uBC29\uBC95\uC744\n\uD1B5\uD574 \uC27D\uAC8C \uC7A1\uC744 \uC218 \uC788\uB2E4."
+    \uB3CC\uC9C4\uD55C\uB2E4."
