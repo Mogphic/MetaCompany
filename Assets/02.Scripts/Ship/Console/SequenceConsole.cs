@@ -39,12 +39,14 @@ public class SequenceConsole : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
     }
 
     private void OnEnable()
     {
         //LoadAndDisplayStartScreen();
-        sequenceCoroutine = StartCoroutine(DisplayAll());
+        //sequenceCoroutine = StartCoroutine(DisplayAll());
+        LoadAndDisplayCurrentSequence();
     }
 
     private void OnDisable()
@@ -52,6 +54,18 @@ public class SequenceConsole : MonoBehaviour
         RemoveInputFieldFocus();
         
         StopAllCoroutines();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            MoveToPreviousSequence();
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            MoveToNextSequence();
+        }
     }
 
     private void RemoveInputFieldFocus()
@@ -71,6 +85,14 @@ public class SequenceConsole : MonoBehaviour
             {
                 PrintToConsole(startCommand);
             }
+        }
+    }
+    private void LoadAndDisplayCurrentSequence()
+    {
+        if (sequenceList != null && sequenceList.sequences.Count > 0)
+        {
+            Sequence currentSequence = sequenceList.sequences[nowIndex];
+            PrintToConsole(currentSequence);
         }
     }
 
@@ -165,5 +187,27 @@ public class SequenceConsole : MonoBehaviour
             yield return new WaitForSeconds(5);
         }
     }
+
+    private void MoveToPreviousSequence()
+    {
+        do
+        {
+            nowIndex = (nowIndex - 1 + sequenceList.sequences.Count) % sequenceList.sequences.Count;
+        } while (!sequenceList.sequences[nowIndex].isDisplay);
+
+        LoadAndDisplayCurrentSequence();
+    }
+
+    private void MoveToNextSequence()
+    {
+        do
+        {
+            nowIndex = (nowIndex + 1) % sequenceList.sequences.Count;
+        } while (!sequenceList.sequences[nowIndex].isDisplay);
+
+        LoadAndDisplayCurrentSequence();
+    }
+
+
 
 }
