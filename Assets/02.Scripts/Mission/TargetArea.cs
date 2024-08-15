@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TargetArea : MonoBehaviour
@@ -10,12 +11,23 @@ public class TargetArea : MonoBehaviour
     private MissionManager missionManager;
     //0 : Red //1: Green
     public GameObject[] alerts;
+    public GameObject textObj;
+    private TextMeshProUGUI text;
 
     void Start()
     {
         missionManager = FindObjectOfType<MissionManager>();
         alerts[0].SetActive(true);
         alerts[1].SetActive(false);
+        
+        if (missionIndex == 0)
+        {
+            text = textObj.GetComponent<TextMeshProUGUI>();
+            if (text != null)
+            {
+                text.text = $"{weight} / {maxWeight}";
+            }
+        }
     }
 
     [SerializeField]private float weight = 0;
@@ -27,6 +39,7 @@ public class TargetArea : MonoBehaviour
         {
             case 0:
                 weight += other.GetComponent<ItemComponent>().kg;
+                text.text = $"{weight} / {maxWeight}";
                 if (weight >= maxWeight)
                 {
                     bool isComp1 = missionManager.CheckMissionComplate(missionIndex);

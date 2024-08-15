@@ -89,7 +89,6 @@ public class PlayerController : MonoBehaviour
             //{
             //    stamina.ChangeCoroutine("Decrease");
             //}
-
             if (inventory.canAttack)
             {
                 PlayerAttack();

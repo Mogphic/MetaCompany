@@ -34,8 +34,9 @@ public class InventorySystem : MonoBehaviour
 
     IEnumerator DelayPut()
     {
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.01f);
         PutToolInventory();
+        canAttack = true;
     }
     
     private void Update()
@@ -109,7 +110,10 @@ public class InventorySystem : MonoBehaviour
                 return false;
             }
         }
-        return false;
+        else
+        {
+            return false;
+        }
     }
 
     private void Switching(int scrollValue)
@@ -124,7 +128,6 @@ public class InventorySystem : MonoBehaviour
 
         inputManager.canLight = CheckLight(curInventoryContainerNum);
         canAttack = CheckShovel(curInventoryContainerNum);
-
         if (inventory[curInventoryContainerNum] != null)
         {
             inventory[curInventoryContainerNum].SetActive(true);
@@ -170,6 +173,7 @@ public class InventorySystem : MonoBehaviour
                 {
                     if (inventory[i] == null)
                     {
+                        Switching(Mathf.Abs(curInventoryContainerNum - i));
                         curInventoryContainerNum = i;
                         break;
                     }
