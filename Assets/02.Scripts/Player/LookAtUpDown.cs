@@ -90,7 +90,7 @@ public class LookAtUpDown : MonoBehaviour
             // Update the camera's Y position
             Vector3 cameraLocalPos = CameraVec.localPosition;
             float targetCameraY = isCrouching ? 1.142f : 1.618f;
-
+            float targetCameraZ = isCrouching ? 0.233f : 0.163f;
             if (isTransitioning)
             {
                 float t = (Time.time - transitionStartTime) * crouchTransitionSpeed;
@@ -100,6 +100,7 @@ public class LookAtUpDown : MonoBehaviour
             else
             {
                 cameraLocalPos.y = targetCameraY;
+                cameraLocalPos.z = targetCameraZ;
             }
 
             CameraVec.localPosition = cameraLocalPos;
