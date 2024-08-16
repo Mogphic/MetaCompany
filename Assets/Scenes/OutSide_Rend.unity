@@ -2702,9 +2702,9 @@ MonoBehaviour:
   - sceneName: OutSide_Rend
     buildIndex: 1
     sceneAsset: {fileID: 102900000, guid: 361de45ee343ec94b96b95d9e9f316dc, type: 3}
-  - sceneName: Mansion3
+  - sceneName: Mansion 5_SMJ
     buildIndex: 2
-    sceneAsset: {fileID: 102900000, guid: f96ccf80c655d4f4f859e64dc7755de3, type: 3}
+    sceneAsset: {fileID: 102900000, guid: 0f4f700217af796468ad5d8cd1f268a4, type: 3}
   - sceneName: OutSide_Rend_Exit
     buildIndex: 3
     sceneAsset: {fileID: 102900000, guid: e1e64177148877a44968fa617038b04e, type: 3}
@@ -4999,7 +4999,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853696482}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.014996284, y: -0.19056976, z: 0.0029115423, w: 0.9815548}
+  m_LocalRotation: {x: 0.014996283, y: -0.19056976, z: 0.0029115416, w: 0.9815548}
   m_LocalPosition: {x: -118.33292, y: 6.8038974, z: -16.966488}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5640,6 +5640,12 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 520919200208238462, guid: b6389b058d0213c409fc309b8e9d01ec, type: 3}
+--- !u!1 &914785514 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 556215000228493632, guid: 0c42cc8adc08be342918e39626cb5ac0,
+    type: 3}
+  m_PrefabInstance: {fileID: 3460181135434177872}
+  m_PrefabAsset: {fileID: 0}
 --- !u!64 &921072931
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -10600,7 +10606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1341ad1565d83cf4e9d7c38ec4b7b2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneInt: 1
+  nextSceneInt: 2
 --- !u!1 &1755362588
 GameObject:
   m_ObjectHideFlags: 0
@@ -11574,7 +11580,7 @@ PlayableDirector:
   - key: {fileID: -3194453427762179071, guid: bf805504c52065f45b60a211a0013464, type: 2}
     value: {fileID: 0}
   - key: {fileID: -2851576506496642747, guid: bf805504c52065f45b60a211a0013464, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 914785514}
   m_ExposedReferences:
     m_References:
     - b126616d274beec44ae43d2a488cd788: {fileID: 853696484}

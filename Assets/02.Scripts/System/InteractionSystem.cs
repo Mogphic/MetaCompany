@@ -196,14 +196,23 @@ public class InteractionSystem : MonoBehaviour
                 //스크립터블오브젝트 클래스 넣기
                 break;
             case ObjectType.SCENE_DOOR:
+                Scene scene = SceneManager.GetActiveScene();
                 hitObjectType = "Scene_Door";
-                /*if (!MissionManager.instance.missions[1].isCompleted)
+                if (!scene.name.Contains("OutSide_Rend"))
                 {
-                    //못연다는 UI 추가
-                    StartCoroutine(DoorStopAnim());
-                    sound.MissionSound(1);
+                    if (!MissionManager.instance.missions[1].isCompleted)
+                    {
+                        //못연다는 UI 추가
+                        StartCoroutine(DoorStopAnim());
+                        sound.MissionSound(1);
+                    }
+                    else
+                    {
+                        int nextInt = hitObject.gameObject.GetComponent<InteractionNextSceneData>().nextSceneInt;
+                        SceneLoadManager.Instance.LoadSceneByIndex(nextInt);
+                    }
                 }
-                else*/
+                else
                 {
                     int nextInt = hitObject.gameObject.GetComponent<InteractionNextSceneData>().nextSceneInt;
                     SceneLoadManager.Instance.LoadSceneByIndex(nextInt);
