@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.VersionControl;
+#endif
 using UnityEngine;
 
 
@@ -26,9 +28,10 @@ public class PlanetManager : SubCommand
     private static readonly string PLANET_FILE_PATH = Path.Combine(Application.streamingAssetsPath, "Data", "PlanetList.json");
 
     public PlanetDataList planetDataList;
-
+#if UNITY_EDITOR
     public List<SceneAsset> assetlist;
     public List<SceneReference> referencelist;
+#endif
 
 
 
@@ -80,6 +83,7 @@ public class PlanetManager : SubCommand
 
     private void AssignSceneAssets(List<CommandData> dataList)
     {
+#if UNITY_EDITOR
         foreach (var data in dataList)
         {
             var planetData = data as PlanetData;
@@ -96,6 +100,7 @@ public class PlanetManager : SubCommand
                 }
             }
         }
+#endif
     }
 
     public PlanetData FindPlanetByName(string name)

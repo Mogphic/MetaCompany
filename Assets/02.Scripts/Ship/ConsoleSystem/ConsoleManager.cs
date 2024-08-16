@@ -6,8 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Unity.VisualScripting;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Build;
+#endif
 using UnityEngine;
 using UnityEngine.UI;
 

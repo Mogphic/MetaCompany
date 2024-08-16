@@ -5,7 +5,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
+#if UNITY_EDITOR
 using UnityEditor.Search;
+#endif
 using UnityEngine;
 using UnityEngine.AI;
 
