@@ -12,8 +12,8 @@ EditorBuildSettings:
     path: Assets/Scenes/OutSide_Rend.unity
     guid: 361de45ee343ec94b96b95d9e9f316dc
   - enabled: 1
-    path: Assets/Scenes/Mansion3.unity
-    guid: f96ccf80c655d4f4f859e64dc7755de3
+    path: Assets/Scenes/Mansion 5_SMJ.unity
+    guid: 0f4f700217af796468ad5d8cd1f268a4
   - enabled: 1
     path: Assets/Scenes/OutSide_Rend_Exit.unity
     guid: e1e64177148877a44968fa617038b04e

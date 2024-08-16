@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class InteractionNextSceneData : MonoBehaviour
 {
-    public string nextSceneName = "";
+    public int  nextSceneInt = 0;
 }

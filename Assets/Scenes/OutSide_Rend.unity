@@ -10600,7 +10600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1341ad1565d83cf4e9d7c38ec4b7b2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: Mansion3
+  nextSceneInt: 1
 --- !u!1 &1755362588
 GameObject:
   m_ObjectHideFlags: 0
@@ -11571,6 +11571,10 @@ PlayableDirector:
     value: {fileID: 989201821}
   - key: {fileID: -2767152201071474142, guid: bf805504c52065f45b60a211a0013464, type: 2}
     value: {fileID: 989201824}
+  - key: {fileID: -3194453427762179071, guid: bf805504c52065f45b60a211a0013464, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -2851576506496642747, guid: bf805504c52065f45b60a211a0013464, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References:
     - b126616d274beec44ae43d2a488cd788: {fileID: 853696484}

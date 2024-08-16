@@ -15528,7 +15528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1341ad1565d83cf4e9d7c38ec4b7b2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: OutSide_Rend_Exit
+  nextSceneInt: 3
 --- !u!114 &1613197705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22688,6 +22688,11 @@ PrefabInstance:
     - target: {fileID: 7437743899496864389, guid: 9025360b59b01b64ea2b9ee61ee7ee3d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8083793863500295316, guid: 9025360b59b01b64ea2b9ee61ee7ee3d,
+        type: 3}
+      propertyPath: isOpenDoor
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
