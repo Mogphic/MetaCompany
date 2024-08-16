@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
+#if UNITY_EDITOR
 public class MainItemDatabaseImporter : EditorWindow
 {
     private string csvFilePath = "";
@@ -169,3 +170,4 @@ public class MainItemDatabaseImporter : EditorWindow
         return new Vector2Int(ParseIntSafe(parts[0].Trim(), "Vector2Int.x"), ParseIntSafe(parts[1].Trim(), "Vector2Int.y"));
     }
 }
+#endif

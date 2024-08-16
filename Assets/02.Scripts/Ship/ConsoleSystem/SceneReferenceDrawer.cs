@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 [System.Serializable]
 public class SceneReference
 {
@@ -47,3 +48,4 @@ public class SceneReferenceDrawer : PropertyDrawer
         EditorGUI.EndProperty();
     }
 }
+#endif

@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public class ItemGenerator : EditorWindow
 {
     private MainItemDatabase mainDatabase;
@@ -62,3 +63,4 @@ public class ItemGenerator : EditorWindow
         EditorUtility.DisplayDialog("Success", "Item ScriptableObjects generated successfully!", "OK");
     }
 }
+#endif
